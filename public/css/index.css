@@ -25,11 +25,6 @@ div#banner_1 {
     border: 1px solid #000000;
 }
 
-div#banner_1 h1, div#banner_1 p {
-    display: block;
-    vertical-align: center;
-}
-
 div#banner_1 button {
     display: inline-block;
     margin-block-start: 1em;
@@ -73,7 +68,7 @@ div.category_banner span.category_desc button{
 }
 
 div.category_banner span.category_img {
-    background-image : url("./img/sample.png");
+    background-image : url("../img/sample.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }

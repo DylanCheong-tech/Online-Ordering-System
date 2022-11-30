@@ -1,0 +1,30 @@
+{
+  "name": "online-ordering-system",
+  "version": "1.0.0",
+  "description": "A simple online business product catalog for Mr. Buy company",
+  "main": "app.js",
+
+  "dependencies": {
+    "express" : "4.x",
+    "@google-cloud/storage": "^5.18.2",
+    "mongodb" : "4.5.0"
+  },
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DylanCheong-tech/Online-Ordering-System.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Cheong Wai Hong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DylanCheong-tech/Online-Ordering-System/issues"
+  },
+  "homepage": "https://github.com/DylanCheong-tech/Online-Ordering-System#readme"
+}

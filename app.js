@@ -1,0 +1,1 @@
+// app.js, entry point of the web application 

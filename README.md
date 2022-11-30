@@ -22,7 +22,15 @@ This web-application will be using the MERN technology stack. As for security co
 ^ You can opt for using a local MongoDB cluster on your machine. 
 
 # Usage
- > To be completed
+Before starting the server, update the dependecies with npm 
+
+``` npm update ```
+
+Start the server service 
+
+``` npm start ```
+
+Head over your browser and access the web application on ```http://localhost:5500```
 
 # Deployment 
 In the deployment process, I am deploying the server source code to the GCP and MongoDB Atlas for cloud databases. 

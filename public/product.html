@@ -1,0 +1,87 @@
+<!-- product item page -->
+<!-- content render based on the parameter : product code
+    Fetch API will be used in the client side to request the product item JSON and render by ReactJS
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Item</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Header and Footer components -->
+    <script type="text/babel" src="./js/components/header.jsx"></script>
+    <script type="text/babel" src="./js/components/footer.jsx"></script>
+
+    <script src="./js/product.js"></script>
+
+    <!-- Header and Footer styliings -->
+    <link rel="stylesheet" href="./css/components/header_footer.css" />
+
+    <style>
+        div#content_pane {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        div#content_pane div{
+            width: 50vw;
+        }
+
+        div#content_pane div#image_pane {
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 3vw;
+        }
+
+        div#content_pane div#image_pane img {
+            width: 30vw;
+            border: 1px solid #000000;
+        }
+
+        div#content_pane div#image_pane button {
+            margin: 0 1.5vw 0 1.5vw;
+        }
+
+        div#content_pane div#description_pane {
+            text-align: left;
+        }
+
+        div#content_pane div#description_pane * {
+            margin-left: 2vw;
+            margin-right: 2vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="content_pane">
+        <div id="image_pane">
+            <button type="button">previous</button>
+            <img src="./img/sample2.jpeg" />
+            <button type="button">next</button>
+        </div>
+
+        <div id="description_pane">
+            <h2>Product XXX</h2>
+            <p>Descriptions .... Descriptions .... Descriptions .... Descriptions .... Descriptions .... Descriptions ....</p>
+        </div>
+
+    </div>
+
+    <footer id="footer" class="header_footer_template"></footer>
+</body>
+
+</html>

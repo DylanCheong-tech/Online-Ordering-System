@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A simple online business product catalog for Mr. Buy company",
   "main": "app.js",
+  "type": "commonjs",
 
   "dependencies": {
     "express" : "4.x",

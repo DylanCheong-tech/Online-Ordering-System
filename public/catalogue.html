@@ -1,0 +1,175 @@
+<!-- products catalogue page -->
+<!-- content render based on the parameter: plastic / iron
+    using Fetch API to request the JSON contents (plastic/iron) from the server and render them by using ReactJS
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalogue</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Header and Footer components -->
+    <script type="text/babel" src="./js/components/header.jsx"></script>
+    <script type="text/babel" src="./js/components/footer.jsx"></script>
+
+    <script src="./js/catalogue.js"></script>
+
+    <!-- Header and Footer styliings -->
+    <link rel="stylesheet" href="./css/components/header_footer.css" />
+    <link rel="stylesheet" href="./css/catalogue.css" />
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="title_banner">
+        <h1>Plastic Pot</h1>
+        <span>
+            <form action="" method="POST">
+                <input type="text" placeholder="Search" />
+                <button type="submit">Search</button>
+            </form>
+        </span>
+    </div>
+
+    <div id="content_pane">
+        <div id="left_pane">
+            <span>Shop By Category</span>
+            <span>Category 1</span>
+            <span>Category 2</span>
+            <span>Category 3</span>
+            <span>Category 4</span>
+            <span>Category 5</span>
+            <span>Category 1</span>
+            <span>Category 7</span>
+        </div>
+
+        <div id="right_pane">
+            <!-- featured products -->
+            <div id="featured_products">
+                <h1 class="product_section_headers">Featured Products</h1>
+                <div class="products_listing">
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+                </div>
+            </div>
+
+            <!-- all products -->
+            <div id="all_products">
+                <h1 class="product_section_headers">All Products</h1>
+                <div class="products_listing">
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+
+                    <span>
+                        <img src="./img/sample2.jpeg" />
+                        <h3>Product Name</h3>
+                        <p>Desciptions</p>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer" class="header_footer_template"></footer>
+</body>
+
+</html>

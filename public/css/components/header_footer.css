@@ -1,0 +1,18 @@
+body {
+    min-height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.header_footer_template {
+    text-align: center;
+}
+
+div#header_logo {
+    min-height: 3em;
+    vertical-align: center;
+}
+
+footer {
+    margin-top: auto;
+}

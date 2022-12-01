@@ -24,10 +24,10 @@ function Header_Menu_Bar() {
 
 function Header() {
     return (
-        <div>
+        <React.Fragment>
             <Header_Logo />
             <Header_Menu_Bar />
-        </div>
+        </React.Fragment>
     );
 }
 

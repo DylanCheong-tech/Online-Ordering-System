@@ -3,6 +3,9 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 
+// configuration for environment variables
+require("dotenv").config({path : __dirname + "/.env"});
+
 const path = require('path')
 const PORT = process.env.PORT || 5500;
 
@@ -12,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // database configurations
-const database_uri = "xxxxxxxxxxxxxxxxxxxxxxxx";
+const database_uri = process.env["MONGODB_CONN_STRING"];
 
 // server all the files from the 'public' directory only 
 app.use(express.static(path.join(__dirname + "/public")));

@@ -1,5 +1,6 @@
 // product.js 
 
+let category = (new URLSearchParams(window.location.search)).get("category");
 let product_code = (new URLSearchParams(window.location.search)).get("product_code");
 
 function render(data) {
@@ -7,6 +8,6 @@ function render(data) {
     console.log(data);
 }
 
-fetch("/product/" + product_code)
+fetch("/product/" + category + "/" + product_code)
     .then((res) => res.json())
     .then((data) => render(data));

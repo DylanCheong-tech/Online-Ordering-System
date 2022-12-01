@@ -17,6 +17,7 @@ This web-application will be using the MERN technology stack. As for security co
 | NodeJS v18.x.x LTS  | https://nodejs.org/en/download/ |
 | ExpressJS v4.0      | https://expressjs.com/en/4x/api.html |
 | MongoDB Atlas^      | https://www.mongodb.com/docs/atlas/getting-started/ |
+| MongoDB Driver v4.5.0| https://www.mongodb.com/docs/atlas/getting-started/ |
 | ReactJS v18         | https://reactjs.org/docs/cdn-links.html|
 
 ^ You can opt for using a local MongoDB cluster on your machine. 

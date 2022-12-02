@@ -21,8 +21,8 @@ jobs:
       uses : google-github-actions/deploy-appengine@v0.2.0
       with : 
         delverables : app.yaml
-        project_id : ${{ GCP.PROJECT_ID }}
-        credentials : ${{ GCP.CREDENTIALS }}
+        project_id : ${{ secrets.PROJECT_ID }}
+        credentials : ${{ secrets.CREDENTIALS }}
 
     - name : Test deployment 
-      run : curl "${{ GCP.WEB_ADDRESS }}"
+      run : curl "${{ steps.deploy.outputs.url }}"

@@ -16,6 +16,11 @@ jobs:
     steps:
     - name: checkout
       uses : actions/checkout@v2
+      
+    - name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v1'
+      with:
+        credentials_json: '${{ secrets.CREDENTIALS }}'
 
     - name : GCP deploy 
       uses : google-github-actions/deploy-appengine@v0.2.0

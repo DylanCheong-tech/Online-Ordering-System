@@ -1,6 +1,6 @@
 // catalogue.js 
-
 let category = (new URLSearchParams(window.location.search)).get("category");
+let json_data = null;
 
 // React component : left pane 
 function LeftPane(props) {
@@ -20,9 +20,7 @@ function LeftPane(props) {
 function ProductItemCard(props) {
     return (
         <span>
-            {/* <img src={props.img_url} /> */}
-            {/* hardcode the img src here */}
-            <img src="./img/sample2.jpeg" />
+            <img src={props.img_url} />
             <h3>{props.product_code}</h3>
             <p>{props.product_name} <br /> {props.desc}</p>
         </span>
@@ -56,27 +54,38 @@ function ProductSection(props) {
 function RightPane(props) {
     return (
         <div id="right_pane">
-            <ProductSection category="featured" title="Featured Products" content_arr_json={props.arr_json[0]} />
-            <ProductSection category="all" title="All Products" content_arr_json={props.arr_json[1]} />
+            {
+                Object.keys(props.json_data).map((key) => {
+                    return (
+                        <ProductSection category={key.replace(" ", "_")} title={key} content_arr_json={props.json_data[key]} />
+                    )
+                })
+            }
         </div>
     );
 }
 
 function render(data) {
-    // console.log("The data is fetched and ready");
-    // console.log(data);
+    document.getElementById("title_header").innerHTML = data.title;
+
     const root = document.getElementById("content_pane");
     const container = ReactDOM.createRoot(root);
-    // mock the category data
-    let mock_categories = ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6", "Category 7"]
+    // this render should bring out as a component to implement the state / state hook 
+    // state in RightPane but the state changes will be trigger in LeftPane
     container.render(
         <React.Fragment>
-            <LeftPane categories_arr={mock_categories} />
-            <RightPane arr_json={[data.response, data.response]} />
+            <LeftPane categories_arr={data.shop_category} />
+            <RightPane json_data={{"Features Products" : data.product_items, "All Products" : data.product_items}} />
         </React.Fragment>
     );
+
+    json_data = data;
 }
 
 fetch("/product_catalogue/" + category)
     .then((res) => res.json())
     .then((data) => render(data));
+
+setTimeout(() => {
+    console.log(json_data)
+}, 1000);

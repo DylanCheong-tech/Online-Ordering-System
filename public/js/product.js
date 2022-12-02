@@ -8,7 +8,7 @@ function ImagePane(props) {
     return (
         <div id="image_pane">
             <button type="button">previous</button>
-            <img src="./img/sample2.jpeg" />
+            <img src={props.images["NP-120/White_1.jpg"]} />
             <button type="button">next</button>
         </div>
     );
@@ -16,10 +16,28 @@ function ImagePane(props) {
 
 // React Component : Content Pane 
 function ContentPane(props) {
+    let info = props.info;
     return (
         <div id="description_pane">
-            <h2>Product XXX</h2>
-            <p>Descriptions .... Descriptions .... Descriptions .... Descriptions .... Descriptions .... Descriptions ....</p>
+            <h2>{info.product_name}</h2>
+            <p>
+                Code : {info.product_code} <br />
+                Stock Status : {info.stock_status} <br />
+                Material : {info.material} <br />
+                Color : {info.colors.join(", ")} <br />
+                Inside Diameter : {info.diameters.inside} cm <br />
+                Outside Diameter : {info.diameters.outside} cm <br />
+                Lower Diameter : {info.diameters.lower} cm <br />
+                Height : {info.dimensions.height} cm <br />
+                Length : {info.dimensions.length} cm <br />
+                Width : {info.dimensions.width} cm <br />
+                Descriptions : 
+                <ol>
+                    {info.descriptions.map((element) => {
+                        return <li>{element}</li>
+                    })}
+                </ol>
+            </p>
         </div>
     );
 }
@@ -32,12 +50,12 @@ function render(data) {
     const container = ReactDOM.createRoot(root);
     container.render(
         <React.Fragment>
-            <ImagePane />
-            <ContentPane />
+            <ImagePane images={data.images} />
+            <ContentPane info={data} />
         </React.Fragment>
     );
 }
 
 fetch("/product/" + category + "/" + product_code)
     .then((res) => res.json())
-    .then((data) => render(data));
+    .then((data) => render(data.response));

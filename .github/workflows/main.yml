@@ -30,4 +30,4 @@ jobs:
         credentials : ${{ secrets.CREDENTIALS }}
 
     - name : Test deployment 
-      run : curl "${{ steps.deploy.outputs.url }}"
+      run : curl "https://mr-buy-370317.as.r.appspot.com/"

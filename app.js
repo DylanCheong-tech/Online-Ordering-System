@@ -46,7 +46,7 @@ async function getProductCatalogue(category) {
         const database = dbClient.db("ProductCatalogue");
         let collection = database.collection(col_name);
 
-        let projection = { "product_code": 1, "product_name": 1, "descriptions": 1 };
+        let projection = { "product_code": 1, "product_name": 1, "descriptions": 1 , "featured" : 1, "shop_category" : 1};
         let product_items_result = await collection.find().project(projection).toArray();
 
         // get image files from the Cloud Storage

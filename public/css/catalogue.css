@@ -65,6 +65,11 @@ div.products_listing span {
     flex-direction: column;
     width: 15vw;
     margin: 1vh .5vw 1vh .5vw;
+    cursor: pointer;
+}
+
+div.products_listing span:hover {
+    background-color: #D3D3D3;
 }
 
 div.products_listing span img {

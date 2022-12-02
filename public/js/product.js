@@ -17,6 +17,15 @@ function ImagePane(props) {
 // React Component : Content Pane 
 function ContentPane(props) {
     let info = props.info;
+    let diameter_content = "";
+    if (info.diameters) {
+        diameter_content = 
+        <Text>
+            Inside Diameter : {info.diameters.inside} cm <br />
+            Outside Diameter : {info.diameters.outside} cm <br />
+            Lower Diameter : {info.diameters.lower} cm <br />
+        </Text>
+    }
     return (
         <div id="description_pane">
             <h2>{info.product_name}</h2>
@@ -25,13 +34,11 @@ function ContentPane(props) {
                 Stock Status : {info.stock_status} <br />
                 Material : {info.material} <br />
                 Color : {info.colors.join(", ")} <br />
-                Inside Diameter : {info.diameters.inside} cm <br />
-                Outside Diameter : {info.diameters.outside} cm <br />
-                Lower Diameter : {info.diameters.lower} cm <br />
+                { diameter_content }
                 Height : {info.dimensions.height} cm <br />
                 Length : {info.dimensions.length} cm <br />
                 Width : {info.dimensions.width} cm <br />
-                Descriptions : 
+                Descriptions :
                 <ol>
                     {info.descriptions.map((element) => {
                         return <li>{element}</li>

@@ -1,4 +1,6 @@
 //  index.js 
 // for index.html 
 
-console.log("Testing")
+function browse_catalogue(category) {
+    window.location.href = "/catalogue.html?category=" + category;
+}

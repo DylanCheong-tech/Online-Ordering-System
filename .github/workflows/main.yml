@@ -1,0 +1,28 @@
+name : Deploy to GCP App Engine 
+
+# Triggers 
+on: 
+  push : 
+    branches : [main]
+  pull_request : 
+    branches : [main]
+    
+# Jobs 
+jobs:
+  deploy : 
+    name: Deploying to GCP Project 
+    runs-on : ubuntu-latest
+  
+    steps:
+    - name: checkout
+      uses : actions/checkout@v2
+
+    - name : GCP deploy 
+      uses : google-github-actions/deploy-appengine@v0.2.0
+      with : 
+        delverables : app.yaml
+        project_id : ${{ GCP.PROJECT_ID }}
+        credentials : ${{ GCP.CREDENTIALS }}
+
+    - name : Test deployment 
+      run : curl "${{ GCP.WEB_ADDRESS }}"

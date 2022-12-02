@@ -2,7 +2,6 @@ const { useState } = React;
 
 // catalogue.js 
 let category = (new URLSearchParams(window.location.search)).get("category");
-let json_data = null;
 
 // React component : left pane 
 function LeftPane(props) {
@@ -21,7 +20,7 @@ function LeftPane(props) {
 // React component : product item
 function ProductItemCard(props) {
     return (
-        <span onClick={() => {window.location.href = "/product.html?category=" + category + "&product_code=" + props.product_code}}>
+        <span onClick={() => { window.location.href = "/product.html?category=" + category + "&product_code=" + props.product_code }}>
             <img src={props.img_url} />
             <h3>{props.product_code}</h3>
             <p>{props.product_name} <br /> {props.desc}</p>
@@ -100,14 +99,28 @@ function render(data) {
             <ContentPane data={data} />
         </React.Fragment>
     );
+}
 
-    json_data = data;
+// function to render the search results 
+// this function only will render the right pane component 
+function renderSearchResults(data) {
+    const root = document.getElementById("right_pane");
+    const container = ReactDOM.createRoot(root);
+    container.render(
+        <React.Fragment>
+            <ProductSection title="Search Results" content_arr_json={data.product_items} />
+        </React.Fragment>
+    );
+}
+
+// search function 
+async function search() {
+    let search_key = document.getElementById("search_input").value;
+    fetch("/product_catalogue/" + category + "/search/" + search_key)
+        .then(response => response.json())
+        .then(renderSearchResults);
 }
 
 fetch("/product_catalogue/" + category)
     .then((res) => res.json())
     .then((data) => render(data));
-
-setTimeout(() => {
-    console.log(json_data)
-}, 1000);

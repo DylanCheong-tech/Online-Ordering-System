@@ -3,18 +3,17 @@
 
 function Footer() {
     return (
-        <footer class="header_footer_template">
-            <a href="/">Home</a> |
-            <a href="">About Us</a> |
-            <a href="">News Room</a> |
-            <a href="">Feedbacks</a> |
-            <a href="">Contact Us</a> |
-            <a href="">Terms</a> |
-            <a href="">Privacy Policy</a>
+        <React.Fragment>
+            <a href="/">Home</a>
+            <a href="">About Us</a>
+            <a href="">News Room</a>
+            <a href="">Feedbacks</a>
+            <a href="">Contact Us</a>
+            <a href="">Terms</a>
+            <a href="" last="true">Privacy Policy</a>
 
-            <br />
-            <span>&copy;Mr. Buy Marketing Copyrights</span>
-        </footer>
+            <p>&copy;Mr. Buy Marketing Copyrights</p>
+        </React.Fragment>
     );
 }
 

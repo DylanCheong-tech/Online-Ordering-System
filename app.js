@@ -90,6 +90,36 @@ app.get("/product_catalogue/:category", (req, res, next) => {
     }
 });
 
+// GET request service: search product in the catalogue 
+// search on product code and product name 
+app.get("/product_catalogue/:category/search/:search_key", (req, res, next) => {
+    let category = req.params.category.toLowerCase();
+    let search_key = req.params.search_key;
+    if (category == "plastic" || category == "iron") {
+        getProductCatalogue(category)
+            .then(
+                (result) => { 
+                    // search on code
+                    let code_search_result = result.product_items.filter((product) => {
+                        return product.product_code.match(new RegExp(search_key, "gi"))
+                    });
+
+                    // search on name
+                    let name_search_result = result.product_items.filter((product) => {
+                        return product.product_name.match(new RegExp(search_key, "gi"))
+                    });
+
+                    result.product_items = [... new Set(code_search_result.concat(name_search_result))];
+                    res.json(result);
+                }
+            );
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+});
+
 // helper function to retreive the product information from the database
 async function getProduct(category, productCode){
     try {

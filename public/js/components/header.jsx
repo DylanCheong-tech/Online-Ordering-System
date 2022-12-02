@@ -13,11 +13,11 @@ function Header_Logo() {
 function Header_Menu_Bar() {
     return (
         <div id="header_menu_bar" class="header_footer_template">
-            <a href="/">Home</a> |
-            <a href="">About Us</a> |
-            <a href="">News Room</a> |
-            <a href="">Feedbacks</a> |
-            <a href="">Contact Us</a>
+            <a href="/">Home</a>
+            <a href="">About Us</a>
+            <a href="">News Room</a>
+            <a href="">Feedbacks</a>
+            <a href="" last="true">Contact Us</a>
         </div>
     );
 }

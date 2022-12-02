@@ -1,11 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Merriweather");
+
 body {
     min-height: 95vh;
     display: flex;
     flex-direction: column;
+    font-family: 'Merriweather', serif;
 }
 
 .header_footer_template {
     text-align: center;
+}
+
+.header_footer_template a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bolder;
+    padding: 0 .5vw 0 .5vw;
+    border-left: 2px solid #000000;
+}
+
+.header_footer_template a[last=true] {
+    border-right: 2px solid #000000;
+}
+
+.header_footer_template a:hover {
+    text-decoration: underline;
+    color: #C3C3C3;
+}
+
+div#header_menu_bar a {
+    font-size: 1.5em;
+    padding: 0 2vw 0 2vw;
 }
 
 div#header_logo {
@@ -15,4 +40,9 @@ div#header_logo {
 
 footer {
     margin-top: auto;
+}
+
+footer p {
+    color : #C3C3C3;
+    font-size: .8em;
 }

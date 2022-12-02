@@ -1,0 +1,4 @@
+runtime: nodejs16
+
+env_variables:
+  MONGODB_CONN_STRING : mongodb+srv://admin:5S9F8VAj6zgN5pxl@mrbuycompany.zox8enl.mongodb.net/?retryWrites=true&w=majority

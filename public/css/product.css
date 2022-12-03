@@ -22,7 +22,7 @@ div#content_pane div#image_pane img:not([class=icon]) {
 }
 
 div#content_pane div#image_pane img.icon {
-    width: 8%;
+    width: 3.9vw;
     margin: 0 1vw 0 1vw;
 }
 
@@ -49,4 +49,38 @@ div#content_pane div#description_pane p {
 div#content_pane div#description_pane * {
     margin-left: 2vw;
     margin-right: 2vw;
+}
+
+@media only screen and (max-width : 480px) {
+    div#content_pane {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    div#content_pane div {
+        margin-top: 5vh;
+    }
+
+    div#content_pane div#image_pane {
+        margin-left: 8vw;
+    }
+
+    div#content_pane div#image_pane img:not([class=icon]) {
+        width: 50vw;
+    }
+    
+    div#content_pane div#image_pane img.icon {
+        width: 10vw;
+        margin: 0 3vw 0 3vw;
+    }
+
+    div#content_pane div#description_pane h2 {
+        text-align: center;
+    }
+
+    div#content_pane div#description_pane p {
+        width: 60vw;
+        margin-left: 20vw;
+    }
 }

@@ -4,18 +4,20 @@
     grid-template-columns: 60% 40%;
     border: 1px solid #000000;
     text-align: center;
+    vertical-align: center;
 }
 
 div#title_banner h1 {
     grid-column: 1;
     font-size: 2.5vw;
-
+    margin-block-start: 2.5vh;
+    margin-block-end: 2.5vh;
 }
 
 div#title_banner span {
     grid-column: 2;
-    margin-block-start: 2em;
-    margin-block-end: 2em;
+    margin-block-start: 2.5vh;
+    margin-block-end: 2.5vh;
 }
 
 div#title_banner span input[type=text] {
@@ -99,4 +101,39 @@ div.products_listing span h3 {
 div.products_listing span p {
     margin-top: 0;
     font-size: .9vw;
+}
+
+@media only screen and (max-width : 480px) {
+    div#title_banner {
+        grid-template-columns: 55% 45%;
+    }
+
+    div#title_banner h1 {
+        font-size: 5vw;
+    }
+    
+    div.products_listing span {
+        width: 17vw;
+        margin: 1vh .8vw 1vh .8vw;
+    }
+
+    div#title_banner span input[type=text] {
+        width: 20vw;
+        height: 1.3vh;
+        font-size: 2vw;
+    }
+
+    div#title_banner span button#search_button {
+        padding : .6vh 3vw .6vh 3vw;
+        font-size: 2vw;
+    }
+
+    /* content pane */
+    div#content_pane {
+        grid-template-columns: 20% 80%;
+    }
+
+    div#left_pane {
+        font-size: 2vw;
+    }
 }

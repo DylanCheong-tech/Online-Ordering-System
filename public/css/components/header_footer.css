@@ -44,6 +44,7 @@ div#header_logo {
 footer {
     margin-top: auto;
     border-top: 1px solid #000000;
+    font-size: 1vw;
 }
 
 footer p {
@@ -64,4 +65,11 @@ button {
 button:hover {
     background-color: #375456;
     cursor: pointer;
+}
+
+@media only screen and (max-width : 480px) {
+    button {
+        padding: 1vh 3vw 1vh 3vw;
+        font-size: 1.5vw;
+    }
 }

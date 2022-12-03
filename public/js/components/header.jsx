@@ -17,8 +17,7 @@ function Header_Menu_Bar() {
             <a href="">About Us</a>
             <a href="/catalogue.html?category=plastic">Plastic Products</a>
             <a href="/catalogue.html?category=iron">Iron Products</a>
-            <a href="">News Room</a>
-            <a href="" last="true">Contact Us</a>
+            <a href="" last="true">News Room</a>
         </div>
     );
 }

@@ -16,9 +16,18 @@ div#content_pane div#image_pane {
     margin-left: 3vw;
 }
 
-div#content_pane div#image_pane img {
+div#content_pane div#image_pane img:not([class=icon]) {
     width: 30vw;
     border: 1px solid #000000;
+}
+
+div#content_pane div#image_pane img.icon {
+    width: 8%;
+    margin: 0 1vw 0 1vw;
+}
+
+div#content_pane div#image_pane img.icon:hover {
+    cursor: pointer;
 }
 
 div#content_pane div#image_pane button {
@@ -27,6 +36,14 @@ div#content_pane div#image_pane button {
 
 div#content_pane div#description_pane {
     text-align: left;
+}
+
+div#content_pane div#description_pane h2 {
+    font-size: 2vw;
+}
+
+div#content_pane div#description_pane p {
+    font-size: 1.1vw;
 }
 
 div#content_pane div#description_pane * {

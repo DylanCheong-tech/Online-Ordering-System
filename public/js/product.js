@@ -7,9 +7,9 @@ let product_code = (new URLSearchParams(window.location.search)).get("product_co
 function ImagePane(props) {
     return (
         <div id="image_pane">
-            <button type="button">previous</button>
+            <img class="icon" src="../img/icon_previous.svg" />
             <img src={props.images["NP-120/White_1.jpg"]} />
-            <button type="button">next</button>
+            <img class="icon" src="../img/icon_next.svg" />
         </div>
     );
 }
@@ -20,11 +20,11 @@ function ContentPane(props) {
     let diameter_content = "";
     if (info.diameters) {
         diameter_content = 
-        <Text>
+        <React.Fragment>
             Inside Diameter : {info.diameters.inside} cm <br />
             Outside Diameter : {info.diameters.outside} cm <br />
             Lower Diameter : {info.diameters.lower} cm <br />
-        </Text>
+        </React.Fragment>
     }
     return (
         <div id="description_pane">

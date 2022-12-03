@@ -32,7 +32,7 @@ body {
 }
 
 div#header_menu_bar a {
-    font-size: 1.5em;
+    font-size: 1.65vw;
     padding: 0 2vw 0 2vw;
 }
 
@@ -48,7 +48,7 @@ footer {
 
 footer p {
     color: #C3C3C3;
-    font-size: .8em;
+    font-size: .9vw;
 }
 
 button {
@@ -58,6 +58,7 @@ button {
     background-color: #497174;
     color: #FFFFFF;
     font-weight: bold;
+    font-size: .9vw;
 }
 
 button:hover {

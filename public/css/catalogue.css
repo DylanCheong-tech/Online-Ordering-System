@@ -8,6 +8,8 @@
 
 div#title_banner h1 {
     grid-column: 1;
+    font-size: 2.5vw;
+
 }
 
 div#title_banner span {
@@ -19,6 +21,7 @@ div#title_banner span {
 div#title_banner span input[type=text] {
     width: 15vw;
     height: 3vh;
+    font-size: 1vw;
 }
 
 div#title_banner span button#search_button {
@@ -45,6 +48,8 @@ div#content_pane div#right_pane {
 div#left_pane {
     display: flex;
     flex-flow: column wrap;
+    font-size: 1.1vw;
+
 }
 
 div#left_pane span {
@@ -61,6 +66,7 @@ div#left_pane span:not(:first-child):hover {
 h1.product_section_headers {
     text-align: left;
     padding: 0 0 0 2vw;
+    font-size: 2vw;
 }
 
 div.products_listing {
@@ -87,8 +93,10 @@ div.products_listing span img {
 
 div.products_listing span h3 {
     margin-bottom: 0;
+    font-size: 1.2vw;
 }
 
 div.products_listing span p {
     margin-top: 0;
+    font-size: .9vw;
 }

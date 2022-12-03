@@ -1,15 +1,30 @@
 // product.js 
+const { useState } = React
 
 let category = (new URLSearchParams(window.location.search)).get("category");
 let product_code = (new URLSearchParams(window.location.search)).get("product_code");
 
 // React Component : Image Pane
 function ImagePane(props) {
+    let images_arr = Object.values(props.images);
+    let [current_image_idx, set_current_image_idx] = useState(0);
+
+    function prev() {
+        if (current_image_idx > 0) {
+            set_current_image_idx(current_image_idx - 1);
+        }
+    }
+
+    function next() {
+        if (current_image_idx < images_arr.length - 1) {
+            set_current_image_idx(current_image_idx + 1);
+        }
+    }
     return (
         <div id="image_pane">
-            <img class="icon" src="../img/icon_previous.svg" />
-            <img src={props.images["NP-120/White_1.jpg"]} />
-            <img class="icon" src="../img/icon_next.svg" />
+            <img class="icon" src="../img/icon_previous.svg" onClick={prev} />
+            <img src={images_arr[current_image_idx]} />
+            <img class="icon" src="../img/icon_next.svg" onClick={next} />
         </div>
     );
 }
@@ -19,12 +34,12 @@ function ContentPane(props) {
     let info = props.info;
     let diameter_content = "";
     if (info.diameters) {
-        diameter_content = 
-        <React.Fragment>
-            Inside Diameter : {info.diameters.inside} cm <br />
-            Outside Diameter : {info.diameters.outside} cm <br />
-            Lower Diameter : {info.diameters.lower} cm <br />
-        </React.Fragment>
+        diameter_content =
+            <React.Fragment>
+                Inside Diameter : {info.diameters.inside} cm <br />
+                Outside Diameter : {info.diameters.outside} cm <br />
+                Lower Diameter : {info.diameters.lower} cm <br />
+            </React.Fragment>
     }
     return (
         <div id="description_pane">
@@ -34,7 +49,7 @@ function ContentPane(props) {
                 Stock Status : {info.stock_status} <br />
                 Material : {info.material} <br />
                 Color : {info.colors.join(", ")} <br />
-                { diameter_content }
+                {diameter_content}
                 Height : {info.dimensions.height} cm <br />
                 Length : {info.dimensions.length} cm <br />
                 Width : {info.dimensions.width} cm <br />

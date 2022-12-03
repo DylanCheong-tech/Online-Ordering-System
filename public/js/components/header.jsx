@@ -1,7 +1,7 @@
-// header.js 
+// header.jsx
 // for page header component
 
-function Header_Logo() {
+function Header_Logo(props) {
     return (
         <div id="header_logo" class="header_footer_template">
             Mr. Buy Marketing
@@ -10,7 +10,7 @@ function Header_Logo() {
     );
 }
 
-function Header_Menu_Bar() {
+function Header_Menu_Bar(props) {
     return (
         <div id="header_menu_bar" class="header_footer_template">
             <a href="/">Home</a>
@@ -22,7 +22,7 @@ function Header_Menu_Bar() {
     );
 }
 
-function Header() {
+function Header(props) {
     return (
         <React.Fragment>
             <Header_Logo />

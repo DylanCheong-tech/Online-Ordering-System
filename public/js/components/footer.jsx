@@ -1,7 +1,7 @@
-// footer.js 
+// footer.jsx
 // for page footer components
 
-function Footer() {
+function Footer(props) {
     return (
         <React.Fragment>
             <a href="/">Home</a>

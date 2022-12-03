@@ -32,6 +32,7 @@ function ProductItemCard(props) {
 // return array of ProductItemCard
 function generateProductItemCards(array) {
     let i = 1;
+    console.log(array)
     let return_arr = array.map(element => {
         return <ProductItemCard key={i++} img_url={element.image_url} product_code={element.product_code} product_name={element.product_name} desc={element.descriptions[0]} />
     });
@@ -65,10 +66,15 @@ function RightPane(props) {
         );
     }
     else {
+        let product_items_arr = [];
+        if (display_category == "Search Results")
+            product_items_arr = props.product_items;
+        else 
+            product_items_arr = props.product_items.filter((product) => product.shop_category == display_category);
         return (
             <div id="right_pane">
                 {
-                    <ProductSection title={display_category} content_arr_json={props.product_items.filter((product) => product.shop_category == display_category)} />
+                    <ProductSection title={display_category} content_arr_json={product_items_arr} />
                 }
             </div>
         );
@@ -78,7 +84,7 @@ function RightPane(props) {
 // React Component : content pane 
 function ContentPane(props) {
     // state hook
-    const [display_category, set_display_category] = useState("");
+    const [display_category, set_display_category] = useState(props.display_category);
     let data = props.data;
     return (
         <React.Fragment>
@@ -89,40 +95,19 @@ function ContentPane(props) {
 
 }
 
-function render(data) {
-    document.getElementById("title_header").innerHTML = data.title;
+function render(data, display_category) {
+    // function from title_banner.jsx 
+    render_title_banner(data.title);
 
     const root = document.getElementById("content_pane");
     const container = ReactDOM.createRoot(root);
     container.render(
         <React.Fragment>
-            <ContentPane data={data} />
+            <ContentPane data={data} display_category={display_category} />
         </React.Fragment>
     );
-}
-
-// function to render the search results 
-// this function only will render the right pane component 
-function renderSearchResults(data) {
-    const root = document.getElementById("right_pane");
-    const container = ReactDOM.createRoot(root);
-    container.render(
-        <React.Fragment>
-            <ProductSection title="Search Results" content_arr_json={data.product_items} />
-        </React.Fragment>
-    );
-}
-
-// search function 
-async function search() {
-    let search_key = document.getElementById("search_input").value;
-    if (search_key) {
-        fetch("/product_catalogue/" + category + "/search/" + search_key)
-            .then(response => response.json())
-            .then(renderSearchResults);
-    }
 }
 
 fetch("/product_catalogue/" + category)
     .then((res) => res.json())
-    .then((data) => render(data));
+    .then((data) => render(data, null));

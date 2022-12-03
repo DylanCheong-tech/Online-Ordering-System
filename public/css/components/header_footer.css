@@ -5,10 +5,13 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Merriweather', serif;
+    background-color: #EFF5F5;
 }
 
 .header_footer_template {
     text-align: center;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
 }
 
 .header_footer_template a {
@@ -25,7 +28,7 @@ body {
 
 .header_footer_template a:hover {
     text-decoration: underline;
-    color: #C3C3C3;
+    color: #EB6440;
 }
 
 div#header_menu_bar a {
@@ -40,9 +43,24 @@ div#header_logo {
 
 footer {
     margin-top: auto;
+    border-top: 1px solid #000000;
 }
 
 footer p {
-    color : #C3C3C3;
+    color: #C3C3C3;
     font-size: .8em;
+}
+
+button {
+    padding: 2vh 3vw 2vh 3vw;
+    border-radius: 4px;
+    border: none;
+    background-color: #497174;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #375456;
+    cursor: pointer;
 }

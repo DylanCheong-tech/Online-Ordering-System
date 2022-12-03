@@ -1,7 +1,7 @@
  /* title banner */
  div#title_banner {
     display: grid;
-    grid-template-columns: 65% 35%;
+    grid-template-columns: 60% 40%;
     border: 1px solid #000000;
     text-align: center;
 }
@@ -14,6 +14,15 @@ div#title_banner span {
     grid-column: 2;
     margin-block-start: 2em;
     margin-block-end: 2em;
+}
+
+div#title_banner span input[type=text] {
+    width: 15vw;
+    height: 3vh;
+}
+
+div#title_banner span button#search_button {
+    padding : 1vh 3vw 1vh 3vw;
 }
 
 /* content pane */

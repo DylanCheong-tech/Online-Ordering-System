@@ -116,9 +116,11 @@ function renderSearchResults(data) {
 // search function 
 async function search() {
     let search_key = document.getElementById("search_input").value;
-    fetch("/product_catalogue/" + category + "/search/" + search_key)
-        .then(response => response.json())
-        .then(renderSearchResults);
+    if (search_key) {
+        fetch("/product_catalogue/" + category + "/search/" + search_key)
+            .then(response => response.json())
+            .then(renderSearchResults);
+    }
 }
 
 fetch("/product_catalogue/" + category)

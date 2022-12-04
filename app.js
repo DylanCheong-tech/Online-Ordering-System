@@ -220,11 +220,11 @@ app.post("/messages/visitor/send", async (req, res, next) => {
         let result = await collection.insertOne(req.body);
 
         if (result.acknowledged) {
-            res.redirect("/contact_us.html?message_sent=success");
+            res.send({status : "success"});
 
         }
         else {
-            res.redirect("/contact_us.html?message_sent=fail");
+            res.send({status : "fail"});
         }
         
     }

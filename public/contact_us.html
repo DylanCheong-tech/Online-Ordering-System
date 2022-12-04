@@ -52,13 +52,13 @@
         <div id="message_form">
             <h2>Leave a message to us</h2>
             <hr />
-            <form action="/messages/visitor/send" method="POST">
+            <form id="message_post_form" action="" method="">
                 <input type="text" name="name" placeholder="Name" required />
                 <input type="text" name="contact" placeholder="Contact No." required />
                 <input type="email" name="email" placeholder="Email" required />
                 <input type="text" name="subject" placeholder="Message Subject" required />
                 <textarea name="message" required placeholder="Your message to us ... "></textarea>
-                <button type="submit">Send</button>
+                <button id="form_submit_button" type="button">Send</button>
             </form>
         </div>
     </div>

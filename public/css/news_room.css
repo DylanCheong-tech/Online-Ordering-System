@@ -26,6 +26,7 @@ div#content_pane div#news_items_pane span h3 {
 
 div#content_pane div#news_items_pane span p {
     font-size: 1vw;
+    margin-right: 5vw;
 }
 
 div#content_pane div#news_items_pane span button {

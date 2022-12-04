@@ -2,7 +2,8 @@ div#content_pane {
     display: flex;
     flex-direction: row;
     text-align: center;
-    margin-top: auto;
+    margin-top: 5vw;
+    margin-bottom: 5vw;
 }
 
 div#content_pane div{
@@ -10,28 +11,48 @@ div#content_pane div{
 }
 
 div#content_pane div#image_pane {
-    display: inline-flex;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     margin-left: 3vw;
 }
 
-div#content_pane div#image_pane img:not([class=icon]) {
+div#content_pane div#image_pane div#image_carousel {
+    display: flex;
+    flex-direction: row;
+    margin-left: 6vw;
+}
+
+div#content_pane div#image_pane div#image_thumbnails {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 2vw 0 0 0;
+    width: 90%;
+}
+
+div#content_pane div#image_pane div#image_carousel img:not([class=icon]) {
     width: 30vw;
     border: 1px solid #000000;
 }
 
-div#content_pane div#image_pane img.icon {
+div#content_pane div#image_pane div#image_carousel img.icon {
     width: 3.9vw;
     margin: 0 1vw 0 1vw;
 }
 
-div#content_pane div#image_pane img.icon:hover {
+div#content_pane div#image_pane div#image_carousel img.icon:hover {
     cursor: pointer;
 }
 
-div#content_pane div#image_pane button {
-    margin: 0 1.5vw 0 1.5vw;
+div#content_pane div#image_pane div#image_thumbnails img {
+    width: 4vw;
+    margin: .5vw;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+div#content_pane div#image_pane div#image_thumbnails img.on_display {
+    border: 2px solid #EB6440;
 }
 
 div#content_pane div#description_pane {
@@ -63,24 +84,44 @@ div#content_pane div#description_pane * {
     }
 
     div#content_pane div#image_pane {
-        margin-left: 8vw;
+        margin-left: 4vw;
+        width: 100vw;
     }
 
-    div#content_pane div#image_pane img:not([class=icon]) {
+    div#content_pane div#image_pane div#image_carousel {
+        width: 100%;
+    }
+
+    div#content_pane div#image_pane div#image_carousel img:not([class=icon]) {
         width: 50vw;
     }
     
-    div#content_pane div#image_pane img.icon {
+    div#content_pane div#image_pane div#image_carousel img.icon {
         width: 10vw;
         margin: 0 3vw 0 3vw;
     }
 
+    div#content_pane div#image_pane div#image_thumbnails {
+        width: 85%;
+    }
+
+    div#content_pane div#image_pane div#image_thumbnails img {
+        width: 10vw;
+        margin: .8vw;
+    }
+
+    div#content_pane div#description_pane {
+        margin-top: 2vh;
+    }
+
     div#content_pane div#description_pane h2 {
         text-align: center;
+        font-size: 4vw;
     }
 
     div#content_pane div#description_pane p {
         width: 60vw;
         margin-left: 20vw;
+        font-size: 2vw;
     }
 }

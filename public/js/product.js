@@ -22,9 +22,24 @@ function ImagePane(props) {
     }
     return (
         <div id="image_pane">
-            <img class="icon" src="../img/icon_previous.svg" onClick={prev} />
-            <img src={images_arr[current_image_idx]} />
-            <img class="icon" src="../img/icon_next.svg" onClick={next} />
+            <div id="image_carousel">
+                <img class="icon" src="../img/icon_previous.svg" onClick={prev} />
+                <img src={images_arr[current_image_idx]} />
+                <img class="icon" src="../img/icon_next.svg" onClick={next} />
+            </div>
+
+            <div id="image_thumbnails">
+                {
+                    images_arr.map((img, index) => {
+                        return <img src={img} className={index == 0 ? "on_display" : ""} onClick={(event) => {
+                            set_current_image_idx(index);
+                            document.getElementsByClassName("on_display")[0].classList.remove("on_display");
+                            event.target.classList.add("on_display");
+                        }} />
+                    })
+                }
+            </div>
+
         </div>
     );
 }

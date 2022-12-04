@@ -32,11 +32,10 @@ function sumbit_message() {
     for (const [key, value] of form_data.entries()) {
         body_data[key] = value;
     }
-    console.log(body_data)
 
     let settings = {
         method: "POST",
-        header: {
+        headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
         },

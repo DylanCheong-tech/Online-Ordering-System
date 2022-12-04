@@ -5,8 +5,8 @@ function Footer(props) {
     return (
         <React.Fragment>
             <a href="/">Home</a>
-            <a href="">About Us</a>
-            <a href="">News Room</a>
+            <a href="/about_us.html">About Us</a>
+            <a href="/news_room.html">News Room</a>
             <a href="">Feedbacks</a>
             <a href="">Contact Us</a>
             <a href="">Terms</a>

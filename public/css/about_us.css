@@ -1,0 +1,70 @@
+/* about_us.css */
+
+div#content_pane {
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    margin: 5vh 0 0 5vw;
+}
+
+div#content_pane div.group_set {
+    margin: 2vh 0 2vh 0;
+    display: flex;
+    flex-direction: column;
+}
+
+div#content_pane div.group_set:nth-child(2n) {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+div#content_pane div.group_set div {
+    min-height: 30vw;
+    width: 28vw;
+}
+
+div#content_pane div.group_set div.image_section {
+    text-align: center;
+}
+
+div#content_pane div.group_set div.image_section img {
+    width: 85%;
+}
+
+div#content_pane div.group_set div.content_section {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2vw;
+}
+
+div#content_pane div.group_set div.content_section img {
+    width: 3.5vw;
+}
+
+div#content_pane div.group_set div.content_section h3 {
+    font-size: 2.2vw;
+}
+
+div#content_pane div.group_set div.content_section p {
+    font-size: 1.1vw;
+}
+
+@media only screen and (max-width : 480px) {
+    div#content_pane {
+        flex-direction: column;
+    }
+
+    div#content_pane div.group_set {
+        margin: 2vh 0 2vh 0;
+        flex-direction: row;
+    }
+    
+    div#content_pane div.group_set:nth-child(2n) {
+        flex-direction: row-reverse;
+    }
+
+    div#content_pane div.group_set div {
+        min-height: 10vh;
+        width: 50vw;
+    }
+}

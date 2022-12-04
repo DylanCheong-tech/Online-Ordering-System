@@ -1,0 +1,68 @@
+<!-- about_us.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Header and Footer components -->
+    <script type="text/babel" src="./js/components/header.jsx"></script>
+    <script type="text/babel" src="./js/components/footer.jsx"></script>
+
+    <!-- Header and Footer styliings -->
+    <link rel="stylesheet" href="./css/components/header_footer.css" />
+    <link rel="stylesheet" href="./css/about_us.css" />
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <div id="content_pane">
+        <div class="group_set">
+            <div class="image_section">
+                <img src="./img/sample2.jpeg" />
+            </div>
+            <div class="content_section">
+                <img src="./img/icon_next.svg" />
+                <h3>Location</h3>
+                <p>Descriptions Descriptions Descriptions Descriptions Descriptions Descriptions</p>
+            </div>
+        </div>
+        
+        <div class="group_set">
+            <div class="image_section">
+                <img src="./img/sample4.jpeg" />
+            </div>
+            <div class="content_section">
+                <img src="./img/icon_next.svg" />
+                <h3>About Us</h3>
+                <p>Descriptions Descriptions Descriptions Descriptions Descriptions Descriptions</p>
+            </div>
+        </div>
+
+        <div class="group_set">
+            <div class="image_section">
+                <img src="./img/sample5.jpeg" />
+            </div>
+            <div class="content_section">
+                <img src="./img/icon_next.svg" />
+                <h3>Our Services</h3>
+                <p>Descriptions Descriptions Descriptions Descriptions Descriptions Descriptions</p>
+            </div>
+        </div>
+
+
+    </div>
+
+    <footer id="footer" class="header_footer_template"></footer>
+</body>
+
+</html>

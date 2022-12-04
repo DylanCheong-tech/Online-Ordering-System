@@ -14,10 +14,10 @@ function Header_Menu_Bar(props) {
     return (
         <div id="header_menu_bar" class="header_footer_template">
             <a href="/">Home</a>
-            <a href="">About Us</a>
+            <a href="/about_us.html">About Us</a>
             <a href="/catalogue.html?category=plastic">Plastic Products</a>
             <a href="/catalogue.html?category=iron">Iron Products</a>
-            <a href="" last="true">News Room</a>
+            <a href="/news_room.html" last="true">News Room</a>
         </div>
     );
 }

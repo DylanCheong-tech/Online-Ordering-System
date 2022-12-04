@@ -1,12 +1,18 @@
 // title_banner.jsx
 // React component : title banner 
 
+function enterKeyTriggered (event) {
+    if (event.key == "Enter"){
+        document.getElementById("search_button").click()
+    }
+}
+
 function TitleBanner(props) {
     return (
         <React.Fragment>
             <h1 id="title_header">{props.title}</h1>
             <span>
-                <input id="search_input" type="text" placeholder="Search Products" />
+                <input id="search_input" type="text" placeholder="Search Products" onKeyDown={enterKeyTriggered} />
                 <button id="search_button" type="button" onClick={() => props.search()}>Search</button>
             </span>
         </React.Fragment>

@@ -1,7 +1,7 @@
 # Online Order System 
 
 ### Project Status
-> This project is currently in development. 
+> Version 1.0 is currently in development. 
 
 # Descriptions 
 The online order system is a web-application to allow the business owner to manage their incoming order online. The web-application will display all the product items and the customer or visitor can browse through and make orders. 
@@ -44,7 +44,7 @@ A simple roadmap planning for the software increments as follows.
 | Roadmap     | Software Increments|
 |-------------|------|
 | Version 1.0 | A simple business product catalog.|
-| Version 1.1 | Business Owner pane for product item manipulations.|
+| Version 1.1 | Business Owner portal for product item manipulations.|
 | Version 2.0 | Increment with orders processing features. |
 | Version 2.1 | Increment with product reviews/rating management. |
 | Version 2.2 | Increment with product recommendations. |

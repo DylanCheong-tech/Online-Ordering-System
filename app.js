@@ -54,7 +54,7 @@ async function getProductCatalogue(category) {
 
         // only add the primary image into the json for display 
         product_items_result.forEach((product) => {
-            product.image_url = images_result[product.product_code + "/White_1.jpg"] // the image file extension may not be fixed 
+            product.image_url = images_result[Object.keys(images_result).filter(name => name.match(new RegExp(product.product_code, "gi")))[0]];
         })
 
         // retreive the metadate
@@ -164,6 +164,49 @@ app.get("/product/:category/:product_code", (req, res, next) => {
     else {
         // return error code in the JSON
         res.json({ "error": "Category Not Found !" });
+    }
+});
+
+// GET request service: About Us information 
+app.get("/info/aboutus", async (req, res, next) => {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("WebAdmin").collection("Metadata");
+
+        let query = {"info" : "About Us"}
+        let result = await collection.findOne(query);
+
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+});
+
+// GET request service: News Room information 
+app.get("/info/news", async (req, res, next) => {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("WebAdmin").collection("NewsRoom");
+        let result = {};
+        result.news = await collection.find().toArray();
+        
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
     }
 });
 

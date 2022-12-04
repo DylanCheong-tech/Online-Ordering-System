@@ -10,12 +10,12 @@ div#content_pane {
 div#content_pane div.group_set {
     margin: 2vh 0 2vh 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 
 div#content_pane div.group_set:nth-child(2n) {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
 }
 
 div#content_pane div.group_set div {

@@ -1,0 +1,134 @@
+/* contact_us.css  */
+
+div#banner {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #D6E4E5;
+    min-height: 25vh;
+}
+
+div#banner h1 {
+    margin-top: 10vh;
+    font-size: 2.6vw;
+}
+
+div#content_pane {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    margin: 5vw 0 5vw 7vw;
+}
+
+div#content_pane>div {
+    width: 30vw;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    margin: 0 6vw 0 6vw;
+}
+
+div#content_pane h2 {
+    font-size: 1.8vw;
+}
+
+div#content_pane div#contact_info {
+    display: flex;
+    flex-direction: column;
+}
+
+div#content_pane div#contact_info div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+div#content_pane div#contact_info div h2 {
+    margin-left: 1vw;
+}
+
+div#content_pane div#contact_info div img {
+    width: 3vw;
+}
+
+div#content_pane div#contact_info p {
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 1.2vw;
+}
+
+div#content_pane div#contact_info p span {
+    margin-bottom: 1.5vw;
+}
+
+div#content_pane div#contact_info p span.label {
+    width: 40%;
+    text-align: right;
+}
+
+div#content_pane div#contact_info p span.value {
+    width: 50%;
+    text-align: left;
+    margin-left: 2vw;
+}
+
+div#content_pane div#message_form h2.ack_msg {
+    text-align: justify;
+    margin: 5vw 5vw 0 5vw;
+}
+
+div#content_pane div#message_form button.ack_msg_btn {
+    margin: 2vw 0 2vw 0;
+}
+
+div#content_pane div#message_form form {
+    display: flex;
+    flex-direction: column;
+    padding: 2vw;
+}
+
+div#content_pane div#message_form form input, div#content_pane div#message_form form textarea {
+    margin: 0 0 1.5vw 0;
+    font-size: 1.2vw;
+}
+
+div#content_pane div#message_form form textarea {
+    min-height: 10vh;
+    max-width: 98%;
+    max-height: 20vh;
+}
+
+@media only screen and (max-width : 480px) {
+    div#banner {
+        min-height: 10vh;
+    }
+    
+    div#banner h1 {
+        margin-top: 4vh;
+        font-size: 3vw;
+    }
+
+    div#content_pane {
+        flex-direction: column;
+    }
+
+    div#content_pane>div {
+        width: 65vw;
+        margin: 0 8vw 5vh 8vw;
+    }
+
+    div#content_pane h2 {
+        font-size: 3vw;
+    }
+
+    div#content_pane div#contact_info p {
+        font-size: 2vw;
+    }
+
+    div#content_pane div#contact_info p span.label, div#content_pane div#contact_info p span.value {
+        width: 45%;
+    }
+
+    div#content_pane div#message_form form input, div#content_pane div#message_form form textarea {
+        font-size: 2vw;
+    }
+}

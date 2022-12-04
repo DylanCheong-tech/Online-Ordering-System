@@ -44,7 +44,7 @@ div#header_logo {
 footer {
     margin-top: auto;
     border-top: 1px solid #000000;
-    font-size: 1vw;
+    font-size: 1.2vw;
 }
 
 footer p {
@@ -68,8 +68,20 @@ button:hover {
 }
 
 @media only screen and (max-width : 480px) {
+    div#header_menu_bar a {
+        font-size: 2.2vw;
+    }
+
     button {
         padding: 1vh 3vw 1vh 3vw;
+        font-size: 1.5vw;
+    }
+
+    footer {
+        font-size: 2vw;
+    }
+
+    footer p {
         font-size: 1.5vw;
     }
 }

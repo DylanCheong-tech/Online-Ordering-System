@@ -5,7 +5,7 @@ const { Storage } = require("@google-cloud/storage")
 const path = require('path')
 
 // configuration for environment variables
-require("dotenv").config({path : __dirname + "/.env"})
+require("dotenv").config({ path: __dirname + "/.env" })
 
 const PORT = process.env.PORT || 5500;
 var app = express();
@@ -15,14 +15,14 @@ app.use(express.urlencoded());
 // database configurations
 const database_uri = process.env["MONGODB_CONN_STRING"];
 // GCP cloud storage, client 
-const storage = new Storage({keyFilename : "mr-buy-370317-c4413fb24e9d.json"});
-const buckets  = {"plastic" : storage.bucket("plastic-pot-images"), "iron" : storage.bucket("iron-stand-images")}
+const storage = new Storage({ keyFilename: "mr-buy-370317-c4413fb24e9d.json" });
+const buckets = { "plastic": storage.bucket("plastic-pot-images"), "iron": storage.bucket("iron-stand-images") }
 
 // server all the files from the 'public' directory only 
 app.use(express.static(path.join(__dirname + "/public")));
 
 // function get image file for all or each product 
-async function getImageFiles (bucket, product_code) {
+async function getImageFiles(bucket, product_code) {
     let query = {}
     if (product_code)
         query.prefix = product_code;
@@ -46,7 +46,7 @@ async function getProductCatalogue(category) {
         const database = dbClient.db("ProductCatalogue");
         let collection = database.collection(col_name);
 
-        let projection = { "product_code": 1, "product_name": 1, "descriptions": 1 , "featured" : 1, "shop_category" : 1};
+        let projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1 };
         let product_items_result = await collection.find().project(projection).toArray();
 
         // get image files from the Cloud Storage
@@ -59,7 +59,7 @@ async function getProductCatalogue(category) {
 
         // retreive the metadate
         collection = database.collection("Metadata");
-        let query = {"category" : category};
+        let query = { "category": category };
         let metadata_result = await collection.findOne(query);
         metadata_result.product_items = product_items_result;
 
@@ -98,7 +98,7 @@ app.get("/product_catalogue/:category/search/:search_key", (req, res, next) => {
     if (category == "plastic" || category == "iron") {
         getProductCatalogue(category)
             .then(
-                (result) => { 
+                (result) => {
                     // search on code
                     let code_search_result = result.product_items.filter((product) => {
                         return product.product_code.match(new RegExp(search_key, "gi"))
@@ -121,7 +121,7 @@ app.get("/product_catalogue/:category/search/:search_key", (req, res, next) => {
 });
 
 // helper function to retreive the product information from the database
-async function getProduct(category, productCode){
+async function getProduct(category, productCode) {
     try {
         var dbClient = new MongoClient(database_uri);
         await dbClient.connect();
@@ -130,7 +130,7 @@ async function getProduct(category, productCode){
 
         const collection = dbClient.db("ProductCatalogue").collection(col_name);
 
-        let query = {"product_code" : productCode}
+        let query = { "product_code": productCode }
         let result = await collection.findOne(query);
 
         // get the images 
@@ -175,7 +175,7 @@ app.get("/info/aboutus", async (req, res, next) => {
 
         const collection = dbClient.db("WebAdmin").collection("Metadata");
 
-        let query = {"info" : "About Us"}
+        let query = { "info": "About Us" }
         let result = await collection.findOne(query);
 
         res.json(result);
@@ -198,8 +198,35 @@ app.get("/info/news", async (req, res, next) => {
         const collection = dbClient.db("WebAdmin").collection("NewsRoom");
         let result = {};
         result.news = await collection.find().toArray();
-        
+
         res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+});
+
+// POST request service : Visitor leave message 
+app.post("/messages/visitor/send", async (req, res, next) => {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("WebAdmin").collection("VisitorMessages");
+        let result = await collection.insertOne(req.body);
+
+        if (result.acknowledged) {
+            res.redirect("/contact_us.html?message_sent=success");
+
+        }
+        else {
+            res.redirect("/contact_us.html?message_sent=fail");
+        }
+        
     }
     catch (e) {
         console.log("Something went wrong ... ");

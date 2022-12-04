@@ -11,15 +11,23 @@ function ImagePane(props) {
 
     function prev() {
         if (current_image_idx > 0) {
+            update_thumbnail_border(current_image_idx - 1);
             set_current_image_idx(current_image_idx - 1);
         }
     }
 
     function next() {
         if (current_image_idx < images_arr.length - 1) {
+            update_thumbnail_border(current_image_idx + 1);
             set_current_image_idx(current_image_idx + 1);
         }
     }
+
+    function update_thumbnail_border (index) {
+        document.getElementsByClassName("on_display")[0].classList.remove("on_display");
+        document.getElementById("thumbnail_" + index).classList.add("on_display");
+    }
+
     return (
         <div id="image_pane">
             <div id="image_carousel">
@@ -31,10 +39,9 @@ function ImagePane(props) {
             <div id="image_thumbnails">
                 {
                     images_arr.map((img, index) => {
-                        return <img src={img} className={index == 0 ? "on_display" : ""} onClick={(event) => {
+                        return <img id={"thumbnail_" + index} src={img} className={index == 0 ? "on_display" : ""} onClick={() => {
                             set_current_image_idx(index);
-                            document.getElementsByClassName("on_display")[0].classList.remove("on_display");
-                            event.target.classList.add("on_display");
+                            update_thumbnail_border(index);
                         }} />
                     })
                 }

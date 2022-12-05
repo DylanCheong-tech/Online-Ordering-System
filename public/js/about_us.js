@@ -6,6 +6,6 @@ function render(data) {
     document.getElementById("our_services_info").innerHTML = data["Our Services"];
 }
 
-fetch("/info/aboutus")
+fetch("/public/info/aboutus")
     .then(response => response.json())
     .then(render)

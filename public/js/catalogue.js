@@ -108,6 +108,6 @@ function render(data, display_category) {
     );
 }
 
-fetch("/product_catalogue/" + category)
+fetch("/public/product_catalogue/" + category)
     .then((res) => res.json())
     .then((data) => render(data, null));

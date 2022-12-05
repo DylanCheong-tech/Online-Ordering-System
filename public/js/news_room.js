@@ -25,6 +25,6 @@ function render(data) {
     );
 }
 
-fetch("/info/news")
+fetch("/public/info/news")
     .then(response => response.json())
     .then(render)

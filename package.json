@@ -9,7 +9,8 @@
     "express" : "4.x",
     "@google-cloud/storage": "^5.18.2",
     "mongodb" : "4.5.0",
-    "dotenv" : "^16.0.3"
+    "dotenv" : "^16.0.3",
+    "@sendgrid/mail" : "7.x.x"
   },
 
   "scripts": {

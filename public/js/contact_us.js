@@ -42,7 +42,7 @@ function sumbit_message() {
         body: JSON.stringify(body_data)
     }
 
-    fetch("/messages/visitor/send", settings)
+    fetch("/public/messages/visitor/send", settings)
         .then(response => response.json())
         .then(render_ack)
 }

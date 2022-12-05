@@ -23,7 +23,7 @@ function TitleBanner(props) {
 async function search() {
     let search_key = document.getElementById("search_input").value;
     if (search_key) {
-        fetch("/product_catalogue/" + category + "/search/" + search_key)
+        fetch("/public/product_catalogue/" + category + "/search/" + search_key)
             .then(response => response.json())
             .then(data => render(data, "Search Results"));
     }

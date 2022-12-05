@@ -100,6 +100,6 @@ function render(data) {
     );
 }
 
-fetch("/product/" + category + "/" + product_code)
+fetch("/public/product/" + category + "/" + product_code)
     .then((res) => res.json())
     .then((data) => render(data.response));

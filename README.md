@@ -12,15 +12,17 @@ In the order processing features, the web-application will be able to notify the
 This web-application will be using the MERN technology stack. As for security concerns, I will mask out the database connection string when the source code is being published. You may replace your own connection string for your mongoDB database, if you wish to have a try. 
 
 ### Requirements
-| Requirements        | References |
-|---------------------|------------|
-| NodeJS v18.x.x LTS  | https://nodejs.org/en/download/ |
-| ExpressJS v4.0      | https://expressjs.com/en/4x/api.html |
-| MongoDB Atlas^      | https://www.mongodb.com/docs/atlas/getting-started/ |
-| MongoDB Driver v4.5.0| https://www.mongodb.com/docs/atlas/getting-started/ |
-| ReactJS v18         | https://reactjs.org/docs/cdn-links.html|
+| Requirements              | References |
+|---------------------------|------------|
+| NodeJS v18.x.x LTS        | https://nodejs.org/en/download/ |
+| ExpressJS v4.0            | https://expressjs.com/en/4x/api.html |
+| MongoDB Atlas^            | https://www.mongodb.com/docs/atlas/getting-started/ |
+| MongoDB Driver v4.5.0     | https://www.mongodb.com/docs/atlas/getting-started/ |
+| ReactJS v18               | https://reactjs.org/docs/cdn-links.html|
+| SendGrid v3^^             | https://docs.sendgrid.com/for-developers/sending-email/quickstart-nodejs#install-the-helper-library |
 
 ^ You can opt for using a local MongoDB cluster on your machine. 
+^^ You may need to setup your own SendGrid account and API keys
 
 # Usage
 Before starting the server, update the dependecies with npm 

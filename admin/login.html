@@ -9,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
 
-    <script type="text/babel" src="./js/login.js"></script>
+    <!-- jsHashes library CDN -->
+    <script src="http://cdn.rawgit.com/h2non/jsHashes/master/hashes.js"></script>
+
 
     <link rel="stylesheet" href="./css/login.css" />
 </head>
@@ -19,9 +21,9 @@
         <h1>Mr. Buy Marketing</h1>
         <h3>Admin Portal Login</h3>
 
-        <form action="/admin/login" method="POST">
+        <form id="login_form" action="/admin/login" method="POST">
             <input type="text" name="username" placeholder="Username" required />
-            <input type="password" name="password" placeholder="Password" required />
+            <input id="password_input" type="password" name="password" placeholder="Password" required />
             <label for="checkbox"><input id="checkbox" type="checkbox" name="remember_me" /> Remember Me</label>
             <a href="">Forgot Password ?</a>
             <button type="submit">Login</button>
@@ -32,5 +34,7 @@
         <img src="./img/sample3.png" />
     </div>
 </body>
+
+<script src="./js/login.js"></script>
 
 </html>

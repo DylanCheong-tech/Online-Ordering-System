@@ -10,9 +10,12 @@ const authenticate_user = require('../middlewares/admin/authenticate_user.middle
 const check_authorised_access = require('../middlewares/admin/check_authorised_access.middleware');
 
 router.use(session({
-    secret: "secret",
+    secret: "User Login",
     resave: false,
     saveUninitialized: true,
+    cookie: {
+        maxAge: 1000 * 60 * 30, // 30 minutes login sesison lifetime 
+    }
 }));
 
 // passport middleware configuration

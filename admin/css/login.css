@@ -1,0 +1,96 @@
+/* template */
+
+@import url("https://fonts.googleapis.com/css?family=Merriweather");
+
+body {
+    font-family: 'Merriweather', serif;
+}
+
+/* login.css */
+
+body {
+    display: flex;
+    flex-direction: row;
+}
+
+body>div {
+    width: 50vw;
+}
+
+div#login_pane {
+    display: flex;
+    flex-direction: column;
+    margin-top: 35vh;
+    margin-left: 8vw;
+}
+
+div#login_pane form {
+    display: grid;
+    grid-template-columns: 30% 30%;
+}
+
+div#login_pane form>* {
+    margin: 1vh 0 1.5vh 0;
+}
+
+div#login_pane form input:required, div#login_pane form button {
+    grid-column: 1 / span 2;
+    font-size: 1.2vw;
+}
+
+div#login_pane form button {
+    justify-self: center;
+    width: 50%;
+    padding-top: .5vw;
+    padding-bottom: .5vw;
+}
+
+div#login_pane form label, div#login_pane form a {
+    font-size: .9vw;
+}
+
+div#login_pane form label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div#login_pane form a {
+    justify-self: right;
+    align-self: center;
+}
+
+div#image_pane img {
+    height: 100%;
+}
+
+
+@media only screen and (max-width : 480px) {
+
+    div#login_pane {
+        width: 100%;
+    }
+
+    div#login_pane form {
+        display: grid;
+        grid-template-columns: 45% 45%;
+    }
+
+    div#login_pane form input:required, div#login_pane form button {
+        font-size: 3vw;
+    }
+
+    div#login_pane form label, div#login_pane form a {
+        font-size: 1.5vw;
+    }
+
+    div#login_pane form button {
+        width: 30vw;
+        padding-top: 2vw;
+        padding-bottom: 2vw;
+    }
+
+    div#image_pane {
+        display: none;
+    }
+}

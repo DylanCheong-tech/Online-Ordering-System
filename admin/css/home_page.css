@@ -1,0 +1,98 @@
+/* hoem_page.css */
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+div#header_banner {
+    display: flex;
+    flex-direction: row;
+    margin: 2vh 0 3vh 0;
+}
+
+div#header_banner>div {
+    width: 50vw;
+}
+
+div#header_banner div#business_logo {
+    display: flex;
+    flex-direction: column;
+}
+
+div#header_banner div#business_logo * {
+    margin: 0 0 0 2vw;
+}
+
+div#header_banner div#account_settings {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div#header_banner div#account_settings * {
+    margin: 0 1vw 0 1vw;
+}
+
+div#header_banner div#account_settings img {
+    width: 3vw;
+    margin-left: auto;
+}
+
+div#content_pane {
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid #000000;
+}
+
+div#content_pane div#side_menu {
+    width: 20vw;
+    height: 85vh;
+    border-right: 1px solid #000000;
+}
+
+div#content_pane div#side_menu span.side_menu_item {
+    display: flex;
+    flex-direction: column;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.menu_item_name {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.menu_item_name h3 {
+    padding: 0 1vw 0 1vw;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.menu_item_name img {
+    width: 10%;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.dropdown {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2vw;
+    justify-content: center;
+    align-content: center;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.dropdown span.dropdown_item {
+    border-top: 1px solid #000000;
+    padding-left: 1vw;
+    height: 5vh;
+    cursor: pointer;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.dropdown span.dropdown_item:hover {
+    background-color: lightcyan;
+    font-weight: bold;
+}
+
+div#content_pane div#sub_content_pane {
+    width: 80vw;
+    margin-left: 3vw;
+}
+
+@media only screen and (max-width : 480px) {}

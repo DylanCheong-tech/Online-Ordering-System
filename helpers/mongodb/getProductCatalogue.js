@@ -34,7 +34,7 @@ async function getProductCatalogue(category) {
             product.image_url = images_result[Object.keys(images_result).filter(name => name.match(new RegExp(product.product_code, "gi")))[0]];
         })
 
-        // retreive the metadate
+        // retreive the metadata
         collection = database.collection("Metadata");
         let query = { "category": category };
         let metadata_result = await collection.findOne(query);

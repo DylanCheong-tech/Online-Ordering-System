@@ -92,6 +92,9 @@ div#content_pane div#side_menu span.side_menu_item span.dropdown span.dropdown_i
 
 div#content_pane div#sub_content_pane {
     width: 80vw;
+}
+
+div#content_pane div#sub_content_pane .left_margin {
     margin-left: 3vw;
 }
 

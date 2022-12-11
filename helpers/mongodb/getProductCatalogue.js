@@ -13,7 +13,7 @@ const storage = new Storage({ keyFilename: "mr-buy-370317-c4413fb24e9d.json" });
 const buckets = { "plastic": storage.bucket("plastic-pot-images"), "iron": storage.bucket("iron-stand-images") }
 
 // parameters ==> category : string
-async function getProductCatalogue(category) {
+async function getProductCatalogue(category, projection) {
     try {
         var dbClient = new MongoClient(database_uri);
         await dbClient.connect();
@@ -23,7 +23,6 @@ async function getProductCatalogue(category) {
         const database = dbClient.db("ProductCatalogue");
         let collection = database.collection(col_name);
 
-        let projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1 };
         let product_items_result = await collection.find().project(projection).toArray();
 
         // get image files from the Cloud Storage

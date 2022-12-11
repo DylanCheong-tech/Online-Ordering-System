@@ -1,0 +1,122 @@
+/* CreateProductItem.css */
+
+h2#header_2_title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+h2#header_2_title img {
+    width: 4vw;
+}
+
+form#content_form {
+    display: grid;
+    grid-template-columns: repeat(2, 30vw);
+}
+
+form#content_form>button {
+    grid-column: 1 / span 2;
+    justify-self: center;
+}
+
+form#content_form>div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8vh;
+}
+
+form#content_form>div p {
+    margin-bottom: 0;
+}
+
+form#content_form>div div:not(.three_inputs) input[type=text], form#content_form>div div:not(.three_inputs) select {
+    width: 18vw;
+}
+
+form#content_form>div div:not(.three_inputs) label {
+    margin-right: 1.5vw;
+}
+
+form#content_form>div div:not(.three_inputs) label input {
+    margin-right: .8vw;
+}
+
+form#content_form>div div:not(.three_inputs) textarea {
+    width: 100%;
+    height: 30vh;
+    max-width: 100%;
+    max-height: 50vh;
+}
+
+form#content_form>div div.three_inputs {
+    display: grid;
+    justify-content: space-between;
+}
+
+form#content_form>div div.three_inputs p {
+    grid-column: 1 / span 3;
+}
+
+form#content_form>div div.three_inputs input {
+    width: 8vw;
+}
+
+div#image_pane {
+    grid-column: 1 / span 2;
+    margin-bottom: 8vh;
+}
+
+div#image_pane div#tab_bar {
+    display: flex;
+    flex-direction: row;
+    padding-left: 2vw;
+}
+
+div#image_pane div#tab_bar span {
+    border: 1px solid #000000;
+    border-bottom: none;
+    width: 8%;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    padding: 1vh 1vw 1vh 1vw;
+}
+
+div#image_pane div#tab_bar span.display {
+    background-color: #D6E4E5;
+}
+
+div#image_pane div#tab_bar span:hover {
+    background-color: lightcyan;
+    font-weight: bold;
+}
+
+div#image_pane div#img_content_pane {
+    border: 1px solid #000000;
+    min-height: 50vh;
+}
+
+div#image_pane div.uploaded {
+    display: grid;
+    grid-template-columns: repeat(6, 10vw);
+    justify-items: center;
+    row-gap: 5vh;
+}
+
+div#image_pane div.await_upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #EFEFEF;
+    text-align: center;
+}
+
+div#image_pane div#img_content_pane span {
+    text-align: center;
+}
+
+div#image_pane div#img_content_pane span img {
+    width: 80%;
+}

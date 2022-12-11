@@ -1,20 +1,21 @@
 // controller : public.controller.js 
 // this module contains all the controllers for /public
 
-const express = require('express');
 const { MongoClient } = require('mongodb');
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const database_uri = process.env.MONGODB_CONN_STRING;
 const getProductCatalogue = require('../helpers/mongodb/getProductCatalogue');
 const getProduct = require("../helpers/mongodb/getProduct");
+// MongoDB database query porjection settings
+let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1 };
 
 // controller 1 : get product catalogue based on the category 
 // this respnse return all the information needed to render the whole page in one JSON
 function getProductCatalogueJSON(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
-        getProductCatalogue(category)
+        getProductCatalogue(category, catalogue_projection)
             .then(
                 (result) => { res.json(result) }
             );
@@ -31,7 +32,7 @@ function getSearchResultJSON(req, res) {
     let category = req.params.category.toLowerCase();
     let search_key = req.params.search_key;
     if (category == "plastic" || category == "iron") {
-        getProductCatalogue(category)
+        getProductCatalogue(category, catalogue_projection)
             .then(
                 (result) => {
                     // search on code
@@ -150,5 +151,5 @@ module.exports = {
     "getProductJSON": getProductJSON,
     "getAboutUsJSON": getAboutUsJSON,
     "getNewsRoomJSON": getNewsRoomJSON,
-    "processVisitorEnquiryMessage" : processVisitorEnquiryMessage
+    "processVisitorEnquiryMessage": processVisitorEnquiryMessage
 }

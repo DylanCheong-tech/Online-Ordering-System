@@ -50,5 +50,14 @@ router.delete("/logout", controllers.logout);
 router.get("/portal/", check_authorised_access, controllers.renderHomePage);
 router.get("/portal/metadata", check_authorised_access, controllers.getHomePageInfo);
 
+// GET Request : Get Product Catalogue info 
+router.get("/portal/productCatalogue/:category", check_authorised_access, controllers.getProductCatalogueInfo);
+
+// POST Request : Create Plastic Product Item
+router.post("/portal/productItem/plastic/create", check_authorised_access, controllers.createPlasticProductItem);
+
+// GET Request : Get the Plastic Ptoduct Item JSON
+router.get("/portal/productItem/plastic/get/:product_code", check_authorised_access, controllers.getPlasticProductItem);
+
 // exports
 module.exports = router;

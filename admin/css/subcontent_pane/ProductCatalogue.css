@@ -1,0 +1,33 @@
+/* subcontent_pane/ProductCatalogue.css */
+
+div#search_filter {
+    display: flex;
+    flex-direction: row;
+    margin: 3vh 0 3vh 0;
+}
+
+div#search_filter>* {
+    margin-right: 2vw;
+}
+
+div#content_table {
+    display: flex;
+    flex-direction: column;
+}
+
+div#content_table>div {
+    margin: 1vh 0 1vh 0;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+div#content_table>div#header_bar {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    padding: 1vh 0 1vh 0;
+}
+
+div#content_table>div>* {
+    width: 20vw;
+}

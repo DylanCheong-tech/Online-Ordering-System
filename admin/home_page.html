@@ -16,6 +16,11 @@
     <script type="text/babel" src="./js/home_page.js"></script>
 
     <link rel="stylesheet" href="./css/home_page.css" />
+
+    <!-- conponent styling -->
+    <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogue.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/ProductItemForm.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/ProductItemDetails.css" />
 </head>
 
 <body>
@@ -30,7 +35,46 @@
         </div>
     </div>
 
-    <div id="content_pane"></div>
+    <div id="content_pane">
+        <div id="side_menu">
+            <span class="side_menu_item">
+                <span class="menu_item_name">
+                    <img src="./img/icon_next.svg" />
+                    <h3>Dashboard</h3>
+                    <img src="./img/icon_next.svg" />
+                </span>
+            </span>
+            <span class="side_menu_item">
+                <span class="menu_item_name">
+                    <img src="./img/icon_next.svg" />
+                    <h3>Product Catalogue</h3>
+                    <img src="./img/icon_next.svg" />
+                </span>
+
+                <span class="dropdown">
+                    <span class="dropdown_item">Plastic Pots</span>
+                    <span class="dropdown_item">Iton Stands</span>
+                    <span class="dropdown_item">Add Category ...</span>
+                </span>
+            </span>
+            <span class="side_menu_item">
+                <span class="menu_item_name">
+                    <img src="./img/icon_next.svg" />
+                    <h3>Enquiries</h3>
+                    <img src="./img/icon_next.svg" />
+                </span>
+
+                <span class="dropdown">
+                    <span class="dropdown_item">Unresolved</span>
+                    <span class="dropdown_item">Resolved</span>
+                    <span class="dropdown_item">All</span>
+                </span>
+            </span>
+        </div>
+
+        <div id="sub_content_pane">
+        </div>
+    </div>
 </body>
 
 </html>

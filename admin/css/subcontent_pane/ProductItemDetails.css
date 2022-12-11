@@ -1,0 +1,31 @@
+/* ProductItemDetails.css */
+
+div#action_button_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid #000000;
+    margin-bottom: 2vh;
+    padding: 2vh 0 2vh 0;
+}
+
+div#product_details {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000000;
+    padding-left: 4vw;
+}
+
+div#product_details span {
+    display: flex;
+    flex-direction: row;
+}
+
+div#product_details span p.detail_property {
+    width: 15vw;
+    font-weight: bold;
+}
+
+div#product_details span p.detial_value {
+    width: 50vw;
+}

@@ -1,11 +1,16 @@
 // home_page.js
 
+// check if needed redirectedß
+function check_redirect_request(response) {
+    if (response.redirected) {
+        window.location.href = response.url;
+    }
+}
+
 function logout() {
     fetch("/admin/logout", { method: "DELETE" })
         .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url;
-            }
+            check_redirect_request(response);
         });
 }
 
@@ -77,6 +82,7 @@ function ProductCatalogue(props) {
 // helper function to fetch and pass the data to the render function
 async function displayProductCatalogueInfo(category) {
     let response = await fetch("/admin/portal/productCatalogue/" + category);
+    check_redirect_request(response);
     let json = await response.json();
 
     let component = <ProductCatalogue json_data={json} />;
@@ -105,7 +111,10 @@ function CreatePlasticProduct(props) {
             },
             body: JSON.stringify(body_data)
         })
-            .then(response => response.json())
+            .then(response => {
+                check_redirect_request(response);
+                response.json();
+            })
             .then(json => {
                 set_create_status(json.acknowledged);
                 console.log(json);
@@ -265,7 +274,10 @@ function CreateIronProduct(props) {
             },
             body: JSON.stringify(body_data)
         })
-            .then(response => response.json())
+            .then(response => {
+                check_redirect_request(response);
+                response.json();
+            })
             .then(json => {
                 // render the product item component here
                 set_create_status(json.acknowledged);
@@ -397,10 +409,15 @@ function CreateIronProduct(props) {
 // React Component : View Product sub pane
 function ViewProduct(props) {
     let item = props.json_data;
-    console.log(item)
+    function back_to_catalogue (){
+        displayProductCatalogueInfo(props.category);
+    }
     return (
         <React.Fragment>
-            <h2 id="header_2_title" class="left_margin"><img src="../img/icon_next.svg" />{item.product_code}</h2>
+            <h2 id="header_2_title" class="left_margin">
+                <img id="back_icon" src="../img/icon_next.svg" onClick={back_to_catalogue} />
+                {item.product_code}
+            </h2>
             <div id="action_button_bar" class="left_margin">
                 <button type="button">Edit</button>
                 <button type="button">Withhold</button>
@@ -477,7 +494,8 @@ function ViewProduct(props) {
                                         <p class="color_label">{color}</p>
                                         {
                                             Object.entries(item.images).map(([key, value]) => {
-                                                if (key.includes(color.toUpperCase()))
+                                                console.log(key)
+                                                if (key.match("/" + color.toUpperCase() + "/"))
                                                     return <img src={value} />
                                             })
                                         }
@@ -490,6 +508,14 @@ function ViewProduct(props) {
             </div>
         </React.Fragment>
     );
+}
+
+// hepler function to display the product information 
+async function displayProductItemInfo(category, product_code) {
+    let response = await fetch("/admin/portal/productItem/" + category + "/get/" + product_code);
+    check_redirect_request(response);
+    let json = await response.json();
+    renderSubcontent(<ViewProduct json_data={json} category={category} />);
 }
 
 // React Component : Enquiries sub pane
@@ -543,11 +569,4 @@ function Enquiries(props) {
             </div>
         </React.Fragment>
     );
-}
-
-// hepler function to display the product information 
-async function displayProductItemInfo(category, product_code) {
-    let response = await fetch("/admin/portal/productItem/" + category + "/get/" + product_code);
-    let json = await response.json();
-    renderSubcontent(<ViewProduct json_data={json} />);
 }

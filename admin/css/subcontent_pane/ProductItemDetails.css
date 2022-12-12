@@ -29,13 +29,17 @@ div#product_details span p.detail_property {
 div#product_details span .detial_value {
     width: 50vw;
 }
+div#product_details span p.detial_value {
+    display: flex;
+    flex-direction: column;
+}
 
 div#product_details span .detial_value span.product_color_images {
     display: grid;
     grid-template-columns: repeat(4, 25%);
 }
 
-div#product_details span .detial_value span.product_color_images p.color_label{
+div#product_details span .detial_value span.product_color_images p.color_label {
     grid-column: 1 / span 4;
     font-weight: bold;
     font-style: italic;
@@ -45,4 +49,5 @@ div#product_details span .detial_value span.product_color_images p.color_label{
 div#product_details span .detial_value span.product_color_images img {
     width: 90%;
     justify-self: center;
+    margin-bottom: 2vh;
 }

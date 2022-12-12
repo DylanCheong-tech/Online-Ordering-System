@@ -8,6 +8,7 @@ h2#header_2_title {
 
 h2#header_2_title img {
     width: 4vw;
+    cursor: pointer;
 }
 
 form#content_form {

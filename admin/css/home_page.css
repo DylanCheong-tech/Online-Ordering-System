@@ -54,6 +54,7 @@ div#content_pane div#side_menu {
 div#content_pane div#side_menu span.side_menu_item {
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 div#content_pane div#side_menu span.side_menu_item span.menu_item_name {
@@ -71,6 +72,10 @@ div#content_pane div#side_menu span.side_menu_item span.menu_item_name img {
 }
 
 div#content_pane div#side_menu span.side_menu_item span.dropdown {
+    display: none;
+}
+
+div#content_pane div#side_menu span.side_menu_item span.show_dropdown {
     display: flex;
     flex-direction: column;
     margin-left: 2vw;

@@ -55,9 +55,11 @@ router.get("/portal/productCatalogue/:category", check_authorised_access, contro
 
 // POST Request : Create Plastic Product Item
 router.post("/portal/productItem/plastic/create", check_authorised_access, controllers.createPlasticProductItem);
+// POST Request : Create Iron Product Item
+router.post("/portal/productItem/iron/create", check_authorised_access, controllers.createIronProductItem);
 
-// GET Request : Get the Plastic Ptoduct Item JSON
-router.get("/portal/productItem/plastic/get/:product_code", check_authorised_access, controllers.getPlasticProductItem);
+// GET Request : Get the Ptoduct Item JSON
+router.get("/portal/productItem/:category/get/:product_code", check_authorised_access, controllers.getProductItemInfo);
 
 // exports
 module.exports = router;

@@ -45,26 +45,26 @@
                 </span>
             </span>
             <span class="side_menu_item">
-                <span class="menu_item_name">
+                <span class="menu_item_name" onclick="display_dropdown('product_catalogue_dropdown')">
                     <img src="./img/icon_next.svg" />
                     <h3>Product Catalogue</h3>
                     <img src="./img/icon_next.svg" />
                 </span>
 
-                <span class="dropdown">
-                    <span class="dropdown_item">Plastic Pots</span>
-                    <span class="dropdown_item">Iton Stands</span>
+                <span id="product_catalogue_dropdown" class="dropdown">
+                    <span class="dropdown_item" onclick="displayProductCatalogueInfo('plastic')">Plastic Pots</span>
+                    <span class="dropdown_item" onclick="displayProductCatalogueInfo('iron')">Iton Stands</span>
                     <span class="dropdown_item">Add Category ...</span>
                 </span>
             </span>
             <span class="side_menu_item">
-                <span class="menu_item_name">
+                <span class="menu_item_name" onclick="display_dropdown('enquiries_dropdown')">
                     <img src="./img/icon_next.svg" />
                     <h3>Enquiries</h3>
                     <img src="./img/icon_next.svg" />
                 </span>
 
-                <span class="dropdown">
+                <span id="enquiries_dropdown" class="dropdown">
                     <span class="dropdown_item">Unresolved</span>
                     <span class="dropdown_item">Resolved</span>
                     <span class="dropdown_item">All</span>

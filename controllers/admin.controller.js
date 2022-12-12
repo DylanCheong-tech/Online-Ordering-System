@@ -106,11 +106,53 @@ async function createPlasticProductItem(req, res) {
     }
 }
 
-// Controller 6 : get the plastic product item JSON document
-async function getPlasticProductItem(req, res) {
-    getProduct("plastic", req.params.product_code)
-        .then(response => res.json(response));
+// Controller 6 : insert a document for new product item
+async function createIronProductItem(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
 
+        const collection = dbClient.db("ProductCatalogue").collection("IronStands");
+
+        let data = req.body;
+        // create the dimensions and diameter property-value to follow the database schema 
+        data.dimensions = {}
+        data.dimensions.length = data.length;
+        delete data.length
+        data.dimensions.height = data.height;
+        delete data.height
+        data.dimensions.width = data.width;
+        delete data.width
+
+        // descriptions
+        data.descriptions = data.descriptions.split(" ");
+
+        let result = await collection.insertOne(data);
+
+        data.acknowledged = result.acknowledged;
+        res.json(data);
+
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller 7 : get the plastic product item JSON document
+async function getProductItemInfo(req, res) {
+    let category = req.params.category.toLowerCase();
+    if (category == "plastic" || category == "iron") {
+        getProduct(category, req.params.product_code)
+            .then(response => res.json(response));
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
 }
 
 module.exports = {
@@ -120,6 +162,7 @@ module.exports = {
     getHomePageInfo: getHomePageInfo,
     getProductCatalogueInfo: getProductCatalogueInfo,
     createPlasticProductItem: createPlasticProductItem,
-    getPlasticProductItem: getPlasticProductItem,
+    createIronProductItem: createIronProductItem,
+    getProductItemInfo: getProductItemInfo,
 
 }

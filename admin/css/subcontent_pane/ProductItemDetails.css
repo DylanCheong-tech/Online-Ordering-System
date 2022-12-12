@@ -16,7 +16,7 @@ div#product_details {
     padding-left: 4vw;
 }
 
-div#product_details span {
+div#product_details>span {
     display: flex;
     flex-direction: row;
 }
@@ -26,6 +26,23 @@ div#product_details span p.detail_property {
     font-weight: bold;
 }
 
-div#product_details span p.detial_value {
+div#product_details span .detial_value {
     width: 50vw;
+}
+
+div#product_details span .detial_value span.product_color_images {
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+}
+
+div#product_details span .detial_value span.product_color_images p.color_label{
+    grid-column: 1 / span 4;
+    font-weight: bold;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+div#product_details span .detial_value span.product_color_images img {
+    width: 90%;
+    justify-self: center;
 }

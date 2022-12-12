@@ -19,6 +19,7 @@ async function getProductCatalogue(category, projection) {
         await dbClient.connect();
 
         let col_name = category == "plastic" ? "PlasticPots" : "IronStands";
+        let default_image_color = category == "plastic" ? "BLACK" : "BRONZE";
 
         const database = dbClient.db("ProductCatalogue");
         let collection = database.collection(col_name);
@@ -30,7 +31,7 @@ async function getProductCatalogue(category, projection) {
 
         // only add the primary image into the json for display 
         product_items_result.forEach((product) => {
-            product.image_url = images_result[Object.keys(images_result).filter(name => name.match(new RegExp(product.product_code, "gi")))[0]];
+            product.image_url = images_result[Object.keys(images_result).filter(name => name.match(new RegExp(product.product_code + "/" + default_image_color + "/", "gi")))[0]];
         })
 
         // retreive the metadata

@@ -10,7 +10,9 @@ async function getImageFiles(bucket, product_code) {
     const [files] = await bucket.getFiles(query);
     let return_json = {};
     files.forEach((element) => {
-        return_json[element.name] = element.metadata.mediaLink
+        // if match png, jpg and jpeg then add it into the result
+        if (element.name.match(/[jpeg|jpg|png]$/))
+            return_json[element.name] = element.metadata.mediaLink
     });
     return return_json;
 }

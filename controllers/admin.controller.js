@@ -50,6 +50,7 @@ async function getHomePageInfo(req, res) {
     }
 }
 
+// Controller 5 : get the product catalogue metadata - color or shop category 
 async function getProductCatalogueMetadata(req, res) {
     try {
         var dbClient = new MongoClient(database_uri);
@@ -57,7 +58,46 @@ async function getProductCatalogueMetadata(req, res) {
 
         const collection = dbClient.db("ProductCatalogue").collection("Metadata");
 
-        let result = await (await collection.find()).toArray();
+        let query = {};
+        let projection = { _id: 0 };
+        let category = req.params.category;
+        let data = req.params.data;
+        // set up the query 
+        if (category && (category == "plastic" || category == "iron"))
+            query.category = category;
+        if (data && (data == 'colors' || data == 'shop_category'))
+            projection[data == "colors" ? "shop_category" : "colors"] = 0;
+
+        let result = await collection.find(query).project(projection).toArray();
+        res.json(result)
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// controller 6 : update the product catalogue metadata - color or shop category 
+async function updateProductCatalogueMetadata(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection("Metadata");
+
+        let data = req.params.data;
+
+        let filter = { category: req.params.category };
+        let updateDocument = {
+            "$set": {
+                [data]: req.body
+            }
+        }
+
+        let result = await collection.updateOne(filter, updateDocument);
 
         res.json(result)
     }
@@ -70,6 +110,7 @@ async function getProductCatalogueMetadata(req, res) {
     }
 }
 
+// Controller 7 : get the product catalogue information, by category 
 async function getProductCatalogueInfo(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
@@ -82,7 +123,7 @@ async function getProductCatalogueInfo(req, res) {
     }
 }
 
-// Controller 5 : insert a document for new product item
+// Controller 8 : insert a document for new product item
 async function createPlasticProductItem(req, res) {
     try {
         var dbClient = new MongoClient(database_uri);
@@ -126,7 +167,7 @@ async function createPlasticProductItem(req, res) {
     }
 }
 
-// Controller 6 : insert a document for new product item
+// Controller 9 : insert a document for new product item
 async function createIronProductItem(req, res) {
     try {
         var dbClient = new MongoClient(database_uri);
@@ -162,7 +203,7 @@ async function createIronProductItem(req, res) {
     }
 }
 
-// Controller 7 : get the plastic product item JSON document
+// Controller 10 : get the plastic product item JSON document
 async function getProductItemInfo(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
@@ -180,6 +221,7 @@ module.exports = {
     logout: logout,
     renderHomePage: renderHomePage,
     getProductCatalogueMetadata: getProductCatalogueMetadata,
+    updateProductCatalogueMetadata: updateProductCatalogueMetadata,
     getHomePageInfo: getHomePageInfo,
     getProductCatalogueInfo: getProductCatalogueInfo,
     createPlasticProductItem: createPlasticProductItem,

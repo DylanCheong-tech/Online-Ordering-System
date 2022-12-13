@@ -63,7 +63,7 @@ function ProductCatalogue(props) {
                                         }
                                     </span>
                                 </p>
-                                <button type="button" onClick={() => {displayProductCatalogueCategoryInfo(category.category)}}>Manage</button>
+                                <button type="button" onClick={() => { displayProductCatalogueCategoryInfo(category.category) }}>Manage</button>
                             </span>
                         );
                     }))
@@ -98,8 +98,8 @@ function ProductCatalogueCategory(props) {
             </p>
             <div id="button_actions_bar" class="left_margin">
                 <button type="button" onClick={() => renderSubcontent(create_item_category)}>Create New Product Item</button>
-                <button type="button">Manage Colors</button>
-                <button type="button">Manage Shop Categories</button>
+                <button type="button" onClick={() => displayProductCatalogueCategoryMetadataColor(category)}>Manage Colors</button>
+                <button type="button" onClick={() => displayProductCatalogueCategoryMetadataShopCategory(category)}>Manage Shop Categories</button>
             </div>
             <div id="search_filter" class="left_margin">
                 <input id="search_bar" placeholder="Search ... " />
@@ -464,6 +464,204 @@ function CreateIronProduct(props) {
     }
 
     return render_ui;
+}
+
+// React Component : Edit Product Catalogue Category metadata - colors 
+function ProductCatalogueCategoryMetadataColor(props) {
+    function addColor() {
+        let color_ele = document.getElementById("new_color");
+        let hex_ele = document.getElementById("new_hex");
+        let color = color_ele.value;
+        let hex = hex_ele.value;
+        color_ele.value = "";
+        hex_ele.value = "";
+        set_color_json(previous => Object.assign({ ...previous }, { [color]: hex }));
+    }
+
+    function removeColor(color_name) {
+        set_color_json(previous => {
+            delete previous[color_name];
+            return { ...previous };
+        });
+    }
+
+    function changeColor(previous_color, new_color, hex_value) {
+        set_color_json(previous => {
+            if (!new_color){
+                previous[previous_color] = hex_value;
+            }
+
+            if (!hex_value) {
+                hex_value = previous[previous_color];
+                delete previous[previous_color];
+                previous[new_color] = hex_value;
+            }
+
+            return { ...previous };
+        });
+    }
+
+    function updatePreviewColor() {
+        let hex = document.getElementById("new_hex").value;
+        let preview_ele = document.getElementById("new_preview");
+        preview_ele.style.backgroundColor = hex;
+    }
+
+    async function update(body_data) {
+        fetch("/admin/portal/productCatalogue/" + props.json_data.category + "/metadata/colors", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body_data)
+        })
+            .then(response => {
+                check_redirect_request(response);
+                return response.json();
+            })
+            .then(console.log)
+    }
+
+    let [color_json, set_color_json] = React.useState(props.json_data.colors);
+    let counter = Object.values(color_json).length;
+    console.log(color_json)
+    return (
+        <React.Fragment>
+            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="../img/icon_next.svg" />{props.json_data.title} - Edit Colors</h2>
+            <div id="content_table" class="left_margin">
+                <div id="header_bar" class="content_table_row">
+                    <span>No.</span>
+                    <span>Color</span>
+                    <span>HEX Code</span>
+                    <span>Preview</span>
+                    <span>Actions</span>
+                </div>
+
+                {
+                    Object.entries(color_json).map(([key, value], index) => {
+                        return (
+                            <div class="content_table_row">
+                                <span>{index + 1}.</span>
+                                <span><input name={"color_" + (index + 1)} type="text" value={key} onChange={(event) => changeColor(key, event.target.value, "")} /></span>
+                                <span><input name={"hex_" + (index + 1)} type="text" value={value} onChange={(event) => changeColor(key, "", event.target.value)} /></span>
+                                <span style={{ backgroundColor: value }}></span>
+                                <span><button type="button" onClick={() => removeColor(key)}>Remove</button></span>
+                            </div>
+                        );
+                    })
+                }
+
+                <div class="content_table_row">
+                    <span>{counter + 1}.</span>
+                    <span><input id="new_color" name={"color_" + counter} type="text" /></span>
+                    <span><input id="new_hex" name={"hex_" + counter} type="text" onChange={() => updatePreviewColor()} /></span>
+                    <span id="new_preview"></span>
+                    <span><button type="button" onClick={addColor}>Add</button></span>
+                </div>
+
+                <button type="button" onClick={() => update(color_json)}>Confirm Changes</button>
+            </div>
+        </React.Fragment>
+    );
+}
+
+// helper function to fetch the product catalogue metadata info and render
+async function displayProductCatalogueCategoryMetadataColor(category) {
+    let response = await fetch("/admin/portal/productCatalogue/" + category + "/metadata/colors");
+    check_redirect_request(response);
+    let json = await response.json();
+    json = json[0];
+
+    console.log(json)
+
+    let component = <ProductCatalogueCategoryMetadataColor json_data={json} />;
+    renderSubcontent(component);
+}
+
+// React Component : Edit Product Catalogue Category metadata - shop category
+function ProductCatalogueCategoryMetadataShopCategory(props) {
+    function addCategory() {
+        let category_ele = document.getElementById("new_category");
+        let new_category = category_ele.value;
+        category_ele.value = "";
+        set_category_arr(previous => [...previous, new_category]);
+    }
+
+    function removeCategory(category) {
+        set_category_arr(previous => previous.filter((element) => element != category));
+    }
+
+    function changeCategory(index, category) {
+        set_category_arr(previous => {
+            previous[index] = category;
+            return [...previous];
+        });
+    }
+
+    async function update(arr) {
+        fetch("/admin/portal/productCatalogue/" + props.json_data.category + "/metadata/shop_category", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(arr)
+        })
+            .then(response => {
+                check_redirect_request(response);
+                return response.json();
+            })
+            .then(console.log)
+    }
+
+    let [category_arr, set_category_arr] = React.useState(props.json_data.shop_category);
+    let counter = category_arr.length;
+    return (
+        <React.Fragment>
+            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="../img/icon_next.svg" />{props.json_data.title} - Edit Shop Categories</h2>
+            <div id="content_table" class="left_margin">
+                <div id="header_bar" class="content_table_row">
+                    <span>No.</span>
+                    <span>Category</span>
+                    <span>Actions</span>
+                </div>
+
+                {
+                    category_arr.map((category, index) => {
+                        return (
+                            <div class="content_table_row">
+                                <span>{index + 1}.</span>
+                                <span><input name="categories" type="text" value={category} onChange={(event) => changeCategory(index, event.target.value)} /></span>
+                                <span><button type="button" onClick={() => removeCategory(category)}>Remove</button></span>
+                            </div>
+                        );
+                    })
+                }
+
+                <div class="content_table_row">
+                    <span>{counter + 1}.</span>
+                    <span><input id="new_category" name="categories" type="text" /></span>
+                    <span><button type="button" onClick={addCategory}>Add</button></span>
+                </div>
+
+                <button type="button" onClick={() => update(category_arr)}>Confirm Changes</button>
+            </div>
+        </React.Fragment>
+    );
+}
+
+// helper function to fetch the product catalogue metadata info and render
+async function displayProductCatalogueCategoryMetadataShopCategory(category) {
+    let response = await fetch("/admin/portal/productCatalogue/" + category + "/metadata/shop_category");
+    check_redirect_request(response);
+    let json = await response.json();
+    json = json[0];
+
+    console.log(json)
+
+    let component = <ProductCatalogueCategoryMetadataShopCategory json_data={json} />;
+    renderSubcontent(component);
 }
 
 // React Component : View Product sub pane

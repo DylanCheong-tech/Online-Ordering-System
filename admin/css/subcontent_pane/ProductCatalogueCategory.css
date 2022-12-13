@@ -28,6 +28,11 @@ div#content_table>div {
     text-align: center;
 }
 
+div#content_table>button {
+    align-self: center;
+    margin: 5vh 0 5vh 0;
+}
+
 div#content_table>div#header_bar {
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;

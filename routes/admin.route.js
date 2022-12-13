@@ -52,6 +52,11 @@ router.get("/portal/metadata", check_authorised_access, controllers.getHomePageI
 
 // GET Request : Get Product Catalogue metadata 
 router.get("/portal/productCatalogue/metadata", check_authorised_access, controllers.getProductCatalogueMetadata);
+// GET Request : Get Product Catalogue metadata color or shop category
+router.get("/portal/productCatalogue/:category/metadata/:data", check_authorised_access, controllers.getProductCatalogueMetadata);
+// POST Request : update the product catalogue metadata - color and shop category
+router.post("/portal/productCatalogue/:category/metadata/:data", check_authorised_access, controllers.updateProductCatalogueMetadata)
+
 // GET Request : Get Product Catalogue info 
 router.get("/portal/productCatalogue/:category", check_authorised_access, controllers.getProductCatalogueInfo);
 

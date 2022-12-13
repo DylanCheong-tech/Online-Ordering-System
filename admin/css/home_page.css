@@ -60,15 +60,17 @@ div#content_pane div#side_menu span.side_menu_item {
 div#content_pane div#side_menu span.side_menu_item span.menu_item_name {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 }
 
 div#content_pane div#side_menu span.side_menu_item span.menu_item_name h3 {
     padding: 0 1vw 0 1vw;
+    text-align: center;
 }
 
 div#content_pane div#side_menu span.side_menu_item span.menu_item_name img {
-    width: 10%;
+    height: 4vh;
 }
 
 div#content_pane div#side_menu span.side_menu_item span.dropdown {

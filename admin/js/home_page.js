@@ -89,7 +89,6 @@ async function displayProductCatalogue() {
 // React Component : Product Catalogue Category sub pane
 function ProductCatalogueCategory(props) {
     let category = props.json_data.category;
-    let create_item_category = category == "plastic" ? <CreatePlasticProduct /> : <CreateIronProduct />
     return (
         <React.Fragment>
             <h1 class="left_margin">Product Catalogue - {category.charAt(0).toUpperCase() + category.slice(1)}</h1>
@@ -97,7 +96,7 @@ function ProductCatalogueCategory(props) {
                 Category : {category.charAt(0).toUpperCase() + category.slice(1)}
             </p>
             <div id="button_actions_bar" class="left_margin">
-                <button type="button" onClick={() => renderSubcontent(create_item_category)}>Create New Product Item</button>
+                <button type="button" onClick={() => displayCreateProduct(category)}>Create New Product Item</button>
                 <button type="button" onClick={() => displayProductCatalogueCategoryMetadataColor(category)}>Manage Colors</button>
                 <button type="button" onClick={() => displayProductCatalogueCategoryMetadataShopCategory(category)}>Manage Shop Categories</button>
             </div>
@@ -145,23 +144,44 @@ async function displayProductCatalogueCategoryInfo(category) {
     check_redirect_request(response);
     let json = await response.json();
 
-    let component = <ProductCatalogueCategory json_data={json} />;
+    let component =  <ProductCatalogueCategory json_data={json} />;
     renderSubcontent(component);
 }
 
 // React Component : Create Plastic Product sub pane
 function CreatePlasticProduct(props) {
     const [create_status, set_create_status] = React.useState(false);
+    const [color_img_json, set_color_img_json] = React.useState({});
+
+    function updateColor(color, toggled) {
+        set_color_img_json(previous => {
+            if (!toggled) {
+                delete previous[color];
+                return { ...previous };
+            }
+
+            if (!previous[color])
+                previous[color] = ["a", "b", "c"];
+            return { ...previous };
+        })
+    }
 
     function submitForm(event) {
         event.preventDefault();
         let form = document.getElementById("content_form");
         let form_data = new FormData(form);
-        let body_data = {}
+        let body_data = {};
+        body_data.colors = [];
 
         for (const [key, value] of form_data.entries()) {
+            if (key == "colors") {
+                body_data[key].push(value);
+                continue;
+            }
             body_data[key] = value;
+            console.log(key + "==>" + value)
         }
+
 
         fetch("/admin/portal/productItem/plastic/create", {
             method: "POST",
@@ -192,7 +212,7 @@ function CreatePlasticProduct(props) {
     else {
         render_ui =
             <React.Fragment>
-                <h2 id="header_2_title" class="left_margin"><img src="../img/icon_next.svg" />Create a Plastic Pot Item</h2>
+                <h2 id="header_2_title" class="left_margin"><img src="./img/icon_back.png" onClick={() => displayProductCatalogueCategoryInfo("plastic")} />Create a Plastic Pot Item</h2>
                 <div class="left_margin">
                     <form class="left_margin" id="content_form" onSubmit={submitForm}>
                         <div id="left_column">
@@ -208,15 +228,20 @@ function CreatePlasticProduct(props) {
                                 <p>Shop Category</p>
                                 <select name="shop_category">
                                     <option selected disabled>---  Shop Category ---</option>
-                                    <option value="xxx">xxx</option>
+                                    {
+                                        props.metadata.shop_category.map((category) => {
+                                            return <option value={category}>{category}</option>
+                                        })
+                                    }
                                 </select>
                             </div>
-                            <div>
+                            <div class="color_section">
                                 <p>Color of Varaition</p>
-                                <select name="colors">
-                                    <option selected disabled>---  Shop Category ---</option>
-                                    <option value="xxx">xxx</option>
-                                </select>
+                                {
+                                    Object.keys(props.metadata.colors).map((color) => {
+                                        return <label><input type="checkbox" value={color} name="colors" onChange={(event) => updateColor(event.target.value, event.target.checked)} />{color}</label>
+                                    })
+                                }
                             </div>
                             <div>
                                 <p>Material</p>
@@ -255,52 +280,28 @@ function CreatePlasticProduct(props) {
                             </div>
                         </div>
                         <div id="image_pane">
+                            <p>Images</p>
                             <div id="tab_bar">
-                                <span class="display">Color 1</span>
-                                <span>Color 2</span>
-                                <span>Color 3</span>
-                                <span>Color 4</span>
-                                <span>Color 5</span>
+                                {
+                                    Object.keys(color_img_json).map((color, index) => {
+                                        return <span class={index == 0 ? "display" : ""}>{color}</span>
+                                    })
+                                }
                             </div>
                             <div class="uploaded" id="img_content_pane">
+                                {/* <div class="await_upload" id="img_content_pane"> */}
                                 {/* <p>Drag and Drop your Images here ... <br /> or ...  </p>
                                 <button type="button">Select Files ... </button> */}
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
+                                {
+                                    Object.values(color_img_json).map((img) => {
+                                        return (
+                                            <span>
+                                                <img src="../img/sample3.png" />
+                                                <button type="button">Remove</button>
+                                            </span>
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                         <button type="submit">Create Item</button>
@@ -315,6 +316,20 @@ function CreatePlasticProduct(props) {
 // React Component : Create Ifon Product sub pane
 function CreateIronProduct(props) {
     const [create_status, set_create_status] = React.useState(false);
+    const [color_img_json, set_color_img_json] = React.useState({});
+
+    function updateColor(color, toggled) {
+        set_color_img_json(previous => {
+            if (!toggled) {
+                delete previous[color];
+                return { ...previous };
+            }
+
+            if (!previous[color])
+                previous[color] = ["a", "b", "c"];
+            return { ...previous };
+        })
+    }
 
     function submitForm(event) {
         event.preventDefault();
@@ -356,7 +371,7 @@ function CreateIronProduct(props) {
     else {
         render_ui =
             <React.Fragment>
-                <h2 id="header_2_title" class="left_margin"><img src="../img/icon_next.svg" />Create a Iron Stand Item</h2>
+                <h2 id="header_2_title" class="left_margin"><img src="./img/icon_back.png" onClick={() => displayProductCatalogueCategoryInfo("iron")} />Create a Iron Stand Item</h2>
                 <div class="left_margin">
                     <form class="left_margin" id="content_form" onSubmit={submitForm}>
                         <div id="left_column">
@@ -372,15 +387,20 @@ function CreateIronProduct(props) {
                                 <p>Shop Category</p>
                                 <select name="shop_category">
                                     <option selected disabled>---  Shop Category ---</option>
-                                    <option value="xxx">xxx</option>
+                                    {
+                                        props.metadata.shop_category.map((category) => {
+                                            return <option value={category}>{category}</option>
+                                        })
+                                    }
                                 </select>
                             </div>
                             <div>
                                 <p>Color of Varaition</p>
-                                <select name="colors">
-                                    <option selected disabled>---  Shop Category ---</option>
-                                    <option value="xxx">xxx</option>
-                                </select>
+                                {
+                                    Object.keys(props.metadata.colors).map((color) => {
+                                        return <label><input type="checkbox" value={color} name="colors" onChange={(event) => updateColor(event.target.value, event.target.checked)} />{color}</label>
+                                    })
+                                }
                             </div>
                             <div>
                                 <p>Stock Status</p>
@@ -409,52 +429,28 @@ function CreateIronProduct(props) {
                             </div>
                         </div>
                         <div id="image_pane">
+                            <p>Images</p>
                             <div id="tab_bar">
-                                <span class="display">Color 1</span>
-                                <span>Color 2</span>
-                                <span>Color 3</span>
-                                <span>Color 4</span>
-                                <span>Color 5</span>
+                                {
+                                    Object.keys(color_img_json).map((color, index) => {
+                                        return <span class={index == 0 ? "display" : ""}>{color}</span>
+                                    })
+                                }
                             </div>
                             <div class="uploaded" id="img_content_pane">
+                                {/* <div class="await_upload" id="img_content_pane"> */}
                                 {/* <p>Drag and Drop your Images here ... <br /> or ...  </p>
                                 <button type="button">Select Files ... </button> */}
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
-                                <span>
-                                    <img src="../img/sample3.png" />
-                                    <button type="button">Remove</button>
-                                </span>
+                                {
+                                    Object.values(color_img_json).map((img) => {
+                                        return (
+                                            <span>
+                                                <img src="../img/sample3.png" />
+                                                <button type="button">Remove</button>
+                                            </span>
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
                         <button type="submit">Create Item</button>
@@ -464,6 +460,19 @@ function CreateIronProduct(props) {
     }
 
     return render_ui;
+}
+
+// helper function to get the metadata of the plastic or iron - colors and shop category and render the form 
+async function displayCreateProduct(category) {
+    let response = await fetch("/admin/portal/productCatalogue/" + category + "/metadata");
+    check_redirect_request(response);
+    let json = await response.json();
+    json = json[0];
+
+    console.log(json)
+
+    let component = category == "plastic" ? <CreatePlasticProduct metadata={json} /> : <CreateIronProduct metadata={json} />;
+    renderSubcontent(component);
 }
 
 // React Component : Edit Product Catalogue Category metadata - colors 
@@ -487,7 +496,7 @@ function ProductCatalogueCategoryMetadataColor(props) {
 
     function changeColor(previous_color, new_color, hex_value) {
         set_color_json(previous => {
-            if (!new_color){
+            if (!new_color) {
                 previous[previous_color] = hex_value;
             }
 
@@ -528,7 +537,7 @@ function ProductCatalogueCategoryMetadataColor(props) {
     console.log(color_json)
     return (
         <React.Fragment>
-            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="../img/icon_next.svg" />{props.json_data.title} - Edit Colors</h2>
+            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="./img/icon_back.png" />{props.json_data.title} - Edit Colors</h2>
             <div id="content_table" class="left_margin">
                 <div id="header_bar" class="content_table_row">
                     <span>No.</span>
@@ -619,7 +628,7 @@ function ProductCatalogueCategoryMetadataShopCategory(props) {
     let counter = category_arr.length;
     return (
         <React.Fragment>
-            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="../img/icon_next.svg" />{props.json_data.title} - Edit Shop Categories</h2>
+            <h2 id="header_2_title" class="left_margin"><img onClick={() => displayProductCatalogueCategoryInfo(props.json_data.category)} src="./img/icon_back.png" />{props.json_data.title} - Edit Shop Categories</h2>
             <div id="content_table" class="left_margin">
                 <div id="header_bar" class="content_table_row">
                     <span>No.</span>
@@ -673,7 +682,7 @@ function ViewProduct(props) {
     return (
         <React.Fragment>
             <h2 id="header_2_title" class="left_margin">
-                <img id="back_icon" src="../img/icon_next.svg" onClick={back_to_catalogue} />
+                <img id="back_icon" src="./img/icon_back.png" onClick={back_to_catalogue} />
                 {item.product_code}
             </h2>
             <div id="action_button_bar" class="left_margin">

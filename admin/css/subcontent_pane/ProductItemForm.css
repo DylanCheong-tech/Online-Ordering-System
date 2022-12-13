@@ -27,6 +27,15 @@ form#content_form>div {
     margin-bottom: 8vh;
 }
 
+form#content_form>div div.color_section {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+}
+
+form#content_form>div div.color_section p {
+    grid-column: 1 / span 2;
+}
+
 form#content_form>div p {
     margin-bottom: 0;
 }

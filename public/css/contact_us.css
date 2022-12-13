@@ -47,7 +47,8 @@ div#content_pane div#contact_info div h2 {
 }
 
 div#content_pane div#contact_info div img {
-    width: 3vw;
+    height: 4vh;
+    align-self: center;
 }
 
 div#content_pane div#contact_info p {

@@ -1,33 +1,50 @@
-/* subcontent_pane/ProductCatalogue.css */
+/* ProductCatalogue.css */
 
-div#search_filter {
+div#catalogue_title_banner {
     display: flex;
     flex-direction: row;
-    margin: 3vh 0 3vh 0;
+    align-items: center;
+    margin-bottom: 10vh;
+    justify-content: space-between;
 }
 
-div#search_filter>* {
-    margin-right: 2vw;
+div#catalogue_title_banner button {
+    margin-right: 5vw;
 }
 
-div#content_table {
+div#product_category_card {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 5vw;
+    justify-content: center;
+}
+
+div#product_category_card span.card {
     display: flex;
     flex-direction: column;
+    width: 25vw;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 3vw;
+    justify-content: space-between;
 }
 
-div#content_table>div {
-    margin: 1vh 0 1vh 0;
-    display: flex;
-    flex-direction: row;
+div#product_category_card span.card h2 {
     text-align: center;
 }
 
-div#content_table>div#header_bar {
-    border-top: 1px solid #000000;
-    border-bottom: 1px solid #000000;
-    padding: 1vh 0 1vh 0;
+div#product_category_card span.card p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-div#content_table>div>* {
-    width: 20vw;
+div#product_category_card span.card p>span:not(.legends) {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+div#product_category_card span.card button {
+    align-self: center;
 }

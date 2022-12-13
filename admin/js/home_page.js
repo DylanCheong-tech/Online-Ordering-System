@@ -28,18 +28,78 @@ function renderSubcontent(component) {
     );
 }
 
-// React Component : Product Catalogue sub pane
+// React Component : Product Catalogue sub pane 
 function ProductCatalogue(props) {
+    return (
+        <React.Fragment>
+            <div id="catalogue_title_banner" class="left_margin">
+                <h1>Product Catalogue</h1>
+                <button type="button">Add new category ...</button>
+            </div>
+            <div class="left_margin" id="product_category_card">
+                {
+                    props.json_data.map((category => {
+                        return (
+                            <span class="card">
+                                <h2>{category.title}</h2>
+                                <p>
+                                    <span class="legends">
+                                        Shop Category :
+                                    </span>
+
+                                    <span>
+                                        {
+                                            category.shop_category.map((shop) => <span class>{shop}</span>)
+                                        }
+                                    </span>
+                                </p>
+                                <p>
+                                    <span class="legends">
+                                        Colors :
+                                    </span>
+                                    <span>
+                                        {
+                                            Object.entries(category.colors).map(([key, value]) => <span>{key}</span>)
+                                        }
+                                    </span>
+                                </p>
+                                <button type="button" onClick={() => {displayProductCatalogueCategoryInfo(category.category)}}>Manage</button>
+                            </span>
+                        );
+                    }))
+                }
+
+            </div>
+
+        </React.Fragment>
+    );
+}
+
+// helper function to fetch the metadata for all the cetegory and render 
+async function displayProductCatalogue() {
+    let response = await fetch("/admin/portal/productCatalogue/metadata");
+    check_redirect_request(response);
+    let json = await response.json();
+    console.log(json)
+
+    let component = <ProductCatalogue json_data={json} />;
+    renderSubcontent(component);
+}
+
+// React Component : Product Catalogue Category sub pane
+function ProductCatalogueCategory(props) {
     let category = props.json_data.category;
     let create_item_category = category == "plastic" ? <CreatePlasticProduct /> : <CreateIronProduct />
     return (
         <React.Fragment>
-            <h1 class="left_margin">Product Catalogue</h1>
+            <h1 class="left_margin">Product Catalogue - {category.charAt(0).toUpperCase() + category.slice(1)}</h1>
             <p class="content_attributes left_margin">
                 Category : {category.charAt(0).toUpperCase() + category.slice(1)}
             </p>
-            <div class="left_margin">
+            <div id="button_actions_bar" class="left_margin">
                 <button type="button" onClick={() => renderSubcontent(create_item_category)}>Create New Product Item</button>
+                <button type="button">Manage Colors</button>
+                <button type="button">Manage Shop Categories</button>
             </div>
             <div id="search_filter" class="left_margin">
                 <input id="search_bar" placeholder="Search ... " />
@@ -80,12 +140,12 @@ function ProductCatalogue(props) {
 }
 
 // helper function to fetch and pass the data to the render function
-async function displayProductCatalogueInfo(category) {
+async function displayProductCatalogueCategoryInfo(category) {
     let response = await fetch("/admin/portal/productCatalogue/" + category);
     check_redirect_request(response);
     let json = await response.json();
 
-    let component = <ProductCatalogue json_data={json} />;
+    let component = <ProductCatalogueCategory json_data={json} />;
     renderSubcontent(component);
 }
 
@@ -409,8 +469,8 @@ function CreateIronProduct(props) {
 // React Component : View Product sub pane
 function ViewProduct(props) {
     let item = props.json_data;
-    function back_to_catalogue (){
-        displayProductCatalogueInfo(props.category);
+    function back_to_catalogue() {
+        displayProductCatalogueCategoryInfo(props.category);
     }
     return (
         <React.Fragment>
@@ -494,7 +554,6 @@ function ViewProduct(props) {
                                         <p class="color_label">{color}</p>
                                         {
                                             Object.entries(item.images).map(([key, value]) => {
-                                                console.log(key)
                                                 if (key.match("/" + color.toUpperCase() + "/"))
                                                     return <img src={value} />
                                             })

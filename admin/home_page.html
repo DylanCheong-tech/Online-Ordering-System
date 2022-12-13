@@ -19,6 +19,7 @@
 
     <!-- conponent styling -->
     <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogue.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogueCategory.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductItemForm.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductItemDetails.css" />
 </head>
@@ -45,15 +46,15 @@
                 </span>
             </span>
             <span class="side_menu_item">
-                <span class="menu_item_name" onclick="display_dropdown('product_catalogue_dropdown')">
+                <span class="menu_item_name" onclick="display_dropdown('product_catalogue_dropdown'); displayProductCatalogue()">
                     <img src="./img/icon_next.svg" />
                     <h3>Product Catalogue</h3>
                     <img src="./img/icon_next.svg" />
                 </span>
 
                 <span id="product_catalogue_dropdown" class="dropdown">
-                    <span class="dropdown_item" onclick="displayProductCatalogueInfo('plastic')">Plastic Pots</span>
-                    <span class="dropdown_item" onclick="displayProductCatalogueInfo('iron')">Iron Stands</span>
+                    <span class="dropdown_item" onclick="displayProductCatalogueCategoryInfo('plastic')">Plastic Pots</span>
+                    <span class="dropdown_item" onclick="displayProductCatalogueCategoryInfo('iron')">Iron Stands</span>
                     <span class="dropdown_item">Add Category ...</span>
                 </span>
             </span>

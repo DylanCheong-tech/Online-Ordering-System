@@ -50,6 +50,26 @@ async function getHomePageInfo(req, res) {
     }
 }
 
+async function getProductCatalogueMetadata(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection("Metadata");
+
+        let result = await (await collection.find()).toArray();
+
+        res.json(result)
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
 async function getProductCatalogueInfo(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
@@ -159,6 +179,7 @@ module.exports = {
     login: login,
     logout: logout,
     renderHomePage: renderHomePage,
+    getProductCatalogueMetadata: getProductCatalogueMetadata,
     getHomePageInfo: getHomePageInfo,
     getProductCatalogueInfo: getProductCatalogueInfo,
     createPlasticProductItem: createPlasticProductItem,

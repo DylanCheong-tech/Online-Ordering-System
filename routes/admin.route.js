@@ -50,6 +50,8 @@ router.delete("/logout", controllers.logout);
 router.get("/portal/", check_authorised_access, controllers.renderHomePage);
 router.get("/portal/metadata", check_authorised_access, controllers.getHomePageInfo);
 
+// GET Request : Get Product Catalogue metadata 
+router.get("/portal/productCatalogue/metadata", check_authorised_access, controllers.getProductCatalogueMetadata);
 // GET Request : Get Product Catalogue info 
 router.get("/portal/productCatalogue/:category", check_authorised_access, controllers.getProductCatalogueInfo);
 

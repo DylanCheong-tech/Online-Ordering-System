@@ -107,9 +107,13 @@ div#image_pane div#tab_bar span:hover {
     font-weight: bold;
 }
 
-div#image_pane div#img_content_pane {
+div#image_pane div.img_content_pane {
     border: 1px solid #000000;
     min-height: 50vh;
+}
+
+div#image_pane div.hide_upload_box {
+    display: none !important;
 }
 
 div#image_pane div.uploaded {
@@ -128,10 +132,10 @@ div#image_pane div.await_upload {
     text-align: center;
 }
 
-div#image_pane div#img_content_pane span {
+div#image_pane div.img_content_pane span {
     text-align: center;
 }
 
-div#image_pane div#img_content_pane span img {
+div#image_pane div.img_content_pane span img {
     width: 80%;
 }

@@ -153,8 +153,6 @@ function CreatePlasticProduct(props) {
     const [create_status, set_create_status] = React.useState(false);
     const [color_img_json, set_color_img_json] = React.useState({});
     const [curr_img_color, set_curr_img_color] = React.useState();
-    let curr_color_img_uploaded = curr_img_color && color_img_json[curr_img_color].length > 0;
-
 
     function updateColor(color, checked) {
         set_color_img_json(previous => {
@@ -175,21 +173,23 @@ function CreatePlasticProduct(props) {
         })
     }
 
-    function changeColorTab(ele) {
-        document.getElementsByClassName("display")[0].classList.remove("display");
-        ele.classList.add("display");
+    function changeColorTab(ele, color) {
+        // upload box display 
+        document.getElementById(curr_img_color + "_img").classList.toggle("hide_upload_box");
+        document.getElementById(color + "_img").classList.remove("hide_upload_box");
+
+        set_curr_img_color(color);
     }
 
-    function uploadImages() {
-        let img_input_ele = document.getElementById("image_input");
-        let files = img_input_ele.files;
+    function uploadImages(target_ele, color) {
+        let files = target_ele.files;
 
         for (let i = 0; i < files.length; i++) {
             const fileReader = new FileReader();
             fileReader.addEventListener("load", () => {
                 const uploaded_image = fileReader.result;
                 set_color_img_json(previous => {
-                    previous[curr_img_color].push(uploaded_image);
+                    previous[color].push(uploaded_image);
                     return { ...previous };
                 })
             })
@@ -197,9 +197,9 @@ function CreatePlasticProduct(props) {
         }
     }
 
-    function removeImage(image_index) {
+    function removeImage(image_index, color) {
         set_color_img_json(previous => {
-            previous[curr_img_color].splice(image_index, 1);
+            previous[color].splice(image_index, 1);
             return { ...previous }
         });
     }
@@ -320,29 +320,33 @@ function CreatePlasticProduct(props) {
                             <p>Images Upload</p>
                             <div id="tab_bar">
                                 {
-                                    Object.keys(color_img_json).map((color, index) => {
-                                        return <span class={index == 0 ? "display" : ""} onClick={(event) => { set_curr_img_color(color); changeColorTab(event.target) }}>{color}</span>
+                                    Object.keys(color_img_json).map((color) => {
+                                        return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
                                     })
                                 }
                             </div>
-                            <div class={curr_color_img_uploaded ? "uploaded" : "await_upload"} id="img_content_pane">
-                                {curr_img_color && !curr_color_img_uploaded ?
-                                    <React.Fragment>
-                                        <p class="content_b4_img_upload">Drag and Drop your Images here ... <br /> or ...  </p>
-                                        <input class="content_b4_img_upload" type="file" id="image_input" accept="image/*" onChange={() => uploadImages()} multiple />
-                                    </React.Fragment>
-                                    : ""}
-                                {
-                                    color_img_json && curr_img_color ? Object.values(color_img_json[curr_img_color]).map((img, index) => {
-                                        return (
-                                            <span>
-                                                <img src={img} />
-                                                <button type="button" onClick={() => removeImage(index)}>Remove</button>
-                                            </span>
-                                        );
-                                    }) : ""
-                                }
-                            </div>
+                            {
+                                Object.keys(color_img_json).map((color) => {
+                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")}>
+                                        {color_img_json[color].length == 0 ?
+                                            <React.Fragment>
+                                                <p class="content_b4_img_upload">Drag and Drop your Images here ... <br /> or ...  </p>
+                                                <input class="content_b4_img_upload" type="file" name={color + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
+                                            </React.Fragment>
+                                            : ""}
+                                        {
+                                            Object.values(color_img_json[color]).map((img, index) => {
+                                                return (
+                                                    <span>
+                                                        <img src={img} />
+                                                        <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
+                                                    </span>
+                                                );
+                                            })
+                                        }
+                                    </div>
+                                })
+                            }
                         </div>
                         <button type="submit">Create Item</button>
                     </form>
@@ -357,18 +361,56 @@ function CreatePlasticProduct(props) {
 function CreateIronProduct(props) {
     const [create_status, set_create_status] = React.useState(false);
     const [color_img_json, set_color_img_json] = React.useState({});
+    const [curr_img_color, set_curr_img_color] = React.useState();
 
-    function updateColor(color, toggled) {
+    function updateColor(color, checked) {
         set_color_img_json(previous => {
-            if (!toggled) {
+            if (Object.keys(previous).length == 0)
+                set_curr_img_color(color);
+
+            if (!checked) {
                 delete previous[color];
+                if (curr_img_color) {
+                    set_curr_img_color(Object.keys(color_img_json).length > 0 ? Object.keys(color_img_json)[0] : "");
+                }
                 return { ...previous };
             }
 
             if (!previous[color])
-                previous[color] = ["a", "b", "c"];
+                previous[color] = [];
             return { ...previous };
         })
+    }
+
+    function changeColorTab(ele, color) {
+        // upload box display 
+        document.getElementById(curr_img_color + "_img").classList.toggle("hide_upload_box");
+        document.getElementById(color + "_img").classList.remove("hide_upload_box");
+
+        set_curr_img_color(color);
+    }
+
+    function uploadImages(target_ele, color) {
+        let files = target_ele.files;
+
+        for (let i = 0; i < files.length; i++) {
+            const fileReader = new FileReader();
+            fileReader.addEventListener("load", () => {
+                const uploaded_image = fileReader.result;
+                set_color_img_json(previous => {
+                    previous[color].push(uploaded_image);
+                    return { ...previous };
+                })
+            })
+            fileReader.readAsDataURL(files[i]);
+        }
+    }
+
+    function removeImage(image_index, color) {
+        set_color_img_json(previous => {
+            previous[color].splice(image_index, 1);
+            return { ...previous }
+        });
     }
 
     function submitForm(event) {
@@ -469,29 +511,36 @@ function CreateIronProduct(props) {
                             </div>
                         </div>
                         <div id="image_pane">
-                            <p>Images</p>
+                            <p>Images Upload</p>
                             <div id="tab_bar">
                                 {
-                                    Object.keys(color_img_json).map((color, index) => {
-                                        return <span class={index == 0 ? "display" : ""}>{color}</span>
+                                    Object.keys(color_img_json).map((color) => {
+                                        return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
                                     })
                                 }
                             </div>
-                            <div class="uploaded" id="img_content_pane">
-                                {/* <div class="await_upload" id="img_content_pane"> */}
-                                {/* <p>Drag and Drop your Images here ... <br /> or ...  </p>
-                                <button type="button">Select Files ... </button> */}
-                                {
-                                    Object.values(color_img_json).map((img) => {
-                                        return (
-                                            <span>
-                                                <img src="../img/sample3.png" />
-                                                <button type="button">Remove</button>
-                                            </span>
-                                        );
-                                    })
-                                }
-                            </div>
+                            {
+                                Object.keys(color_img_json).map((color) => {
+                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")}>
+                                        {color_img_json[color].length == 0 ?
+                                            <React.Fragment>
+                                                <p class="content_b4_img_upload">Drag and Drop your Images here ... <br /> or ...  </p>
+                                                <input class="content_b4_img_upload" type="file" name={color + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
+                                            </React.Fragment>
+                                            : ""}
+                                        {
+                                            Object.values(color_img_json[color]).map((img, index) => {
+                                                return (
+                                                    <span>
+                                                        <img src={img} />
+                                                        <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
+                                                    </span>
+                                                );
+                                            })
+                                        }
+                                    </div>
+                                })
+                            }
                         </div>
                         <button type="submit">Create Item</button>
                     </form>
@@ -569,7 +618,12 @@ function ProductCatalogueCategoryMetadataColor(props) {
                 check_redirect_request(response);
                 return response.json();
             })
-            .then(console.log)
+            .then(json => {
+                if (json.acknowledged)
+                    alert("Update successfully.");
+                else
+                    alert("Something went wrong.. Please tray again later ... ");
+            })
     }
 
     let [color_json, set_color_json] = React.useState(props.json_data.colors);
@@ -661,7 +715,12 @@ function ProductCatalogueCategoryMetadataShopCategory(props) {
                 check_redirect_request(response);
                 return response.json();
             })
-            .then(console.log)
+            .then(json => {
+                if (json.acknowledged)
+                    alert("Update successfully.");
+                else
+                    alert("Something went wrong.. Please tray again later ... ");
+            })
     }
 
     let [category_arr, set_category_arr] = React.useState(props.json_data.shop_category);

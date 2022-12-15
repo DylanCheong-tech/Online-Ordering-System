@@ -116,6 +116,10 @@ div#image_pane div.hide_upload_box {
     display: none !important;
 }
 
+div#image_pane div>.content_after_img_upload{
+    display: none;
+}
+
 div#image_pane div.uploaded {
     display: grid;
     grid-template-columns: repeat(6, 10vw);

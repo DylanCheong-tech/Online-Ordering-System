@@ -181,6 +181,19 @@ function CreatePlasticProduct(props) {
         set_curr_img_color(color);
     }
 
+    function handleDragOver(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    function handleDrop(event) {
+        event.stopPropagation();
+        event.preventDefault();
+        let target_ele = document.querySelector("input[name=" + curr_img_color + "_img]");
+        target_ele.files = event.dataTransfer.files;
+        uploadImages(target_ele, curr_img_color);
+    }
+
     function uploadImages(target_ele, color) {
         let files = target_ele.files;
 
@@ -202,6 +215,17 @@ function CreatePlasticProduct(props) {
             previous[color].splice(image_index, 1);
             return { ...previous }
         });
+
+        let target_ele = document.querySelector("input[name=" + curr_img_color.replace(" ", "_") + "_img]");
+        // the files array index will be the same with the color json state object 
+        // since the color json array ar build based on the input control at first
+        let dt = new DataTransfer();
+        for (let x = 0; x < target_ele.files.length; x++){
+            if (x == image_index) continue;
+            dt.items.add(target_ele.files[x])
+        }
+
+        target_ele.files = dt.files;
     }
 
     function submitForm(event) {
@@ -216,9 +240,13 @@ function CreatePlasticProduct(props) {
                 body_data[key].push(value);
                 continue;
             }
+            if (key.match(/_img$/ig)){
+                if (!body_data[key]) body_data[key] = [];
+                body_data[key].push(value);
+                continue;
+            }
             body_data[key] = value;
         }
-
 
         fetch("/admin/portal/productItem/plastic/create", {
             method: "POST",
@@ -230,11 +258,10 @@ function CreatePlasticProduct(props) {
         })
             .then(response => {
                 check_redirect_request(response);
-                response.json();
+                return response.json();
             })
             .then(json => {
                 set_create_status(json.acknowledged);
-                console.log(json);
             })
     }
 
@@ -327,13 +354,9 @@ function CreatePlasticProduct(props) {
                             </div>
                             {
                                 Object.keys(color_img_json).map((color) => {
-                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")}>
-                                        {color_img_json[color].length == 0 ?
-                                            <React.Fragment>
-                                                <p class="content_b4_img_upload">Drag and Drop your Images here ... <br /> or ...  </p>
-                                                <input class="content_b4_img_upload" type="file" name={color + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
-                                            </React.Fragment>
-                                            : ""}
+                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
+                                        <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
+                                        <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
                                         {
                                             Object.values(color_img_json[color]).map((img, index) => {
                                                 return (
@@ -390,6 +413,18 @@ function CreateIronProduct(props) {
         set_curr_img_color(color);
     }
 
+    function handleDragOver(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    function handleDrop(event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        uploadImages(event.dataTransfer, curr_img_color);
+    }
+
     function uploadImages(target_ele, color) {
         let files = target_ele.files;
 
@@ -411,6 +446,16 @@ function CreateIronProduct(props) {
             previous[color].splice(image_index, 1);
             return { ...previous }
         });
+
+        let target_ele = document.querySelector("input[name=" + curr_img_color.replace(" ", "_") + "_img]");
+        // the files array index will be the same with the color json state object 
+        // since the color json array ar build based on the input control at first
+        let dt = new DataTransfer();
+        for (let x = 0; x < target_ele.files.length; x++){
+            if (x == image_index) continue;
+            dt.items.add(target_ele.files[x])
+        }
+        target_ele.files = dt.files;
     }
 
     function submitForm(event) {
@@ -418,10 +463,22 @@ function CreateIronProduct(props) {
         let form = document.getElementById("content_form");
         let form_data = new FormData(form);
         let body_data = {}
+        body_data.colors = [];
 
         for (const [key, value] of form_data.entries()) {
+            if (key == "colors") {
+                body_data[key].push(value);
+                continue;
+            }
+            if (key.match(/_img$/ig)){
+                if (!body_data[key]) body_data[key] = [];
+                body_data[key].push(value);
+                continue;
+            }
             body_data[key] = value;
         }
+
+        console.log(body_data)
 
         fetch("/admin/portal/productItem/iron/create", {
             method: "POST",
@@ -433,12 +490,11 @@ function CreateIronProduct(props) {
         })
             .then(response => {
                 check_redirect_request(response);
-                response.json();
+                return response.json();
             })
             .then(json => {
                 // render the product item component here
                 set_create_status(json.acknowledged);
-                console.log(json);
             })
     }
 
@@ -521,13 +577,9 @@ function CreateIronProduct(props) {
                             </div>
                             {
                                 Object.keys(color_img_json).map((color) => {
-                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")}>
-                                        {color_img_json[color].length == 0 ?
-                                            <React.Fragment>
-                                                <p class="content_b4_img_upload">Drag and Drop your Images here ... <br /> or ...  </p>
-                                                <input class="content_b4_img_upload" type="file" name={color + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
-                                            </React.Fragment>
-                                            : ""}
+                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
+                                        <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
+                                        <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
                                         {
                                             Object.values(color_img_json[color]).map((img, index) => {
                                                 return (

@@ -9,6 +9,7 @@
     "express" : "4.x",
     "express-session": "1.x.x",
     "@google-cloud/storage": "^5.18.2",
+    "multer" : "1.4.4",
     "mongodb" : "4.5.0",
     "dotenv" : "^16.0.3",
     "passport" : "0.6.x",

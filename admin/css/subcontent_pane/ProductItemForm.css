@@ -136,6 +136,10 @@ div#image_pane div.await_upload {
     text-align: center;
 }
 
+div#image_pane input.hide {
+    display: none;
+}
+
 div#image_pane div.img_content_pane span {
     text-align: center;
 }

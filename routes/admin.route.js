@@ -3,6 +3,7 @@ const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const LocalStratery = require('passport-local').Strategy;
+const Multer = require("multer");
 
 const router = express.Router();
 const controllers = require('../controllers/admin.controller');
@@ -33,6 +34,14 @@ passport.deserializeUser((userObj, done) => {
     done(null, userObj);
 });
 
+// Multer configuration 
+const ProductImageUpload = Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize: 9999 * 1024 * 1024
+    }
+})
+
 // Routes
 
 // GET Request : Admin login page 
@@ -57,7 +66,7 @@ router.get("/portal/productCatalogue/:category/metadata", check_authorised_acces
 // GET Request : Get Product Catalogue category metadata color or shop category
 router.get("/portal/productCatalogue/:category/metadata/:data", check_authorised_access, controllers.getProductCatalogueMetadata);
 // POST Request : update the product catalogue metadata - color and shop category
-router.post("/portal/productCatalogue/:category/metadata/:data", check_authorised_access, controllers.updateProductCatalogueMetadata)
+router.post("/portal/productCatalogue/:category/metadata/:data", check_authorised_access, controllers.updateProductCatalogueMetadata);
 
 // GET Request : Get Product Catalogue info 
 router.get("/portal/productCatalogue/:category", check_authorised_access, controllers.getProductCatalogueInfo);
@@ -66,6 +75,8 @@ router.get("/portal/productCatalogue/:category", check_authorised_access, contro
 router.post("/portal/productItem/plastic/create", check_authorised_access, controllers.createPlasticProductItem);
 // POST Request : Create Iron Product Item
 router.post("/portal/productItem/iron/create", check_authorised_access, controllers.createIronProductItem);
+// POST Request : Upload Images for both category items 
+router.post("/portal/productItem/:category/create/image_upload", check_authorised_access, ProductImageUpload.any() ,controllers.uploadImage);
 
 // GET Request : Get the Ptoduct Item JSON
 router.get("/portal/productItem/:category/get/:product_code", check_authorised_access, controllers.getProductItemInfo);

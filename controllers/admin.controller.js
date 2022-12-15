@@ -6,6 +6,8 @@ require("dotenv").config({ path: __dirname + "/.env" });
 const database_uri = process.env.MONGODB_CONN_STRING;
 const getProductCatalogueJSON = require("../helpers/mongodb/getProductCatalogue")
 const getProduct = require("../helpers/mongodb/getProduct");
+const uploadProductImages = require('../helpers/google-cloud-storage/uploadProductImages')
+const buckets = require('../helpers/google-cloud-storage/bucketInfo');
 let catalogue_projection = { "product_code": 1, "product_name": 1, "shop_category": 1, "featured": 1, "last_modified": 1 };
 
 // Controller 1 : Login 
@@ -203,7 +205,26 @@ async function createIronProductItem(req, res) {
     }
 }
 
-// Controller 10 : get the plastic product item JSON document
+// Controller 10 : Product Image upload to Google Cloud Storage Buckets
+async function uploadImage(req, res) {
+    let file_json = {};
+
+    req.files.forEach((json) => {
+        let color = json.fieldname.replace("_img", "");
+        if (!file_json[color]) file_json[color] = [];
+
+        file_json[color].push(json);
+    });
+
+    let bucket_category = req.params.category == "plastic" ? buckets.plastic : buckets.iron;
+
+    await uploadProductImages(bucket_category, req.body.product_code, file_json);
+
+    // improvement here
+    res.redirect("/admin/home_page.html?view=product_catalogue&sub_content_pane=" + req.params.category + "&operation=create&status=success");
+}
+
+// Controller 11 : get the plastic product item JSON document
 async function getProductItemInfo(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
@@ -226,6 +247,7 @@ module.exports = {
     getProductCatalogueInfo: getProductCatalogueInfo,
     createPlasticProductItem: createPlasticProductItem,
     createIronProductItem: createIronProductItem,
+    uploadImage: uploadImage,
     getProductItemInfo: getProductItemInfo,
 
 }

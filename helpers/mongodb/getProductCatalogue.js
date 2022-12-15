@@ -3,14 +3,12 @@
 
 // import dependencies 
 const { MongoClient } = require('mongodb');
-const { Storage } = require("@google-cloud/storage");
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const database_uri = process.env.MONGODB_CONN_STRING;
 const getImageFiles = require('../google-cloud-storage/getImageFiles');
 
-const storage = new Storage({ keyFilename: "mr-buy-370317-c4413fb24e9d.json" });
-const buckets = { "plastic": storage.bucket("plastic-pot-images"), "iron": storage.bucket("iron-stand-images") }
+const buckets = require("../google-cloud-storage/bucketInfo").allBuckets;
 
 // parameters ==> category : string
 async function getProductCatalogue(category, projection) {

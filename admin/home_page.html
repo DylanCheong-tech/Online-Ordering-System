@@ -13,7 +13,20 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
+    <!-- components -->
+    <script type="text/babel" src="./js/components/product_catalogue_dashboard.jsx"></script>
+    <script type="text/babel" src="./js/components/product_catalogue_category.jsx"></script>
+    <script type="text/babel" src="./js/components/create_plastic_product.jsx"></script>
+    <script type="text/babel" src="./js/components/create_iron_product.jsx"></script>
+    <script type="text/babel" src="./js/components/product_catalogue_category_metadata_color.jsx"></script>
+    <script type="text/babel" src="./js/components/product_catalogue_category_metadata_shop_category.jsx"></script>
+    <script type="text/babel" src="./js/components/view_product.jsx"></script>
+    <script type="text/babel" src="./js/components/enquiries.jsx"></script>
+
     <script type="text/babel" src="./js/home_page.js"></script>
+
+    <!-- router -->
+    <script type="text/babel" src="./js/router.js"></script>
 
     <link rel="stylesheet" href="./css/home_page.css" />
 
@@ -46,15 +59,19 @@
                 </span>
             </span>
             <span class="side_menu_item">
-                <span class="menu_item_name" onclick="display_dropdown('product_catalogue_dropdown'); displayProductCatalogue()">
+                <span class="menu_item_name" onclick="accessResource('view=product_catalogue')">
                     <img src="./img/icon_catalogue.png" />
                     <h3>Product Catalogue</h3>
                     <img src="./img/icon_dropdown.png" />
                 </span>
 
                 <span id="product_catalogue_dropdown" class="dropdown">
-                    <span class="dropdown_item" onclick="displayProductCatalogueCategoryInfo('plastic')">Plastic Pots</span>
-                    <span class="dropdown_item" onclick="displayProductCatalogueCategoryInfo('iron')">Iron Stands</span>
+                    <span class="dropdown_item"
+                        onclick="accessResource('view=product_catalogue&sub_content_pane=plastic')">
+                        Plastic Pots</span>
+                    <span class="dropdown_item"
+                        onclick="accessResource('view=product_catalogue&sub_content_pane=iron')">
+                        Iron Stands</span>
                     <span class="dropdown_item">Add Category ...</span>
                 </span>
             </span>
@@ -74,6 +91,7 @@
         </div>
 
         <div id="sub_content_pane">
+            <h2>Dashboard</h2>
         </div>
     </div>
 </body>

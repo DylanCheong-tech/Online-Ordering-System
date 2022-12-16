@@ -8,7 +8,7 @@ const getProductCatalogueJSON = require("../helpers/mongodb/getProductCatalogue"
 const getProduct = require("../helpers/mongodb/getProduct");
 const uploadProductImages = require('../helpers/google-cloud-storage/uploadProductImages')
 const buckets = require('../helpers/google-cloud-storage/bucketInfo');
-let catalogue_projection = { "product_code": 1, "product_name": 1, "shop_category": 1, "featured": 1, "last_modified": 1 };
+let catalogue_projection = { "product_code": 1, "product_name": 1, "shop_category": 1, "featured": 1, "stock_status": 1 };
 
 // Controller 1 : Login 
 function login(req, res) {
@@ -237,6 +237,133 @@ async function getProductItemInfo(req, res) {
     }
 }
 
+// Controller : update the product item stock status 
+async function updateProductItemStockStatus(req, res) {
+    let category = req.params.category.toLowerCase();
+    let product_code = req.body.product_code;
+    let stock_status = req.params.stock_status;
+    let collection_name = "";
+
+    if (category == "plastic" || category == "iron") {
+        collection_name = category == "plastic" ? "PlasticPots" : "IronStands";
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+
+    if (stock_status == "Out_Of_Stock" || stock_status == "Available") {
+        stock_status = stock_status.replaceAll("_", " ");
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection(collection_name);
+
+        let filter = { product_code: product_code };
+        let updateDoc = {
+            $set: {
+                stock_status: stock_status
+            }
+        }
+
+        let result = await collection.updateOne(filter, updateDoc);
+
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+
+}
+
+// Controller : delete the product item 
+async function deleteProductItem(req, res) {
+    let category = req.params.category.toLowerCase();
+    let product_code = req.params.product_code;
+    let collection_name = "";
+
+    if (category == "plastic" || category == "iron") {
+        collection_name = category == "plastic" ? "PlasticPots" : "IronStands";
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection(collection_name);
+
+        let query = { product_code: product_code };
+
+        let result = await collection.deleteOne(query);
+
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller : update the product item withhold status 
+async function updateWithholdStatus(req, res) {
+    let category = req.params.category.toLowerCase();
+    let product_code = req.body.product_code;
+    let status = req.body.status;
+    let collection_name = "";
+
+    if (category == "plastic" || category == "iron") {
+        collection_name = category == "plastic" ? "PlasticPots" : "IronStands";
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection(collection_name);
+
+        let filter = { product_code: product_code };
+        let updateDoc = {
+            $set: {
+                withhold: status
+            }
+        }
+
+        let result = await collection.updateOne(filter, updateDoc);
+
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
+    }
+
+}
+
 module.exports = {
     login: login,
     logout: logout,
@@ -249,5 +376,8 @@ module.exports = {
     createIronProductItem: createIronProductItem,
     uploadImage: uploadImage,
     getProductItemInfo: getProductItemInfo,
+    updateProductItemStockStatus: updateProductItemStockStatus,
+    updateWithholdStatus: updateWithholdStatus,
+    deleteProductItem: deleteProductItem,
 
 }

@@ -78,6 +78,14 @@ router.post("/portal/productItem/iron/create", check_authorised_access, controll
 // POST Request : Upload Images for both category items 
 router.post("/portal/productItem/:category/create/image_upload", check_authorised_access, ProductImageUpload.any() ,controllers.uploadImage);
 
+// POST Request : update the stock status of the product item 
+router.post("/portal/productItem/:category/update_stock_status/:stock_status", check_authorised_access, controllers.updateProductItemStockStatus);
+// POST Request : update the withhold status of the product item 
+router.post("/portal/productItem/:category/update_withhold_status/", check_authorised_access, controllers.updateWithholdStatus)
+
+// DELETE Request : Delete the product item 
+router.delete("/portal/productItem/:category/delete/:product_code", check_authorised_access, controllers.deleteProductItem);
+
 // GET Request : Get the Ptoduct Item JSON
 router.get("/portal/productItem/:category/get/:product_code", check_authorised_access, controllers.getProductItemInfo);
 

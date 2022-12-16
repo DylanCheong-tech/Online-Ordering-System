@@ -3,6 +3,32 @@
 // React Component : Product Catalogue Category sub pane
 function ProductCatalogueCategory(props) {
     let category = props.json_data.category;
+
+    function updateStockStatus(product_code, status) {
+        let body_data = {
+            product_code: product_code,
+        };
+
+        status = status == "Available" ? "Out_Of_Stock" : "Available";
+
+        fetch("/admin/portal/productItem/" + category + "/update_stock_status/" + status, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(body_data)
+        })
+            .then(response => {
+                check_redirect_request(response);
+                return response.json();
+            })
+            .then(json => {
+                if (json.acknowledged)
+                    window.location.reload();
+            })
+    }
+
     return (
         <React.Fragment>
             <h1 class="left_margin">Product Catalogue - {category.charAt(0).toUpperCase() + category.slice(1)}</h1>
@@ -30,19 +56,19 @@ function ProductCatalogueCategory(props) {
                     <span>Product Name</span>
                     <span>Shop Category</span>
                     <span>Featured</span>
-                    <span>Last Modified</span>
+                    <span>Stock Status</span>
                     <span>Quick Actions</span>
                 </div>
                 {
                     props.json_data.product_items.map((item) => {
                         return (
                             <div class="content_table_row">
-                                <a href="#" onClick={() => { displayProductItemInfo(category, item.product_code); return false; }} >{item.product_code}</a>
+                                <a href={window.location.href + "&product=" + item.product_code}>{item.product_code}</a>
                                 <span>{item.product_name}</span>
                                 <span>{item.shop_category}</span>
                                 <span>{item.featured ? "Yes" : "No"}</span>
-                                <span>{item.last_mnodified}</span>
-                                <span><button>Out Of Stock</button></span>
+                                <span>{item.stock_status}</span>
+                                <span><button type="button" onClick={() => updateStockStatus(item.product_code, item.stock_status)}>{item.stock_status == "Available" ? "Out Of Stock" : "Available"}</button></span>
                             </div>
                         )
                     })

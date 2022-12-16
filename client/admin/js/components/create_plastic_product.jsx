@@ -97,6 +97,11 @@ function CreatePlasticProduct(props) {
                 body_data[key].push(value);
                 continue;
             }
+            if (key == "withhold"){
+                body_data[key] = (value == "true");
+                continue;
+            }
+
             body_data[key] = value;
         }
 
@@ -196,6 +201,11 @@ function CreatePlasticProduct(props) {
                                 <textarea name="descriptions">
                                     - xxxx
                                 </textarea>
+                            </div>
+                            <div>
+                                <p>Withhold Status</p>
+                                <label><input type="radio" name="withhold" value="true" />Yes</label>
+                                <label><input type="radio" name="withhold" value="false" />No</label>
                             </div>
                         </div>
                         <div id="image_pane">

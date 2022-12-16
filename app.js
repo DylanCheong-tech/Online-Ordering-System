@@ -11,13 +11,13 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 // serve all the public access files from the 'public' directory only 
-app.use(express.static(path.join(__dirname + "/public")));
+app.use(express.static(path.join(__dirname + "/client/public")));
 
 const product_catalogue_router = require('./routes/public.route');
 app.use("/public", product_catalogue_router);
 
 // serve all the admin files from the 'admin' directory 
-app.use("/admin", express.static(path.join(__dirname + "/admin")));
+app.use("/admin", express.static(path.join(__dirname + "/client/admin")));
 
 // Version 1.1
 // Admin portal page 

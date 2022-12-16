@@ -1,7 +1,7 @@
 // home_page.js
 
 // append the URL parameters to redirect to other resources 
-function accessResource(params){
+function accessResource(params) {
     window.location.href = "/admin/home_page.html?" + params;
 }
 

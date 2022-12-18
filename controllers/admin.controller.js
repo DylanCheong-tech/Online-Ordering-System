@@ -7,6 +7,7 @@ const database_uri = process.env.MONGODB_CONN_STRING;
 const getProductCatalogueJSON = require("../helpers/mongodb/getProductCatalogue")
 const getProduct = require("../helpers/mongodb/getProduct");
 const uploadProductImages = require('../helpers/google-cloud-storage/uploadProductImages')
+const deleteBucket = require("../helpers/google-cloud-storage/deleteBucket")
 const buckets = require('../helpers/google-cloud-storage/bucketInfo');
 let catalogue_projection = { "product_code": 1, "product_name": 1, "shop_category": 1, "featured": 1, "stock_status": 1 };
 
@@ -211,6 +212,7 @@ async function uploadImage(req, res) {
 
     req.files.forEach((json) => {
         let color = json.fieldname.replace("_img", "");
+        color = color.replaceAll("_", " ");
         if (!file_json[color]) file_json[color] = [];
 
         file_json[color].push(json);
@@ -220,8 +222,10 @@ async function uploadImage(req, res) {
 
     await uploadProductImages(bucket_category, req.body.product_code, file_json);
 
-    // improvement here
-    res.redirect("/admin/home_page.html?view=product_catalogue&sub_content_pane=" + req.params.category + "&operation=create&status=success");
+    // redirect to the newly created product item in 5 seconds
+    setTimeout(() => {
+        res.redirect("/admin/home_page.html?view=product_catalogue&sub_content_pane=" + req.params.category + "&product=" + req.body.product_code);
+    }, 5000);
 }
 
 // Controller 11 : get the plastic product item JSON document
@@ -310,6 +314,8 @@ async function deleteProductItem(req, res) {
         let query = { product_code: product_code };
 
         let result = await collection.deleteOne(query);
+
+        await deleteBucket(buckets[category], product_code);
 
         res.json(result);
     }

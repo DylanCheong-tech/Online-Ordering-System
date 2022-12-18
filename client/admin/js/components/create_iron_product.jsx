@@ -2,7 +2,6 @@
 
 // React Component : Create Ifon Product sub pane
 function CreateIronProduct(props) {
-    const [create_status, set_create_status] = React.useState(false);
     const [color_img_json, set_color_img_json] = React.useState({});
     const [curr_img_color, set_curr_img_color] = React.useState();
 
@@ -95,11 +94,11 @@ function CreateIronProduct(props) {
                 body_data[key].push(value);
                 continue;
             }
-            if (key == "withhold"){
+            if (key == "withhold") {
                 body_data[key] = (value == "true");
                 continue;
             }
-            
+
             body_data[key] = value;
         }
 
@@ -118,123 +117,111 @@ function CreateIronProduct(props) {
                 return response.json();
             })
             .then(json => {
-                // render the product item component here
-                set_create_status(json.acknowledged);
+                console.log(json);
             })
 
         document.getElementById("img_form_product_code").value = body_data.product_code;
         document.getElementById("image_form").submit();
     }
 
-    let render_ui = "";
-    if (create_status) {
-        render_ui =
-            <React.Fragment>
-                <h1 class="left_margin">Created Successfull</h1>
-                <ViewProduct />
-            </React.Fragment>
-    }
-    else {
-        render_ui =
-            <React.Fragment>
-                <h2 id="header_2_title" class="left_margin"><img src="./img/icon_back.png" onClick={() => accessResource("view=product_catalogue&sub_content_pane=plastic")} />Create a Iron Stand Item</h2>
-                <div class="left_margin">
-                    <form class="left_margin" id="content_form" onSubmit={submitForm}>
-                        <div id="left_column">
-                            <div>
-                                <p>Product Name</p>
-                                <input type="text" name="product_name" />
-                            </div>
-                            <div>
-                                <p>Product Code</p>
-                                <input type="text" name="product_code" />
-                            </div>
-                            <div>
-                                <p>Shop Category</p>
-                                <select name="shop_category">
-                                    <option selected disabled>---  Shop Category ---</option>
-                                    {
-                                        props.metadata.shop_category.map((category) => {
-                                            return <option value={category}>{category}</option>
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <div>
-                                <p>Color of Varaition</p>
+    return (
+        <React.Fragment>
+            <h2 id="header_2_title" class="left_margin"><img src="./img/icon_back.png" onClick={() => accessResource("view=product_catalogue&sub_content_pane=plastic")} />Create a Iron Stand Item</h2>
+            <div class="left_margin">
+                <form class="left_margin" id="content_form" onSubmit={submitForm}>
+                    <div id="left_column">
+                        <div>
+                            <p>Product Name</p>
+                            <input type="text" name="product_name" />
+                        </div>
+                        <div>
+                            <p>Product Code</p>
+                            <input type="text" name="product_code" />
+                        </div>
+                        <div>
+                            <p>Shop Category</p>
+                            <select name="shop_category">
+                                <option selected disabled>---  Shop Category ---</option>
                                 {
-                                    Object.keys(props.metadata.colors).map((color) => {
-                                        return <label><input type="checkbox" value={color} name="colors" onChange={(event) => updateColor(event.target.value, event.target.checked)} />{color}</label>
+                                    props.metadata.shop_category.map((category) => {
+                                        return <option value={category}>{category}</option>
                                     })
                                 }
-                            </div>
-                            <div>
-                                <p>Stock Status</p>
-                                <label><input type="radio" name="stock_status" value="Available" />Available</label>
-                                <label><input type="radio" name="stock_status" value="Out Of Stock" />Out Of Stock</label>
-                            </div>
-                            <div>
-                                <p>Featuring Product ?</p>
-                                <label><input type="radio" name="featured" value="true" />Yes</label>
-                                <label><input type="radio" name="featured" value="false" />No</label>
-                            </div>
+                            </select>
                         </div>
-                        <div id="right_column">
-                            <div class="three_inputs">
-                                <p>Dimensions (cm)</p>
-                                <input type="number" name="length" placeholder="Length" />
-                                <input type="number" name="width" placeholder="Width" />
-                                <input type="number" name="height" placeholder="Height" />
-                            </div>
-                            <div>
-                                <p>Descriptions</p>
-                                <i>* As a list, delimited by "-" character</i>
-                                <textarea name="descriptions">
-                                    - xxxx
-                                </textarea>
-                            </div>
-                            <div>
-                                <p>Withhold Status</p>
-                                <label><input type="radio" name="withhold" value="true" />Yes</label>
-                                <label><input type="radio" name="withhold" value="false" />No</label>
-                            </div>
+                        <div>
+                            <p>Color of Varaition</p>
+                            {
+                                Object.keys(props.metadata.colors).map((color) => {
+                                    return <label><input type="checkbox" value={color} name="colors" onChange={(event) => updateColor(event.target.value, event.target.checked)} />{color}</label>
+                                })
+                            }
                         </div>
-                        <div id="image_pane">
-                            <p>Images Upload</p>
-                            <div id="tab_bar">
-                                {
-                                    Object.keys(color_img_json).map((color) => {
-                                        return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
-                                    })
-                                }
-                            </div>
-                            <form id="image_form" action="/admin/portal/productItem/iron/create/image_upload" method="POST" encType="multipart/form-data">
-                                <input class="hide" id="img_form_product_code" name="product_code" readonly />
-                                {
-                                    Object.keys(color_img_json).map((color) => {
-                                        return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
-                                            <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
-                                            <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
-                                            {
-                                                Object.values(color_img_json[color]).map((img, index) => {
-                                                    return (
-                                                        <span>
-                                                            <img src={img} />
-                                                            <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
-                                                        </span>
-                                                    );
-                                                })
-                                            }
-                                        </div>
-                                    })
-                                }
-                            </form>
+                        <div>
+                            <p>Stock Status</p>
+                            <label><input type="radio" name="stock_status" value="Available" />Available</label>
+                            <label><input type="radio" name="stock_status" value="Out Of Stock" />Out Of Stock</label>
                         </div>
-                        <button type="submit">Create Item</button>
-                    </form>
-                </div>
-            </React.Fragment>
-    }
-
-    return render_ui;
+                        <div>
+                            <p>Featuring Product ?</p>
+                            <label><input type="radio" name="featured" value="true" />Yes</label>
+                            <label><input type="radio" name="featured" value="false" />No</label>
+                        </div>
+                    </div>
+                    <div id="right_column">
+                        <div class="three_inputs">
+                            <p>Dimensions (cm)</p>
+                            <input type="number" name="length" placeholder="Length" />
+                            <input type="number" name="width" placeholder="Width" />
+                            <input type="number" name="height" placeholder="Height" />
+                        </div>
+                        <div>
+                            <p>Descriptions</p>
+                            <i>* As a list, delimited by "-" character</i>
+                            <textarea name="descriptions">
+                                - xxxx
+                            </textarea>
+                        </div>
+                        <div>
+                            <p>Withhold Status</p>
+                            <label><input type="radio" name="withhold" value="true" />Yes</label>
+                            <label><input type="radio" name="withhold" value="false" />No</label>
+                        </div>
+                    </div>
+                    <div id="image_pane">
+                        <p>Images Upload</p>
+                        <div id="tab_bar">
+                            {
+                                Object.keys(color_img_json).map((color) => {
+                                    return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
+                                })
+                            }
+                        </div>
+                        <form id="image_form" action="/admin/portal/productItem/iron/create/image_upload" method="POST" encType="multipart/form-data">
+                            <input class="hide" id="img_form_product_code" name="product_code" readonly />
+                            {
+                                Object.keys(color_img_json).map((color) => {
+                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
+                                        <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
+                                        <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
+                                        {
+                                            Object.values(color_img_json[color]).map((img, index) => {
+                                                return (
+                                                    <span>
+                                                        <img src={img} />
+                                                        <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
+                                                    </span>
+                                                );
+                                            })
+                                        }
+                                    </div>
+                                })
+                            }
+                        </form>
+                    </div>
+                    <button type="submit">Create Item</button>
+                </form>
+            </div>
+        </React.Fragment>
+    );
 }

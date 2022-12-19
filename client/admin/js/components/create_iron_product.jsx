@@ -40,7 +40,19 @@ function CreateIronProduct(props) {
     function handleDrop(event) {
         event.stopPropagation();
         event.preventDefault();
+        let dataTransfer = new DataTransfer();
+        let target_ele = document.querySelector("input[name=" + curr_img_color + "_img]");
+        
+        // merge the existing and the newly dropped images files together 
+        Array.from(target_ele.files).forEach((file) => {
+            dataTransfer.items.add(file);
+        })
+        Array.from(event.dataTransfer.files).forEach((file) => {
+            dataTransfer.items.add(file);
+        })
+        target_ele.files = dataTransfer.files;
 
+        // append the new dropped images to preview 
         uploadImages(event.dataTransfer, curr_img_color);
     }
 

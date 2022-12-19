@@ -47,10 +47,8 @@ function EditPlasticProduct(props) {
         if (read_all_img) {
             Object.keys(color_img_json).forEach((key) => {
                 let img_color_input_ele = document.querySelector("input[name=" + key.replace(" ", "_") + "_img]");
-                console.log(img_color_input_ele)
                 if (color_img_files[key]) {
                     img_color_input_ele.files = color_img_files[key].files;
-                    console.log(color_img_files[key].files)
                 }
             })
         }
@@ -120,9 +118,20 @@ function EditPlasticProduct(props) {
     function handleDrop(event) {
         event.stopPropagation();
         event.preventDefault();
-        let target_ele = document.querySelector("input[name=" + curr_img_color + "_img]");
-        target_ele.files = event.dataTransfer.files;
-        uploadImages(target_ele, curr_img_color);
+        let dataTransfer = new DataTransfer();
+
+        // add the new files into the color_img_json state 
+        // it will be rerender and update the input[type=file] by the useEffect hook
+        Array.from(event.dataTransfer.files).forEach((file) => {
+            dataTransfer.items.add(file);
+            set_color_img_files(previous => {
+                previous[curr_img_color].items.add(file);
+                return { ...previous };
+            })
+        })
+
+        // append the new dropped images to preview 
+        uploadImages(event.dataTransfer, curr_img_color);
     }
 
     function uploadImages(target_ele, color) {
@@ -161,8 +170,6 @@ function EditPlasticProduct(props) {
 
     function submitForm(event) {
         event.preventDefault();
-
-        console.log(product_data)
 
         fetch("/admin/portal/productItem/plastic/update", {
             method: "POST",

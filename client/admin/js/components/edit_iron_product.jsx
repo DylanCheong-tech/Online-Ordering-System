@@ -48,10 +48,8 @@ function EditIronProduct(props) {
         if (read_all_img) {
             Object.keys(color_img_json).forEach((key) => {
                 let img_color_input_ele = document.querySelector("input[name=" + key.replace(" ", "_") + "_img]");
-                console.log(img_color_input_ele)
                 if (color_img_files[key]) {
                     img_color_input_ele.files = color_img_files[key].files;
-                    console.log(color_img_files[key].files)
                 }
             })
         }
@@ -121,7 +119,19 @@ function EditIronProduct(props) {
     function handleDrop(event) {
         event.stopPropagation();
         event.preventDefault();
+        let dataTransfer = new DataTransfer();
 
+        // add the new files into the color_img_json state 
+        // it will be rerender and update the input[type=file] by the useEffect hook
+        Array.from(event.dataTransfer.files).forEach((file) => {
+            dataTransfer.items.add(file);
+            set_color_img_files(previous => {
+                previous[curr_img_color].items.add(file);
+                return { ...previous };
+            })
+        })
+
+        // append the new dropped images to preview 
         uploadImages(event.dataTransfer, curr_img_color);
     }
 
@@ -160,9 +170,6 @@ function EditIronProduct(props) {
 
     function submitForm(event) {
         event.preventDefault();
-
-
-        console.log(product_data)
 
         fetch("/admin/portal/productItem/iron/update", {
             method: "POST",

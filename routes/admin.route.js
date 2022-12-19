@@ -75,8 +75,12 @@ router.get("/portal/productCatalogue/:category", check_authorised_access, contro
 router.post("/portal/productItem/plastic/create", check_authorised_access, controllers.createPlasticProductItem);
 // POST Request : Create Iron Product Item
 router.post("/portal/productItem/iron/create", check_authorised_access, controllers.createIronProductItem);
-// POST Request : Upload Images for both category items 
-router.post("/portal/productItem/:category/create/image_upload", check_authorised_access, ProductImageUpload.any() ,controllers.uploadImage);
+
+// POST Request : Update Edited Product Item 
+router.post("/portal/productItem/:category/update", check_authorised_access, controllers.updateProductItem);
+
+// POST Request : Upload Images for both category
+router.post("/portal/productItem/:category/:operation/image_upload", check_authorised_access, ProductImageUpload.any() ,controllers.uploadImage);
 
 // POST Request : update the stock status of the product item 
 router.post("/portal/productItem/:category/update_stock_status/:stock_status", check_authorised_access, controllers.updateProductItemStockStatus);

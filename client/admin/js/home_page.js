@@ -68,6 +68,21 @@ async function displayCreateProduct(category) {
     renderSubcontent(component);
 }
 
+// helper function to get the metadata of the plastic or iron - colors and shop category and render the form 
+async function displayEditProduct(category, product_code) {
+    let metadata_response = await fetch("/admin/portal/productCatalogue/" + category + "/metadata");
+    let product_response = await fetch("/admin/portal/productItem/" + category + "/get/" + product_code);
+    check_redirect_request(product_response);
+    let metadata_json = (await metadata_response.json())[0];
+    let product_json = await product_response.json();
+
+    console.log(metadata_json)
+    console.log(product_json)
+
+    let component = category == "plastic" ? <EditPlasticProduct metadata={metadata_json} product_data={product_json} /> : <EditIronProduct metadata={metadata_json} product_data={product_json} />;
+    renderSubcontent(component);
+}
+
 // helper function to fetch the product catalogue metadata info and render
 async function displayProductCatalogueCategoryMetadataColor(category) {
     let response = await fetch("/admin/portal/productCatalogue/" + category + "/metadata/colors");

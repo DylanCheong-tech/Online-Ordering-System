@@ -14,6 +14,8 @@ if (view == "product_catalogue") {
     else if (["plastic", "iron"].includes(sub_content_pane)) {
         if (operation == "create")
             displayCreateProduct(sub_content_pane);
+        if (operation == "edit")
+            displayEditProduct(sub_content_pane, product_code);
         else if (operation == "color")
             displayProductCatalogueCategoryMetadataColor(sub_content_pane)
         else if (operation == "shop_category")

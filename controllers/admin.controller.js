@@ -220,6 +220,12 @@ async function uploadImage(req, res) {
 
     let bucket_category = req.params.category == "plastic" ? buckets.plastic : buckets.iron;
 
+    console.log(file_json)
+
+    // remove all the existing file when UPDATE operation 
+    if (req.params.operation.toLowerCase() == "update")
+        await deleteBucket(bucket_category, req.body.product_code)
+
     await uploadProductImages(bucket_category, req.body.product_code, file_json);
 
     // redirect to the newly created product item in 5 seconds
@@ -238,6 +244,46 @@ async function getProductItemInfo(req, res) {
     else {
         // return error code in the JSON
         res.json({ "error": "Category Not Found !" });
+    }
+}
+
+// Controller : update the plastic product item 
+async function updateProductItem(req, res) {
+    try {
+
+        let category = req.params.category.toLowerCase();
+        let collection_name = "";
+
+        if (category == "plastic" || category == "iron") {
+            collection_name = category == "plastic" ? "PlasticPots" : "IronStands";
+        }
+        else {
+            // return error code in the JSON
+            res.json({ "error": "Category Not Found !" });
+        }
+
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("ProductCatalogue").collection(collection_name);
+
+        let updateData = req.body;
+        // remove the images info
+        delete updateData.images;
+
+        let query = { product_code: updateData.product_code }
+
+        let result = await collection.replaceOne(query, updateData);
+
+        res.json(result);
+
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+    }
+    finally {
+        await dbClient.close()
     }
 }
 
@@ -382,6 +428,7 @@ module.exports = {
     createIronProductItem: createIronProductItem,
     uploadImage: uploadImage,
     getProductItemInfo: getProductItemInfo,
+    updateProductItem: updateProductItem,
     updateProductItemStockStatus: updateProductItemStockStatus,
     updateWithholdStatus: updateWithholdStatus,
     deleteProductItem: deleteProductItem,

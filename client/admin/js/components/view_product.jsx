@@ -1,6 +1,7 @@
 // view_product.jsx
 
 // React Component : View Product sub pane
+// props : category, json_data
 function ViewProduct(props) {
     let item = props.json_data;
     function back_to_catalogue() {
@@ -50,7 +51,7 @@ function ViewProduct(props) {
     function updateWithholdStatus() {
         let body_data = {
             product_code: item.product_code,
-            status : !item.withhold
+            status: !item.withhold
         };
 
         fetch("/admin/portal/productItem/" + props.category + "/update_withhold_status", {
@@ -78,7 +79,7 @@ function ViewProduct(props) {
                 {item.product_code}
             </h2>
             <div id="action_button_bar" class="left_margin">
-                <button type="button">Edit</button>
+                <button type="button" onClick={() => accessResource("view=product_catalogue&sub_content_pane=" + props.category + "&operation=edit&product=" + item.product_code)}>Edit</button>
                 <button type="button" onClick={() => updateWithholdStatus(true)}>{item.withhold ? "Un-Withhold" : "Withhold"}</button>
                 {
                     item.stock_status == "Available" ?
@@ -172,6 +173,6 @@ function ViewProduct(props) {
                     </div>
                 </span>
             </div>
-        </React.Fragment>
+        </React.Fragment >
     );
 }

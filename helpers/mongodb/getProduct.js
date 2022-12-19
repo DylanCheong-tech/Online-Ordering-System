@@ -26,6 +26,7 @@ async function getProduct(category, productCode) {
         // get the images 
         let image_result = await getImageFiles(buckets[category], productCode);
         result.images = image_result;
+        delete result._id;
 
         // return the result as an array 
         return result;

@@ -34,9 +34,8 @@ function EditIronProduct(props) {
                     fileReader.readAsDataURL(img_blob);
                     // add the image blob file into the input[type=file] control y
                     set_color_img_files(previous => {
-                        let color_name_attr = color.replace(" ", "_");
-                        if (!previous[color_name_attr]) previous[color_name_attr] = new DataTransfer();
-                        previous[color_name_attr].items.add(new File([img_blob], name, { type: img_blob.type }));
+                        if (!previous[color]) previous[color] = new DataTransfer();
+                        previous[color].items.add(new File([img_blob], name, { type: img_blob.type }));
                         return { ...previous }
                     })
                 }
@@ -47,15 +46,16 @@ function EditIronProduct(props) {
 
     React.useEffect(() => {
         if (read_all_img) {
-            Object.entries(color_img_files).forEach(([key, value]) => {
-                let img_color_input_ele = document.querySelector("input[name=" + key + "_img]");
+            Object.keys(color_img_json).forEach((key) => {
+                let img_color_input_ele = document.querySelector("input[name=" + key.replace(" ", "_") + "_img]");
                 console.log(img_color_input_ele)
-                img_color_input_ele.files = value.files;
-                console.log(value)
+                if (color_img_files[key]) {
+                    img_color_input_ele.files = color_img_files[key].files;
+                    console.log(color_img_files[key].files)
+                }
             })
         }
-        console.log(document)
-    }, [color_img_files])
+    }, [color_img_files, color_img_json])
 
     const [curr_img_color, set_curr_img_color] = React.useState(props.product_data.colors[0]);
     let original_product_code = props.product_data.product_code;
@@ -181,7 +181,7 @@ function EditIronProduct(props) {
             })
 
         document.getElementById("img_form_product_code").value = product_data.product_code;
-        // document.getElementById("image_form").submit();
+        document.getElementById("image_form").submit();
     }
 
     return (

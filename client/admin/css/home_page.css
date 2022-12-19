@@ -47,7 +47,7 @@ div#content_pane {
 
 div#content_pane div#side_menu {
     width: 20vw;
-    height: 85vh;
+    height: auto;
     border-right: 1px solid #000000;
 }
 

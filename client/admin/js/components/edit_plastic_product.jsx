@@ -235,15 +235,33 @@ function EditPlasticProduct(props) {
                     <div id="right_column">
                         <div class="three_inputs">
                             <p>Dimensions (cm)</p>
-                            <input type="number" name="length" placeholder="Length" value={product_data.dimensions.length} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
-                            <input type="number" name="width" placeholder="Width" value={product_data.dimensions.width} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
-                            <input type="number" name="height" placeholder="Height" value={product_data.dimensions.height} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+                            <label>
+                                Length
+                                <input type="number" name="length" placeholder="Length" value={product_data.dimensions.length} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+                            </label>
+                            <label>
+                                Width
+                                <input type="number" name="width" placeholder="Width" value={product_data.dimensions.width} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+                            </label>
+                            <label>
+                                Height
+                                <input type="number" name="height" placeholder="Height" value={product_data.dimensions.height} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+                            </label>
                         </div>
                         <div class="three_inputs">
                             <p>Diameters (cm)</p>
-                            <input type="number" name="inside" placeholder="Inside" value={product_data.diameters.inside} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
-                            <input type="number" name="outside" placeholder="Outside" value={product_data.diameters.outside} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
-                            <input type="number" name="lower" placeholder="Lower" value={product_data.diameters.lower} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
+                            <label>
+                                Inside
+                                <input type="number" name="inside" placeholder="Inside" value={product_data.diameters.inside} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
+                            </label>
+                            <label>
+                                Outside
+                                <input type="number" name="outside" placeholder="Outside" value={product_data.diameters.outside} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
+                            </label>
+                            <label>
+                                Lower
+                                <input type="number" name="lower" placeholder="Lower" value={product_data.diameters.lower} onChange={(event) => updateData(event.target.name, event.target.value, "diameters")} />
+                            </label>
                         </div>
                         <div>
                             <p>Descriptions</p>

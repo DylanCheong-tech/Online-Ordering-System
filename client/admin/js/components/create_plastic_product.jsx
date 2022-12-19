@@ -175,15 +175,33 @@ function CreatePlasticProduct(props) {
                     <div id="right_column">
                         <div class="three_inputs">
                             <p>Dimensions (cm)</p>
-                            <input type="number" name="length" placeholder="Length" />
-                            <input type="number" name="width" placeholder="Width" />
-                            <input type="number" name="height" placeholder="Height" />
+                            <label>
+                                Length
+                                <input type="number" name="length" placeholder="Length" />
+                            </label>
+                            <label>
+                                Width
+                                <input type="number" name="width" placeholder="Width" />
+                            </label>
+                            <label>
+                                Height
+                                <input type="number" name="height" placeholder="Height" />
+                            </label>
                         </div>
                         <div class="three_inputs">
                             <p>Diameters (cm)</p>
-                            <input type="number" name="inside" placeholder="Inside" />
-                            <input type="number" name="outside" placeholder="Outside" />
-                            <input type="number" name="lower" placeholder="Lower" />
+                            <label>
+                                Inside
+                                <input type="number" name="inside" placeholder="Inside" />
+                            </label>
+                            <label>
+                                Outside
+                                <input type="number" name="outside" placeholder="Outside" />
+                            </label>
+                            <label>
+                                Lower
+                                <input type="number" name="lower" placeholder="Lower" />
+                            </label>
                         </div>
                         <div>
                             <p>Descriptions</p>

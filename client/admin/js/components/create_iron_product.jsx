@@ -171,9 +171,18 @@ function CreateIronProduct(props) {
                     <div id="right_column">
                         <div class="three_inputs">
                             <p>Dimensions (cm)</p>
-                            <input type="number" name="length" placeholder="Length" />
-                            <input type="number" name="width" placeholder="Width" />
-                            <input type="number" name="height" placeholder="Height" />
+                            <label>
+                                Length
+                                <input type="number" name="length" placeholder="Length" />
+                            </label>
+                            <label>
+                                Width
+                                <input type="number" name="width" placeholder="Width" />
+                            </label>
+                            <label>
+                                Height
+                                <input type="number" name="height" placeholder="Height" />
+                            </label>
                         </div>
                         <div>
                             <p>Descriptions</p>

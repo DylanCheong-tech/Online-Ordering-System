@@ -231,9 +231,21 @@ function EditIronProduct(props) {
                     <div id="right_column">
                         <div class="three_inputs">
                             <p>Dimensions (cm)</p>
-                            <input type="number" name="length" placeholder="Length" value={product_data.dimensions.length} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
-                            <input type="number" name="width" placeholder="Width" value={product_data.dimensions.width} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
-                            <input type="number" name="height" placeholder="Height" value={product_data.dimensions.height} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+                            <label>
+                                Length
+                                <input type="number" name="length" placeholder="Length" value={product_data.dimensions.length} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+
+                            </label>
+                            <label>
+                                Width
+                                <input type="number" name="width" placeholder="Width" value={product_data.dimensions.width} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+
+                            </label>
+                            <label>
+                                Height
+                                <input type="number" name="height" placeholder="Height" value={product_data.dimensions.height} onChange={(event) => updateData(event.target.name, event.target.value, "dimensions")} />
+
+                            </label>
                         </div>
                         <div>
                             <p>Descriptions</p>

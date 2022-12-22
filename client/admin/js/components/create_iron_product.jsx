@@ -42,7 +42,7 @@ function CreateIronProduct(props) {
         event.preventDefault();
         let dataTransfer = new DataTransfer();
         let target_ele = document.querySelector("input[name=" + curr_img_color + "_img]");
-        
+
         // merge the existing and the newly dropped images files together 
         Array.from(target_ele.files).forEach((file) => {
             dataTransfer.items.add(file);
@@ -89,8 +89,19 @@ function CreateIronProduct(props) {
         target_ele.files = dt.files;
     }
 
-    function submitForm(event) {
-        event.preventDefault();
+    function submitForm() {
+        let product_code = submitContent();
+        Array.from(document.getElementsByClassName("img_form_product_code")).forEach((input) => input.value = product_code);
+        let time = 0;
+        Array.from(document.getElementsByClassName("image_upload_submit_btn")).forEach((form) => {
+            setTimeout(() => {
+                form.click();
+            }, time);
+            time = time + 5000;
+        });
+    }
+
+    function submitContent() {
         let form = document.getElementById("content_form");
         let form_data = new FormData(form);
         let body_data = {}
@@ -114,8 +125,6 @@ function CreateIronProduct(props) {
             body_data[key] = value;
         }
 
-        console.log(body_data)
-
         fetch("/admin/portal/productItem/iron/create", {
             method: "POST",
             headers: {
@@ -132,15 +141,26 @@ function CreateIronProduct(props) {
                 console.log(json);
             })
 
-        document.getElementById("img_form_product_code").value = body_data.product_code;
-        document.getElementById("image_form").submit();
+        return body_data.product_code;
+    }
+
+    function imageSubmit(event) {
+        event.preventDefault();
+
+        const form = event.target;
+
+        fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+        })
+            .then(console.log);
     }
 
     return (
         <React.Fragment>
             <h2 id="header_2_title" class="left_margin"><img src="./img/icon_back.png" onClick={() => accessResource("view=product_catalogue&sub_content_pane=plastic")} />Create a Iron Stand Item</h2>
             <div class="left_margin">
-                <form class="left_margin" id="content_form" onSubmit={submitForm}>
+                <form class="left_margin" id="content_form" onSubmit={submitContent}>
                     <div id="left_column">
                         <div>
                             <p>Product Name</p>
@@ -209,39 +229,40 @@ function CreateIronProduct(props) {
                             <label><input type="radio" name="withhold" value="false" />No</label>
                         </div>
                     </div>
-                    <div id="image_pane">
-                        <p>Images Upload</p>
-                        <div id="tab_bar">
-                            {
-                                Object.keys(color_img_json).map((color) => {
-                                    return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
-                                })
-                            }
-                        </div>
-                        <form id="image_form" action="/admin/portal/productItem/iron/create/image_upload" method="POST" encType="multipart/form-data">
-                            <input class="hide" id="img_form_product_code" name="product_code" readonly />
-                            {
-                                Object.keys(color_img_json).map((color) => {
-                                    return <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
-                                        <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
-                                        <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
-                                        {
-                                            Object.values(color_img_json[color]).map((img, index) => {
-                                                return (
-                                                    <span>
-                                                        <img src={img} />
-                                                        <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
-                                                    </span>
-                                                );
-                                            })
-                                        }
-                                    </div>
-                                })
-                            }
-                        </form>
-                    </div>
-                    <button type="submit">Create Item</button>
                 </form>
+                <div id="image_pane">
+                    <p>Images Upload</p>
+                    <div id="tab_bar">
+                        {
+                            Object.keys(color_img_json).map((color) => {
+                                return <span class={color == curr_img_color ? "display" : ""} onClick={(event) => { changeColorTab(event.target, color) }}>{color}</span>
+                            })
+                        }
+                    </div>
+                    {
+                        Object.keys(color_img_json).map((color) => {
+                            return <form id="image_form" action="/admin/portal/productItem/iron/create/image_upload" method="POST" encType="multipart/form-data" onSubmit={imageSubmit}>
+                                <input class="hide img_form_product_code" name="product_code" readonly />
+                                <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
+                                    <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
+                                    <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />
+                                    {
+                                        Object.values(color_img_json[color]).map((img, index) => {
+                                            return (
+                                                <span>
+                                                    <img src={img} />
+                                                    <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
+                                                </span>
+                                            );
+                                        })
+                                    }
+                                    <input class="hide image_upload_submit_btn" type="submit" />
+                                </div>
+                            </form>
+                        })
+                    }
+                    <button type="button" onClick={submitForm}>Create Item</button>
+                </div>
             </div>
         </React.Fragment>
     );

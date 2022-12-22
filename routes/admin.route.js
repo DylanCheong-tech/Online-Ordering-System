@@ -4,6 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const LocalStratery = require('passport-local').Strategy;
 const Multer = require("multer");
+const MemoryStore = require('memorystore')(session);
 
 const router = express.Router();
 const controllers = require('../controllers/admin.controller');
@@ -13,6 +14,9 @@ const check_authorised_access = require('../middlewares/admin/check_authorised_a
 router.use(session({
     secret: "User Login",
     resave: false,
+    store: new MemoryStore({
+        checkPeriod: 86400000
+    }),
     saveUninitialized: true,
     cookie: {
         maxAge: 1000 * 60 * 30, // 30 minutes login sesison lifetime 

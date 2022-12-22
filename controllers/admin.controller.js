@@ -206,32 +206,20 @@ async function createIronProductItem(req, res) {
     }
 }
 
-// Controller 10 : Product Image upload to Google Cloud Storage Buckets
+// Controller 10 : Product Image upload to Google Cloud Storage Buckets, per-color basic
 async function uploadImage(req, res) {
-    let file_json = {};
-
-    req.files.forEach((json) => {
-        let color = json.fieldname.replace("_img", "");
-        color = color.replaceAll("_", " ");
-        if (!file_json[color]) file_json[color] = [];
-
-        file_json[color].push(json);
-    });
+    let file_json = req.files;
+    let color = req.files[0].fieldname.replace("_img", "").replace("_", " ");
 
     let bucket_category = req.params.category == "plastic" ? buckets.plastic : buckets.iron;
 
-    console.log(file_json)
-
     // remove all the existing file when UPDATE operation 
     if (req.params.operation.toLowerCase() == "update")
-        await deleteBucket(bucket_category, req.body.product_code)
+        await deleteBucket(bucket_category, req.body.product_code + "/" + color.toUpperCase())
 
-    await uploadProductImages(bucket_category, req.body.product_code, file_json);
+    let result = await uploadProductImages(bucket_category, req.body.product_code, file_json, color);
 
-    // redirect to the newly created product item in 5 seconds
-    setTimeout(() => {
-        res.redirect("/admin/home_page.html?view=product_catalogue&sub_content_pane=" + req.params.category + "&product=" + req.body.product_code);
-    }, 5000);
+    res.json(result);
 }
 
 // Controller 11 : get the plastic product item JSON document

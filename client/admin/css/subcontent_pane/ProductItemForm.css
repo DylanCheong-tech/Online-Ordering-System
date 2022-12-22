@@ -16,11 +16,6 @@ form#content_form {
     grid-template-columns: repeat(2, 30vw);
 }
 
-form#content_form>button {
-    grid-column: 1 / span 2;
-    justify-self: center;
-}
-
 form#content_form>div {
     display: flex;
     flex-direction: column;
@@ -75,11 +70,18 @@ form#content_form>div div.three_inputs input {
 div#image_pane {
     grid-column: 1 / span 2;
     margin-bottom: 8vh;
+    display: flex;
+    flex-direction: column;
 }
 
 div#image_pane>p{
     text-align: center;
     margin-bottom: 2vw !important; 
+}
+
+div#image_pane>button {
+    align-self: center;
+    margin-top: 2vw;
 }
 
 div#image_pane div#tab_bar {

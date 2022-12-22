@@ -180,24 +180,24 @@ function EditPlasticProduct(props) {
     function submitForm(event) {
         event.preventDefault();
 
-        // fetch("/admin/portal/productItem/plastic/update", {
-        //     method: "POST",
-        //     headers: {
-        //         "Accept": "application/json",
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(product_data)
-        // })
-        //     .then(response => {
-        //         check_redirect_request(response);
-        //         return response.json();
-        //     })
-        //     .then(json => {
-        //         console.log(json);
-        //     })
+        fetch("/admin/portal/productItem/plastic/update", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(product_data)
+        })
+            .then(response => {
+                check_redirect_request(response);
+                return response.json();
+            })
+            .then(json => {
+                console.log(json);
+            })
 
         document.getElementById("img_form_product_code").value = product_data.product_code;
-        // document.getElementById("image_form").submit();
+        document.getElementById("image_form").submit();
 
         document.querySelectorAll("input[type=file]").forEach((input) => {
             console.log(input.files)

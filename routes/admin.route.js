@@ -37,9 +37,6 @@ passport.deserializeUser((userObj, done) => {
 // Multer configuration 
 const ProductImageUpload = Multer({
     storage: Multer.memoryStorage(),
-    limits: {
-        fileSize: 9999 * 1024 * 1024
-    }
 })
 
 // Routes
@@ -80,7 +77,7 @@ router.post("/portal/productItem/iron/create", check_authorised_access, controll
 router.post("/portal/productItem/:category/update", check_authorised_access, controllers.updateProductItem);
 
 // POST Request : Upload Images for both category
-router.post("/portal/productItem/:category/:operation/image_upload", check_authorised_access, ProductImageUpload.any() ,controllers.uploadImage);
+router.post("/portal/productItem/:category/:operation/image_upload", check_authorised_access, ProductImageUpload.any(), controllers.uploadImage);
 
 // POST Request : update the stock status of the product item 
 router.post("/portal/productItem/:category/update_stock_status/:stock_status", check_authorised_access, controllers.updateProductItemStockStatus);

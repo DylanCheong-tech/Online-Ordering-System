@@ -23,7 +23,7 @@ function EditIronProduct(props) {
                         const image = fileReader.result;
                         set_color_img_json(previous => {
                             if (!previous[color]) previous[color] = [];
-                            previous[color].push(image);
+                            previous[color].push({ name: name, dataURL: image });
                             return { ...previous };
                         })
                     })
@@ -32,7 +32,7 @@ function EditIronProduct(props) {
 
                     // load and preview the image blob 
                     fileReader.readAsDataURL(img_blob);
-                    // add the image blob file into the input[type=file] control y
+                    // add the image blob file into the input[type=file] control
                     set_color_img_files(previous => {
                         if (!previous[color]) previous[color] = new DataTransfer();
                         previous[color].items.add(new File([img_blob], name, { type: img_blob.type }));
@@ -51,6 +51,7 @@ function EditIronProduct(props) {
                 if (color_img_files[key]) {
                     img_color_input_ele.files = color_img_files[key].files;
                 }
+                console.log(img_color_input_ele.files)
             })
         }
     }, [color_img_files, color_img_json])
@@ -100,7 +101,16 @@ function EditIronProduct(props) {
             if (!previous[color])
                 previous[color] = [];
             return { ...previous };
-        })
+        });
+
+        //  delete the files DataTransfer from the json as well
+        set_color_img_files(previous => {
+            if (!checked)
+                delete previous[color];
+            else
+                previous[color] = new DataTransfer();
+            return { ...previous };
+        });
     }
 
     function changeColorTab(ele, color) {
@@ -119,19 +129,7 @@ function EditIronProduct(props) {
     function handleDrop(event) {
         event.stopPropagation();
         event.preventDefault();
-        let dataTransfer = new DataTransfer();
 
-        // add the new files into the color_img_json state 
-        // it will be rerender and update the input[type=file] by the useEffect hook
-        Array.from(event.dataTransfer.files).forEach((file) => {
-            dataTransfer.items.add(file);
-            set_color_img_files(previous => {
-                previous[curr_img_color].items.add(file);
-                return { ...previous };
-            })
-        })
-
-        // append the new dropped images to preview 
         uploadImages(event.dataTransfer, curr_img_color);
     }
 
@@ -143,29 +141,42 @@ function EditIronProduct(props) {
             fileReader.addEventListener("load", () => {
                 const uploaded_image = fileReader.result;
                 set_color_img_json(previous => {
-                    previous[color].push(uploaded_image);
+                    previous[color].push({ name: files[i].name, dataURL: uploaded_image });
                     return { ...previous };
                 })
             })
             fileReader.readAsDataURL(files[i]);
         }
+
+        // add the new files into the color_img_json state 
+        // it will be rerender and update the input[type=file] by the useEffect hook
+        Array.from(target_ele.files).forEach((file) => {
+            set_color_img_files(previous => {
+                previous[color].items.add(file);
+                return { ...previous };
+            });
+        })
     }
 
-    function removeImage(image_index, color) {
+    function removeImage(image_index, color, file_name) {
         set_color_img_json(previous => {
-            previous[color].splice(image_index, 1);
+            previous[color] = previous[color].filter((item) => item.name != file_name);
             return { ...previous }
         });
 
         let target_ele = document.querySelector("input[name=" + curr_img_color.replace(" ", "_") + "_img]");
-        // the files array index will be the same with the color json state object 
-        // since the color json array ar build based on the input control at first
-        let dt = new DataTransfer();
+
+        // remove the image from the json 
+        let dataTransfer = new DataTransfer();
         for (let x = 0; x < target_ele.files.length; x++) {
             if (x == image_index) continue;
-            dt.items.add(target_ele.files[x])
+            dataTransfer.items.add(target_ele.files[x]);
         }
-        target_ele.files = dt.files;
+
+        set_color_img_files(previous => {
+            previous[curr_img_color] = dataTransfer;
+            return { ...previous };
+        });
     }
 
     function submitForm(event) {
@@ -287,8 +298,8 @@ function EditIronProduct(props) {
                                             Object.values(color_img_json[color]).map((img, index) => {
                                                 return (
                                                     <span>
-                                                        <img src={img} />
-                                                        <button type="button" onClick={() => removeImage(index, color)}>Remove</button>
+                                                        <img src={img.dataURL} />
+                                                        <button type="button" onClick={() => removeImage(index, color, img.name)}>Remove</button>
                                                     </span>
                                                 );
                                             })

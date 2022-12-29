@@ -3,6 +3,96 @@
 // React Component : Product Catalogue Category sub pane
 function ProductCatalogueCategory(props) {
     let category = props.json_data.category;
+    let [product_items, set_product_items] = React.useState(props.json_data.product_items);
+
+    // parameter ==> search_key : String, product_item : Object(JSON)
+    function search_items(search_key) {
+        // if not searching key, return the original list 
+        if (search_key.length == 0) {
+            set_product_items([...props.json_data.product_items]);
+            return;
+        }
+
+        // search by product code
+        let products_code = props.json_data.product_items.filter(item => item.product_code.toLowerCase().match(search_key.toLowerCase()));
+
+        // search by product name 
+        let products_name = props.json_data.product_items.filter(item => item.product_name.toLowerCase().match(search_key.toLowerCase()));
+
+        // merge the two search resutl and removing the repeating item
+        let results = [... new Set(products_code.concat(products_name))];
+
+        set_product_items([...results]);
+    }
+
+    // sort event handler 
+    function sort_event_handler(sort_function, event) {
+        sort_items(sort_function, event.target.classList.contains("reverse"));
+        event.target.classList.toggle("reverse");
+        Array.from(document.getElementsByClassName("sorted")).forEach(ele => ele.classList.remove("sorted"));
+        event.target.classList.add("sorted");
+    }
+
+    // Sort function
+    // Parameter ==> sort_function: Function, reverse: boolean
+    function sort_items(sort_function, reverse) {
+        set_product_items(previous => {
+            if (!reverse)
+                return [...previous.sort(sort_function)];
+            else
+                return [...previous.sort(sort_function).reverse()];
+        });
+    }
+
+    function sort_by_product_code(item1, item2) {
+        if (item1.product_code < item2.product_code)
+            return -1;
+
+        if (item1.product_code > item2.product_code)
+            return 1;
+
+        return 0;
+    }
+
+    function sort_by_product_name(item1, item2) {
+        if (item1.product_name < item2.product_name)
+            return -1;
+
+        if (item1.product_name > item2.product_name)
+            return 1;
+
+        return 0;
+    }
+
+    function sort_by_shop_category(item1, item2) {
+        if (item1.shop_category < item2.shop_category)
+            return -1;
+
+        if (item1.shop_category > item2.shop_category)
+            return 1;
+
+        return 0;
+    }
+
+    function sort_by_featured(item1, item2) {
+        if (item1.featured)
+            return -1;
+
+        if (item2.featured)
+            return 1;
+
+        return 0;
+    }
+
+    function sort_by_stock_status(item1, item2) {
+        if (item1.stock_status < item2.stock_status)
+            return -1;
+
+        if (item1.stock_status > item2.stock_status)
+            return 1;
+
+        return 0;
+    }
 
     function updateStockStatus(product_code, status) {
         let body_data = {
@@ -41,26 +131,19 @@ function ProductCatalogueCategory(props) {
                 <button type="button" onClick={() => accessResource("view=product_catalogue&sub_content_pane=" + category + "&operation=shop_category")}>Manage Shop Categories</button>
             </div>
             <div id="search_filter" class="left_margin">
-                <input id="search_bar" placeholder="Search ... " />
-                <select id="filter_drop_down">
-                    <option disabled selected>--- Filter ----</option>
-                    <option>xxxx</option>
-                    <option>xxxx</option>
-                    <option>xxxx</option>
-                    <option>xxxx</option>
-                </select>
+                <input id="search_bar" type="text" placeholder="Search and Filter ... " onChange={(event) => { search_items(event.target.value) }} />
             </div>
             <div id="content_table">
-                <div id="header_bar" class="content_table_row">
-                    <span>Product Code</span>
-                    <span>Product Name</span>
-                    <span>Shop Category</span>
-                    <span>Featured</span>
-                    <span>Stock Status</span>
+                <div id="header_bar" class="content_table_row click_allowed_childs">
+                    <span onClick={(event) => { sort_event_handler(sort_by_product_code, event) }}>Product Code <span><img class="up" src="./img/icon_up.png" /><img class="down" src="./img/icon_down.png" /></span></span>
+                    <span onClick={(event) => { sort_event_handler(sort_by_product_name, event) }}>Product Name <span><img class="up" src="./img/icon_up.png" /><img class="down" src="./img/icon_down.png" /></span></span>
+                    <span onClick={(event) => { sort_event_handler(sort_by_shop_category, event) }}>Shop Category <span><img class="up" src="./img/icon_up.png" /><img class="down" src="./img/icon_down.png" /></span></span>
+                    <span onClick={(event) => { sort_event_handler(sort_by_featured, event) }}>Featured <span><img class="up" src="./img/icon_up.png" /><img class="down" src="./img/icon_down.png" /></span></span>
+                    <span onClick={(event) => { sort_event_handler(sort_by_stock_status, event) }}>Stock Status <span><img class="up" src="./img/icon_up.png" /><img class="down" src="./img/icon_down.png" /></span></span>
                     <span>Quick Actions</span>
                 </div>
                 {
-                    props.json_data.product_items.map((item) => {
+                    product_items.map((item) => {
                         return (
                             <div class="content_table_row">
                                 <a href={window.location.href + "&product=" + item.product_code}>{item.product_code}</a>

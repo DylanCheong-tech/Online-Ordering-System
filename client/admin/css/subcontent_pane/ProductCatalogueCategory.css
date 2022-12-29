@@ -1,6 +1,6 @@
 /* subcontent_pane/ProductCatalogueCategory.css */
 
-div#button_actions_bar{
+div#button_actions_bar {
     display: flex;
     flex-direction: row;
     column-gap: 5vw;
@@ -12,8 +12,8 @@ div#search_filter {
     margin: 3vh 0 3vh 0;
 }
 
-div#search_filter>* {
-    margin-right: 2vw;
+div#search_filter input[type=text] {
+    width: 30vw;
 }
 
 div#content_table {
@@ -41,4 +41,38 @@ div#content_table>div#header_bar {
 
 div#content_table>div>* {
     width: 20vw;
+}
+
+div#content_table>div.click_allowed_childs>span:not(:last-child) {
+    cursor: pointer;
+}
+
+div#content_table>div.click_allowed_childs>span {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+}
+
+div#content_table>div.click_allowed_childs>span span {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+div#content_table>div.click_allowed_childs>span span img {
+    width: 100%;
+    display: none;
+}
+
+div#content_table>div.click_allowed_childs .sorted img.up {
+    display: block;
+}
+
+div#content_table>div.click_allowed_childs .reverse img.up {
+    display: none;
+}
+
+div#content_table>div.click_allowed_childs .reverse.sorted img.down {
+    display: block;
 }

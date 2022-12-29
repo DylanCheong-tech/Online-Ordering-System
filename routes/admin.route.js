@@ -13,7 +13,7 @@ const check_authorised_access = require('../middlewares/admin/check_authorised_a
 
 router.use(session({
     secret: "User Login",
-    resave: false,
+    resave: true,
     store: new MemoryStore({
         checkPeriod: 86400000
     }),

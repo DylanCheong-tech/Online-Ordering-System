@@ -4,7 +4,9 @@ const passport = require('passport');
 const session = require('express-session');
 const LocalStratery = require('passport-local').Strategy;
 const Multer = require("multer");
-const MemoryStore = require('memorystore')(session);
+const MongoStore = require('connect-mongo');
+require("dotenv").config({ path: __dirname + "/.env" });
+const database_uri = process.env.MONGODB_CONN_STRING;
 
 const router = express.Router();
 const controllers = require('../controllers/admin.controller');
@@ -14,13 +16,16 @@ const check_authorised_access = require('../middlewares/admin/check_authorised_a
 router.use(session({
     secret: "User Login",
     resave: true,
-    store: new MemoryStore({
-        checkPeriod: 86400000
+    store: MongoStore.create({
+        mongoUrl: database_uri,
+        dbName: "SessionManagement",
+        collectionName: "Admin"
     }),
     saveUninitialized: true,
     cookie: {
         maxAge: 1000 * 60 * 30, // 30 minutes login sesison lifetime 
-    }
+    },
+    rolling: true
 }));
 
 // passport middleware configuration

@@ -19,16 +19,22 @@ div#content_pane div.group_set:nth-child(2n) {
 }
 
 div#content_pane div.group_set div {
-    min-height: 30vw;
+    min-height: 35vw;
     width: 28vw;
 }
 
 div#content_pane div.group_set div.image_section {
     text-align: center;
+    align-self: center;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 }
 
 div#content_pane div.group_set div.image_section img {
     width: 85%;
+    border-radius: 20px;
 }
 
 div#content_pane div.group_set div.content_section {
@@ -47,6 +53,8 @@ div#content_pane div.group_set div.content_section h3 {
 
 div#content_pane div.group_set div.content_section p {
     font-size: 1.1vw;
+    text-align: justify;
+    line-height: 1.5em;
 }
 
 @media only screen and (max-width : 480px) {

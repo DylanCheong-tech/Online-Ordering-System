@@ -116,3 +116,19 @@ async function displayProductItemInfo(category, product_code) {
     let json = await response.json();
     renderSubcontent(<ViewProduct json_data={json} category={category} />);
 }
+
+// helper function to diaplay the customer orders dashboard 
+async function displayOrderManagementDashboard() {
+    let component = <OrderManagementDashboard />;
+    renderSubcontent(component);
+}
+
+async function displayOrderDetails() {
+    let component = <OrderDetails />
+    renderSubcontent(component)
+}
+
+async function displayOrderRecordDetails() {
+    let component = <OrderRecordDetail />
+    renderSubcontent(component)
+}

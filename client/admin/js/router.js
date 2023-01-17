@@ -6,6 +6,7 @@ let view = params.get("view");
 let sub_content_pane = params.get("sub_content_pane");
 let operation = params.get("operation");
 let product_code = params.get("product");
+let order_id = params.get("order_id");
 
 if (view == "product_catalogue") {
     display_dropdown('product_catalogue_dropdown');
@@ -25,6 +26,15 @@ if (view == "product_catalogue") {
         else
             displayProductCatalogueCategoryInfo(sub_content_pane);
     }
+}
+else if (view == "order_management") {
+    display_dropdown("order_management_dropdown");
+    if (!sub_content_pane)
+        displayOrderManagementDashboard()
+    else if (sub_content_pane == "order_details")
+        displayOrderDetails()
+    else if (sub_content_pane == "view_order_record" && order_id)
+        displayOrderRecordDetails()
 }
 // else {
 //     // Error message 

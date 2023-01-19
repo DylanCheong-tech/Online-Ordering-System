@@ -35,7 +35,7 @@ function OrderDetails(props) {
                     <span>Order Time</span>
                 </div>
                 <div className="content_table_row">
-                    <a href="">ABC12345</a>
+                    <a href={window.location.origin + window.location.pathname + "?view=order_management&sub_content_pane=view_order_record&order_id=12"}>ABC12345</a>
                     <span>johnsmith@mail.com</span>
                     <span>016 - 1234 5678</span>
                     <span>14</span>
@@ -43,7 +43,7 @@ function OrderDetails(props) {
                     <span>12-01-2023 14:00</span>
                 </div>
                 <div className="content_table_row">
-                    <a href="">ABC12345</a>
+                    <a href={window.location.origin + window.location.pathname + "?view=order_management&sub_content_pane=view_order_record&order_id=12"}>ABC12345</a>
                     <span>johnsmith@mail.com</span>
                     <span>016 - 1234 5678</span>
                     <span>14</span>
@@ -51,7 +51,7 @@ function OrderDetails(props) {
                     <span>12-01-2023 14:00</span>
                 </div>
                 <div className="content_table_row">
-                    <a href="">ABC12345</a>
+                    <a href={window.location.origin + window.location.pathname + "?view=order_management&sub_content_pane=view_order_record&order_id=12"}>ABC12345</a>
                     <span>johnsmith@mail.com</span>
                     <span>016 - 1234 5678</span>
                     <span>14</span>

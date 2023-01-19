@@ -48,6 +48,7 @@ div.products_listing {
 div.products_listing span {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 15vw;
     margin: 1vh .5vw 1vh .5vw;
     cursor: pointer;
@@ -71,7 +72,11 @@ div.products_listing span p {
     font-size: .9vw;
 }
 
-@media only screen and (max-width : 480px) {   
+div.products_listing span button.add_to_cart_btn {
+    background-color: #000000;
+}
+
+@media only screen and (max-width : 480px) {
     div.products_listing span {
         width: 17vw;
         margin: 1vh .8vw 1vh .8vw;
@@ -84,7 +89,7 @@ div.products_listing span p {
     }
 
     div#title_banner span button#search_button {
-        padding : .6vh 3vw .6vh 3vw;
+        padding: .6vh 3vw .6vh 3vw;
         font-size: 2vw;
     }
 

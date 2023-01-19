@@ -19,11 +19,16 @@ function LeftPane(props) {
 
 // React component : product item
 function ProductItemCard(props) {
+    function redirectViewProduct(category, product_code) {
+        window.location.href = "/product.html?category=" + category + "&product_code=" + product_code;
+    }
+
     return (
-        <span onClick={() => { window.location.href = "/product.html?category=" + category + "&product_code=" + props.product_code }}>
-            <img src={props.img_url} />
-            <h3>{props.product_code}</h3>
-            <p>{props.product_name} <br /> {props.desc}</p>
+        <span>
+            <img src={props.img_url} onClick={() => redirectViewProduct(category, props.product_code)} />
+            <h3 onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_code}</h3>
+            <p onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_name} <br /> {props.desc}</p>
+            <button className="add_to_cart_btn" type="button">Add To Cart</button>
         </span>
     );
 }
@@ -69,7 +74,7 @@ function RightPane(props) {
         let product_items_arr = [];
         if (display_category == "Search Results")
             product_items_arr = props.product_items;
-        else 
+        else
             product_items_arr = props.product_items.filter((product) => product.shop_category == display_category);
         return (
             <div id="right_pane">

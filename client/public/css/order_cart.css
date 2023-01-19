@@ -1,0 +1,96 @@
+/* order_cart.css */
+
+h1#order_cart_title {
+    text-align: center;
+    padding: 2vh 0 2vh 0;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+
+div#order_cart_content {
+    display: flex;
+    flex-flow: row;
+    column-gap: 8vw;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+div#order_cart_content div#product_items {
+    width: 60%;
+    display: flex;
+    flex-flow: column;
+    row-gap: 5vh;
+    margin-left: 5vw;
+}
+
+div#order_cart_content div#product_items div.item {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border: 1px solid #000000;
+    border-radius: 15px;
+    padding: 2vh 0 2vh 0;
+}
+
+div#order_cart_content div#product_items div.item img {
+    width: 12vw;
+}
+
+div#order_cart_content div#product_items div.item span:nth-child(2) {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    row-gap: 2vh;
+}
+
+div#order_cart_content div#product_items div.item span:nth-child(2) input {
+    width: 5vw;
+}
+
+div#order_cart_content div#product_items div.item span:nth-child(2) a  {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    column-gap: 1vw;
+}
+
+div#order_cart_content div#product_items div.item span:nth-child(2) a img {
+    width: 1.5vw;
+}
+
+div#order_cart_content div#user_information {
+    width: 40%;
+    display: flex;
+    flex-flow: column;
+    margin-right: 5vw;
+    border: 1px solid #000000;
+    border-radius: 15px;
+    align-self: start;
+    padding: 2vh 2vw 2vh 2vw;
+}
+
+div#order_cart_content div#user_information h2 {
+    text-align: center;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 2vh;
+}
+
+div#order_cart_content div#user_information form {
+    display: flex;
+    flex-flow: column;
+}
+
+div#order_cart_content div#user_information form label span.asterisk {
+    color: #800000;
+}
+
+div#order_cart_content div#user_information form label:not(:first-child), div#order_cart_content div#user_information form button {
+    margin-top: 3vh;
+}
+
+div#order_cart_content div#user_information form textarea {
+    max-width: 30vw;
+    min-height: 10vh;
+    max-height: 30vh;
+}

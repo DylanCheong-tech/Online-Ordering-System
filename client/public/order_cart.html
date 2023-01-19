@@ -1,0 +1,59 @@
+<!-- order_cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoping Cart</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Header and Footer components -->
+    <script type="text/babel" src="./js/components/header.jsx"></script>
+    <script type="text/babel" src="./js/components/footer.jsx"></script>
+
+    <script type="text/babel" src="./js/order_cart.js"></script>
+
+    <!-- Header and Footer styliings -->
+    <link rel="stylesheet" href="./css/components/header_footer.css" />
+    <link rel="stylesheet" href="./css/order_cart.css" />
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <h1 id="order_cart_title">Order Cart</h1>
+    <div id="order_cart_content">
+        <div id="product_items"></div>
+
+        <div id="user_information">
+            <h2>Customer Information</h2>
+            <form action="" method="POST">
+                <label>Name / Company Name <span class="asterisk">*</span></label>
+                <input type="text" name="name" placeholder="Name / Company Name" required />
+
+                <label>Delivery Address <span class="asterisk">*</span></label>
+                <input type="text" name="address" placeholder="Delivery Address" required />
+
+                <label>Email <span class="asterisk">*</span></label>
+                <input type="email" name="email" placeholder="Email" required />
+
+                <label>Phone Num / WhatsApp Num <span class="asterisk">*</span></label>
+                <input type="text" name="address" placeholder="Phone Num / WhatsApp Num" required />
+
+                <label>Additional Message to Seller</label>
+                <textarea name="memo" placeholder="Your message here ... "></textarea>
+
+                <button type="submit">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="footer" class="header_footer_template"></footer>
+</body>
+
+</html>

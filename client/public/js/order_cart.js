@@ -12,7 +12,7 @@ function ProductItem(props) {
             <span>
                 <span>Product Code - Product Name</span>
                 <span>Color Variation : BLACK</span>
-                <span>Quantity : <input type="number" min="1" /></span>
+                <span>Quantity : <input type="number" min="1" defaultValue="1" /></span>
                 <span><a href=""><img src="./img/icon_delete.png" />Remove Item</a></span>
             </span>
         </div>

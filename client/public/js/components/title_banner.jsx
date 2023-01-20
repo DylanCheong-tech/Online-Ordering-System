@@ -15,7 +15,7 @@ function TitleBanner(props) {
                 <input id="search_input" type="text" placeholder="Search Products" onKeyDown={enterKeyTriggered} />
                 <button id="search_button" type="button" onClick={() => props.search()}>Search</button>
             </span>
-            <span className="title_order_cart">
+            <span className="title_order_cart" onClick={() => window.location.href = "/order_cart.html"}>
                 Order Cart
                 <img src="./img/icon_shopping_cart.png" />
             </span>

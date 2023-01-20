@@ -44,11 +44,12 @@ div#order_cart_content div#product_items div.item span:nth-child(2) {
     row-gap: 2vh;
 }
 
-div#order_cart_content div#product_items div.item span:nth-child(2) input {
+div#order_cart_content div#product_items div.item span:nth-child(2) input[type=number] {
     width: 5vw;
+    text-align: center;
 }
 
-div#order_cart_content div#product_items div.item span:nth-child(2) a  {
+div#order_cart_content div#product_items div.item span:nth-child(2) a {
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -81,6 +82,11 @@ div#order_cart_content div#user_information form {
     flex-flow: column;
 }
 
+div#order_cart_content div#user_information form input {
+    padding: 1vh .5vw 1vh .5vw;
+    margin-top: .5vh;
+}
+
 div#order_cart_content div#user_information form label span.asterisk {
     color: #800000;
 }
@@ -93,4 +99,51 @@ div#order_cart_content div#user_information form textarea {
     max-width: 30vw;
     min-height: 10vh;
     max-height: 30vh;
+    margin-top: .5vh;
+}
+
+div#order_cart_content div#user_information form button {
+    font-size: 1.2em;
+}
+
+@media only screen and (max-width : 480px) {
+    div#order_cart_content {
+        flex-flow: column;
+    }
+
+    div#order_cart_content div#product_items {
+        width: 90%;
+        row-gap: 2vh;
+    }
+
+    div#order_cart_content div#product_items div.item img {
+        width: 30vw;
+    }
+
+    div#order_cart_content div#product_items div.item span:nth-child(2) {
+        font-size: 3vw;
+        row-gap: 1vh;
+    }
+
+    div#order_cart_content div#product_items div.item span:nth-child(2) input[type=number] {
+        width: 10vw;
+    }
+
+    div#order_cart_content div#product_items div.item span:nth-child(2) a img {
+        width: 5vw;
+    }
+
+    div#order_cart_content div#user_information {
+        width: 85%;
+        align-self: center;
+        margin: 5vh 0 0 0;
+    }
+
+    div#order_cart_content div#user_information form textarea {
+        max-width: 80vw;
+        min-height: 10vh;
+        max-height: 30vh;
+    }
+
+
 }

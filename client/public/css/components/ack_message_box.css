@@ -1,0 +1,19 @@
+/* ack_message_box.css */
+
+span#ack_msg_box {
+    border: 5px double #000000;
+    border-radius: 15px;
+    box-shadow: .5vw .8vh #CCCCCC;
+    position: fixed;
+    background-color: #EFF5F5;
+    width: 40vw;
+    height: 20vh;
+    top: 50vh;
+    left: 30vw;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    row-gap: 3vh;
+    justify-content: space-evenly;
+    align-items: center;
+}

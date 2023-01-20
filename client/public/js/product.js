@@ -87,26 +87,42 @@ function ContentPane(props) {
 
 // React Component : Add to cart pane
 function OrderPane(props) {
+    function add_item(event, shop_category, item_code) {
+        event.preventDefault();
+        let color = ""
+        let quantity = document.getElementsByName("quantity")[0].value
+        document.getElementsByName("color").forEach((item) => {
+            if (item.checked) color = item.value;
+        })
+
+        if (!color) {
+            displayMessageBox("Please select a color varaition !");
+            return;
+        }
+
+
+        add_to_order_cart(category, shop_category, item_code, quantity, color);
+        displayMessageBox("Item(s) has been added into order cart !");
+    }
+
     return (
         <div id="product_order_pane">
             <div id="product_order_info">
                 <h2>Add to your order !</h2>
             </div>
-            <form action="">
+            <form action="" onSubmit={(event) => add_item(event, props.shop_category, props.product_code)}>
                 <fieldset>
                     <legend>Color Variations</legend>
-
-                    <label><input type="radio" name="color" value="" />Black</label>
-                    <label><input type="radio" name="color" value="" />Black</label>
-                    <label><input type="radio" name="color" value="" />Black</label>
-                    <label><input type="radio" name="color" value="" />Black</label>
-                    <label><input type="radio" name="color" value="" />Black</label>
-                    <label><input type="radio" name="color" value="" />Black</label>
+                    {
+                        props.colors.map((color) => {
+                            return <label><input type="radio" name="color" value={color} />{color}</label>
+                        })
+                    }
                 </fieldset>
 
                 <label>Quantity : <input type="number" name="quantity" min="1" defaultValue="1" /></label>
 
-                <span>Availability : <span className="green_color_text">In Stock</span></span>
+                <span>Availability : <span className="green_color_text">{props.stock_status}</span></span>
 
                 <button type="submit">Add to cart</button>
             </form>
@@ -124,7 +140,7 @@ function render(data) {
         <React.Fragment>
             <ImagePane images={data.images} />
             <ContentPane info={data} />
-            <OrderPane />
+            <OrderPane shop_category={data.shop_category} product_code={data.product_code} colors={data.colors} stock_status={data.stock_status} />
         </React.Fragment>
     );
 

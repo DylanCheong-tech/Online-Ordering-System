@@ -28,7 +28,10 @@ function ProductItemCard(props) {
             <img src={props.img_url} onClick={() => redirectViewProduct(category, props.product_code)} />
             <h3 onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_code}</h3>
             <p onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_name} <br /> {props.desc}</p>
-            <button className="add_to_cart_btn" type="button">Add To Cart</button>
+            {category == "iron" ? <button className="add_to_cart_btn" type="button" onClick={() => {
+                add_to_order_cart(category, props.shop_category, props.product_code, 1, props.colors[0]);
+                displayMessageBox("Item(s) has been added into order cart !");
+                }}>Add To Cart</button> : ""}
         </span>
     );
 }
@@ -39,7 +42,7 @@ function generateProductItemCards(array) {
     let i = 1;
     console.log(array)
     let return_arr = array.map(element => {
-        return <ProductItemCard key={i++} img_url={element.image_url} product_code={element.product_code} product_name={element.product_name} desc={element.descriptions[0]} />
+        return <ProductItemCard key={i++} img_url={element.image_url} shop_category={element.shop_category} product_code={element.product_code} product_name={element.product_name} desc={element.descriptions[0]} colors={element.colors} />
     });
 
     return return_arr;

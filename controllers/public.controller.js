@@ -15,6 +15,7 @@ let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions
 function getProductCatalogueJSON(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
+        if (category == "iron") catalogue_projection.colors = 1
         getProductCatalogue(category, catalogue_projection)
             .then(
                 (result) => {

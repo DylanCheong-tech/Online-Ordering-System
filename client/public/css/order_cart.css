@@ -15,6 +15,13 @@ div#order_cart_content {
     margin-bottom: 5vh;
 }
 
+div#order_cart_content div#product_items div#no_items {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    text-align: center;
+}
+
 div#order_cart_content div#product_items {
     width: 60%;
     display: flex;
@@ -111,6 +118,10 @@ div#order_cart_content div#user_information form button {
         flex-flow: column;
     }
 
+    div#order_cart_content div#product_items div#no_items {
+        font-size: 3vw;
+    }
+
     div#order_cart_content div#product_items {
         width: 90%;
         row-gap: 2vh;
@@ -144,6 +155,5 @@ div#order_cart_content div#user_information form button {
         min-height: 10vh;
         max-height: 30vh;
     }
-
 
 }

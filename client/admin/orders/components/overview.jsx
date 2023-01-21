@@ -1,6 +1,8 @@
 // overview.jsx
 
 function OrderManagementDashboard(props) {
+    let data = props.data;
+
     return (
         <React.Fragment>
             <div class="left_margin">
@@ -9,16 +11,16 @@ function OrderManagementDashboard(props) {
 
             <div id="dashboard_content_pane">
                 <div id="summary_tab">
-                    <span>New Orders : xxx</span>
-                    <span>Confirmed Orders : xxx</span>
-                    <span>Cancelled Orders : xxx</span>
-                    <span>Total Customers : xxx</span>
+                    <span>New Orders : {data.CREATED}</span>
+                    <span>Confirmed Orders : {data.CONFIRMED}</span>
+                    <span>Cancelled Orders : {data.CANCELLED}</span>
+                    <span>Completed Orders : {data.COMPLETED}</span>
+                    <span>Total Customers : {data.customer_count}</span>
                 </div>
 
                 <div id="top_product_card">
                     <h3>Top Products</h3>
                     <p>5 most ordered items from you online store</p>
-
                     <div id="header_bar">
                         <span>Rank</span>
                         <span>Product Code</span>
@@ -26,24 +28,18 @@ function OrderManagementDashboard(props) {
                         <span>Quantity</span>
                     </div>
 
-                    <div className="content_table_row">
-                        <span>1</span>
-                        <span>CP-1234</span>
-                        <span>Plastic</span>
-                        <span>14</span>
-                    </div>
-                    <div className="content_table_row">
-                        <span>1</span>
-                        <span>CP-1234</span>
-                        <span>Plastic</span>
-                        <span>14</span>
-                    </div>
-                    <div className="content_table_row">
-                        <span>1</span>
-                        <span>CP-1234</span>
-                        <span>Plastic</span>
-                        <span>14</span>
-                    </div>
+                    {
+                        data.top_products.map((product, index) => {
+                            return (
+                                <div key={"top_product-" + index} className="content_table_row">
+                                    <span>{index + 1}</span>
+                                    <span>{product._id.catalogue_category}</span>
+                                    <span>{product._id.item_code}</span>
+                                    <span>{product.order_count}</span>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
 
                 <div id="monthly_order_card">

@@ -44,6 +44,60 @@ async function visitorSubmitOrder(req, res) {
     }
 }
 
+// Controller x : admin get order overview 
+async function getOrderOverview(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let aggregate_pipelines_1 = [
+            { $group: { _id: "$order_status", order_count: { $sum: 1 } } },
+        ]
+
+        let aggregate_pipelines_2 = [
+            { $unwind: "$order_items" },
+            { $group: { _id: { catalogue_category: "$order_items.catalogue_category", item_code: "$order_items.item_code" }, order_count: { $sum: 1 } } },
+            { $sort: { order_count: -1 } },
+            { $limit: 5 }
+        ]
+
+        let aggregate_pipelines_3 = [
+            { $group: { _id: "$email" } },
+            { $count: "customer_count" }
+        ]
+
+        let cursor_1 = collection.aggregate(aggregate_pipelines_1);
+        let cursor_2 = collection.aggregate(aggregate_pipelines_2);
+        let cursor_3 = collection.aggregate(aggregate_pipelines_3);
+
+        let result_arr = { top_products: [] };
+
+        for await (const document of cursor_1) {
+            result_arr[document._id] = document.order_count;
+        }
+
+        for await (const document of cursor_2) {
+            result_arr.top_products.push(document)
+        }
+
+        for await (const document of cursor_3) {
+            result_arr.customer_count = document.customer_count;
+        }
+
+        res.json(result_arr);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ "status": "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
 // Controller x : admin get a list of orders 
 async function getOrderList(req, res) {
     try {
@@ -245,6 +299,7 @@ async function completeOrderRecord(req, res) {
 
 module.exports = {
     visitorSubmitOrder: visitorSubmitOrder,
+    getOrderOverview: getOrderOverview,
     getOrderList: getOrderList,
     getStatusFilteredOrderList: getStatusFilteredOrderList,
     getOrderRecord: getOrderRecord,

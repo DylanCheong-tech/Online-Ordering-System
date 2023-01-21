@@ -133,7 +133,11 @@ async function displayProductItemInfo(category, product_code) {
 
 // helper function to diaplay the customer orders dashboard 
 async function displayOrderManagementDashboard() {
-    let component = <OrderManagementDashboard />;
+    let response = await fetch("/order/admin/order/overview");
+    check_redirect_request(response);
+    let json = await response.json();
+
+    let component = <OrderManagementDashboard data={json} />;
     renderSubcontent(component);
 }
 

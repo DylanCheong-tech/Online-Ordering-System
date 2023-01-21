@@ -36,7 +36,7 @@ router.use(passport.session());
 router.post("/visitor/submit", controllers.visitorSubmitOrder);
 
 // GET Request : admin get the dashboard information 
-// router.get("/admin/order/overview", check_authorised_access, controllers);
+router.get("/admin/order/overview", check_authorised_access, controllers.getOrderOverview);
 
 // GET Request : admin get the list of orders
 router.get("/admin/order_list", check_authorised_access, controllers.getOrderList);

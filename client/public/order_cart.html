@@ -16,12 +16,14 @@
     <script type="text/babel" src="./js/components/header.jsx"></script>
     <script type="text/babel" src="./js/components/footer.jsx"></script>
 
+    <script type="text/babel" src="./js/components/ack_message_box.jsx"></script>
     <script src="./js/order_cart_fn.js"></script>
     <script type="text/babel" src="./js/order_cart.js"></script>
 
     <!-- Header and Footer styliings -->
     <link rel="stylesheet" href="./css/components/header_footer.css" />
     <link rel="stylesheet" href="./css/order_cart.css" />
+    <link rel="stylesheet" href="./css/components/ack_message_box.css" />
 </head>
 
 <body>
@@ -33,7 +35,7 @@
 
         <div id="user_information">
             <h2>Customer Information</h2>
-            <form action="" method="POST">
+            <form action="/order/visitor/submit" method="POST" onsubmit="submitOrderForm()">
                 <label>Name / Company Name <span class="asterisk">*</span></label>
                 <input type="text" name="name" placeholder="Name / Company Name" required />
 
@@ -44,10 +46,12 @@
                 <input type="email" name="email" placeholder="Email" required />
 
                 <label>Phone Num / WhatsApp Num <span class="asterisk">*</span></label>
-                <input type="text" name="address" placeholder="Phone Num / WhatsApp Num" required />
+                <input type="text" name="contact" placeholder="Phone Num / WhatsApp Num" required />
 
                 <label>Additional Message to Seller</label>
                 <textarea name="memo" placeholder="Your message here ... "></textarea>
+
+                <input id="items_input" type="text" class="hidden" name="items" readonly />
 
                 <button type="submit">Submit Order</button>
             </form>

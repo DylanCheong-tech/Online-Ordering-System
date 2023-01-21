@@ -34,7 +34,7 @@ else if (view == "order_management") {
     else if (sub_content_pane == "order_details")
         displayOrderDetails()
     else if (sub_content_pane == "view_order_record" && order_id)
-        displayOrderRecordDetails()
+        displayOrderRecordDetails(order_id)
 }
 // else {
 //     // Error message 

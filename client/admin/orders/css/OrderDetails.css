@@ -77,3 +77,8 @@ div#order_content_pane>div#header_bar {
     border-bottom: 1px solid #000000;
 
 }
+
+/* no order list message */
+div#order_content_pane h2 {
+    text-align: center;
+}

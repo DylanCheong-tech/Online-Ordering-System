@@ -24,4 +24,9 @@ app.use("/admin", express.static(path.join(__dirname + "/client/admin")));
 const admin_router = require('./routes/admin.route');
 app.use("/admin", admin_router);
 
+// Version 2.0
+// Order Management
+const order_router = require('./routes/order.route');
+app.use("/order", order_router);
+
 app.listen(PORT, () => { console.log(`Application is on service with PORT ${PORT}`) });

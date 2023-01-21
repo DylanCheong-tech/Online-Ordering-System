@@ -113,6 +113,10 @@ div#order_cart_content div#user_information form button {
     font-size: 1.2em;
 }
 
+div#order_cart_content div#user_information form input#items_input {
+    display: none;
+}
+
 @media only screen and (max-width : 480px) {
     div#order_cart_content {
         flex-flow: column;

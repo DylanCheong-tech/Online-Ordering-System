@@ -2,6 +2,16 @@
 
 // retreive the order cart data from the web bowser session data storage 
 
+let submit_status = (new URLSearchParams(window.location.search)).get("submit_status")
+
+if (submit_status == "success"){
+    displayMessageBox("Order submitted, please check your mailbox. Thank You !");
+    window.sessionStorage.clear()
+}
+else if (submit_status == "fail"){
+    displayMessageBox("Something went wrong ...  Please contact our customer service for any assistance. Thank You !");
+}
+
 // Product Item Entry component 
 function ProductItem(props) {
     let item = props.item;
@@ -26,13 +36,13 @@ function ProductItem(props) {
     )
 }
 
-function render_order_cart(data) {
+function render_order_cart() {
     const root = document.getElementById("product_items");
     const container = ReactDOM.createRoot(root);
 
     let order_cart_data = get_order_cart();
 
-    if (order_cart_data.items.length > 0)
+    if (order_cart_data && order_cart_data.items.length > 0)
         container.render(
             <React.Fragment>
                 {
@@ -49,6 +59,10 @@ function render_order_cart(data) {
                 <h2>Shop with us now on our catalogues !</h2>
             </div>
         )
+}
+
+function submitOrderForm() {
+    document.getElementById("items_input").value = JSON.stringify(get_order_cart().items);
 }
 
 render_order_cart()

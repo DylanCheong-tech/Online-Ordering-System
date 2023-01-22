@@ -52,7 +52,7 @@ function OrderDetails(props) {
         <React.Fragment>
             <div id="order_details_title_banner" class="left_margin">
                 <h1>Order Details</h1>
-                <button type="button">Create New Order</button>
+                <button type="button" onClick={() => accessResource("view=order_management&sub_content_pane=create_order_record")}>Create New Order</button>
             </div>
 
             <div id="order_tab_bar">

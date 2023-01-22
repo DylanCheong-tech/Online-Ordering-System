@@ -1,0 +1,66 @@
+/* OrderForm.css */
+
+div#order_form_pane {
+    margin-left: 4vw;
+    margin-right: 4vw;
+}
+
+div#order_form_pane form {
+    margin-top: 2vh;
+    display: grid;
+    grid-template-columns: repeat(2, 12vw 20vw);
+    column-gap: 2vw;
+    row-gap: 2vh;
+    align-items: center;
+    justify-content: space-between;
+}
+
+div#order_form_pane form .span4 {
+    grid-column: span 4;
+}
+
+div#order_form_pane form label, div#order_form_pane form .header {
+    font-weight: bold;
+}
+
+div#order_form_pane form textarea {
+    max-width: 20vw;
+    min-height: 10vh;
+    max-height: 30vh;
+}
+
+div#order_form_pane form input.hidden {
+    display: none;
+}
+
+div#order_form_pane form div.span4 {
+    display: flex;
+    flex-flow: row;
+    column-gap: 2vw;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+div#order_form_pane form div.span4>span:not(:first-child, :last-child) {
+    width: 15vw;
+}
+
+div#order_form_pane form div.span4>span:is(:first-child) {
+    width: 5vw;
+}
+
+div#order_form_pane form div.span4>span:is(:last-child) {
+    width: 10vw;
+}
+
+div#order_form_pane form div.span4>span :is(select, input) {
+    width: 100%;
+}
+
+div#order_form_pane form div.button_row {
+    display: flex;
+    flex-flow: row;
+    justify-content: right;
+    column-gap: 2vw;
+    margin-top: 10vh;
+}

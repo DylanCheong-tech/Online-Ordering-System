@@ -1,5 +1,22 @@
 /* OrderRecordDetail.css */
 
+div#order_title_banner {
+    display: flex;
+    flex-flow: row;
+    column-gap: 2vw;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+div#order_title_banner h1 {
+    margin: 0;
+}
+
+div#order_title_banner img {
+    width: 4vw;
+    cursor: pointer;
+}
+
 div#order_action_btn_bar {
     display: flex;
     flex-flow: row;
@@ -23,6 +40,10 @@ div#order_details_pane {
     padding: 2vw;
     border: 1px solid #000000;
     border-radius: 12px;
+}
+
+div#order_details_pane span.label_name, div#order_details_pane div.item_header * {
+    font-weight: bold;
 }
 
 div#order_details_pane .span3 {

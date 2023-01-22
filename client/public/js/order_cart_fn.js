@@ -22,7 +22,7 @@ function add_to_order_cart(catalogue_category, shop_category, item_code, quantit
             "catalogue_category": catalogue_category,
             "shop_category": shop_category,
             "item_code": item_code,
-            "quantity": quantity,
+            "quantity": parseInt(quantity),
             "color": color
         }
 
@@ -51,7 +51,7 @@ function update_item_quantity(item_code, color, new_quantity) {
 
     order_data.items.forEach((item) => {
         if (item.item_code == item_code && item.color == color)
-            item.quantity = new_quantity
+            item.quantity = parseInt(new_quantity)
     })
 
     window.sessionStorage.setItem("order_cart", JSON.stringify(order_data));

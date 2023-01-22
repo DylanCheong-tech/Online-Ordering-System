@@ -71,7 +71,8 @@ function OrderRecordDetail(props) {
 
     return (
         <React.Fragment>
-            <div class="left_margin">
+            <div id="order_title_banner" class="left_margin">
+                <img src="./img/icon_back.png" onClick={() => accessResource("view=order_management&sub_content_pane=order_details")} />
                 <h1>Order -- {data.order_id}</h1>
             </div>
 
@@ -79,7 +80,7 @@ function OrderRecordDetail(props) {
                 <button type="button" onClick={() => confirmOrder(data.order_id)} disabled={data.order_status != "CREATED" ? true : false} >Confirm</button>
                 <button type="button" onClick={() => cancelOrder(data.order_id)} disabled={data.order_status != "CONFIRMED" ? true : false}>Cancel</button>
                 <button type="button" onClick={() => completeOrder(data.order_id)} disabled={data.order_status != "CONFIRMED" ? true : false}>Completed</button>
-                <button type="button">Edit</button>
+                <button type="button" onClick={() => accessResource("view=order_management&sub_content_pane=edit_order_record&order_id=" + data.order_id)}>Edit</button>
                 <button type="button" onClick={() => deleteOrder(data.order_id)}>Delete</button>
             </div>
 
@@ -98,16 +99,21 @@ function OrderRecordDetail(props) {
                 <span className="label_name">Completed Time : </span>
                 <span className="value">{data.order_completed_time != "N/A" ? (new Date(data.order_completed_time)).toLocaleString() : "N/A"}</span>
 
-                <span className="label_name">Email : </span>
-                <span className="value">{data.email}</span>
+                <span className="label_name">Name : </span>
+                <span className="value">{data.name}</span>
                 <span className="label_name">Contact : </span>
                 <span className="value">{data.contact}</span>
+
+                <span className="label_name">Email : </span>
+                <span className="value">{data.email}</span>
+                <span className="label_name">Address : </span>
+                <span className="value">{data.address}</span>
 
                 <span className="label_name">Order Message : </span>
                 <span className="value span3">{data.order_message ? data.order_message : "No message from the customer ..."}</span>
 
                 <span className="label_name span4">Order Item(s) :</span>
-                <div className="span4">
+                <div className="span4 item_header">
                     <span>No.</span>
                     <span>Catalogue Category</span>
                     <span>Product Code</span>

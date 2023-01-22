@@ -12,9 +12,9 @@ function OrderManagementDashboard(props) {
             <div id="dashboard_content_pane">
                 <div id="summary_tab">
                     <span>New Orders : {data.CREATED}</span>
-                    <span>Confirmed Orders : {data.CONFIRMED}</span>
-                    <span>Cancelled Orders : {data.CANCELLED}</span>
-                    <span>Completed Orders : {data.COMPLETED}</span>
+                    <span>Confirmed Orders : {data.CONFIRMED ? data.CONFIRMED : 0}</span>
+                    <span>Cancelled Orders : {data.CANCELLED ? data.CANCELLED : 0}</span>
+                    <span>Completed Orders : {data.COMPLETED ? data.COMPLETED : 0}</span>
                     <span>Total Customers : {data.customer_count}</span>
                 </div>
 
@@ -33,8 +33,8 @@ function OrderManagementDashboard(props) {
                             return (
                                 <div key={"top_product-" + index} className="content_table_row">
                                     <span>{index + 1}</span>
-                                    <span>{product._id.catalogue_category}</span>
                                     <span>{product._id.item_code}</span>
+                                    <span>{product._id.catalogue_category.charAt(0).toUpperCase() + product._id.catalogue_category.slice(1)}</span>
                                     <span>{product.order_count}</span>
                                 </div>
                             )

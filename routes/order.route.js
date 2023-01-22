@@ -47,11 +47,17 @@ router.get("/admin/order_list/:status", check_authorised_access, controllers.get
 // GET Request : admin get a specific order record 
 router.get("/admin/order/:orderID", check_authorised_access, controllers.getOrderRecord);
 
-// // POST Request : admin create an order 
-// router.post("/admin/order/create", check_authorised_access, controllers);
+// GET Request : get order form metada (applicable to create and edit)
+router.get("/admin/order/info/catalogue_category", check_authorised_access, controllers.getCatalogueCategories)
+router.get("/admin/order/info/:catalogue_category/shop_category", check_authorised_access, controllers.getShopCategories)
+router.get("/admin/order/info/:catalogue_category/:shop_category/product_codes", check_authorised_access, controllers.getProductCodes)
+router.get("/admin/order/info/:catalogue_category/:shop_category/:product_code/colors", check_authorised_access, controllers.getProductColors)
 
-// // POST Request : admin edit an order 
-// router.post("/admin/order/:orderID/edit", check_authorised_access, controllers);
+// POST Request : admin create an order 
+router.post("/admin/order/create", check_authorised_access, controllers.createOrderRecord);
+
+// POST Request : admin edit an order 
+router.post("/admin/order/:orderID/edit", check_authorised_access, controllers.editOrderRecord);
 
 // POST Request : admin delete an order 
 router.post("/admin/order/:orderID/delete", check_authorised_access, controllers.deleteOrderRecord);

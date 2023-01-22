@@ -7,6 +7,22 @@ const database_uri = process.env.MONGODB_CONN_STRING;
 
 // Controller 1 : get the data to render the backbone of the home page 
 async function visitorSubmitOrder(req, res) {
+
+    function order_id_generator() {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let prefix = "";
+
+        for (let i = 0; i < 3; i++) {
+            let random_char = letters.charAt(Math.random() * letters.length);
+            prefix += random_char;
+            letters.replace(random_char, "");
+        }
+
+        let numbers = Date.now().toFixed().slice(7);
+
+        return prefix + "-" + numbers;
+    }
+
     try {
         var dbClient = new MongoClient(database_uri);
         await dbClient.connect();
@@ -16,14 +32,14 @@ async function visitorSubmitOrder(req, res) {
         let data = req.body;
 
         let orderDoc = {
-            "_id": "A-" + Date.now().toFixed(),
+            "_id": order_id_generator(),
             "name": data.name,
             "email": data.email,
             "address": data.address,
             "contact": data.contact,
             "order_items": JSON.parse(data.items),
             "order_status": "CREATED",
-            "order_created_time": (new Date(Date.now())).toUTCString(),
+            "order_created_time": (new Date(Date.now())),
             "order_confirmed_time": "N/A",
             "order_cancelled_time": "N/A",
             "order_completed_time": "N/A",
@@ -58,7 +74,7 @@ async function getOrderOverview(req, res) {
 
         let aggregate_pipelines_2 = [
             { $unwind: "$order_items" },
-            { $group: { _id: { catalogue_category: "$order_items.catalogue_category", item_code: "$order_items.item_code" }, order_count: { $sum: 1 } } },
+            { $group: { _id: { catalogue_category: "$order_items.catalogue_category", item_code: "$order_items.item_code" }, order_count: { $sum: "$order_items.quantity" } } },
             { $sort: { order_count: -1 } },
             { $limit: 5 }
         ]
@@ -98,6 +114,228 @@ async function getOrderOverview(req, res) {
     }
 }
 
+// Controller x : get a list of the catalogue categories 
+async function getCatalogueCategories(req, res) {
+    // currently have teo catalogue category only
+    res.json({ "catalogue_category": ["Plastic Pots", "Iron Stands"] });
+}
+
+// Controller x : get a list of the shop catagories in a catalogue
+async function getShopCategories(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        let category = req.params.catalogue_category;
+        let col_name = category == "Plastic Pots" ? "PlasticPots" : "IronStands";
+
+        const database = dbClient.db("ProductCatalogue");
+        let collection = database.collection(col_name);
+
+        let aggregate_pipelines = [
+            { $group: { _id: "$shop_category" } },
+        ]
+
+        let cursor = await collection.aggregate(aggregate_pipelines);
+
+        let shop_categories = []
+        for await (let document of cursor)
+            shop_categories.push(document._id)
+
+        let return_result = { "shop_categories": shop_categories }
+
+        res.json(return_result);
+
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ "status": "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller x : get a list of the product codes on a catalogue and shop category
+async function getProductCodes(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        let catalogue_category = req.params.catalogue_category;
+        let shop_category = req.params.shop_category;
+        let col_name = catalogue_category == "Plastic Pots" ? "PlasticPots" : "IronStands";
+
+        const database = dbClient.db("ProductCatalogue");
+        let collection = database.collection(col_name);
+
+        let aggregate_pipelines = [
+            { $match: { shop_category: shop_category } },
+            { $project: { product_code: 1 } },
+        ]
+
+        let cursor = await collection.aggregate(aggregate_pipelines);
+
+        let product_codes = []
+        for await (let document of cursor)
+            product_codes.push(document.product_code)
+
+        let return_result = { "product_codes": product_codes }
+
+        res.json(return_result);
+
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ "status": "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller x : get a list of the product colors on a catalogue, shop category and a product code
+async function getProductColors(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        let catalogue_category = req.params.catalogue_category;
+        let shop_category = req.params.shop_category;
+        let product_code = req.params.product_code;
+
+        let col_name = catalogue_category == "Plastic Pots" ? "PlasticPots" : "IronStands";
+
+        const database = dbClient.db("ProductCatalogue");
+        let collection = database.collection(col_name);
+
+        let query = { shop_category: shop_category, product_code: product_code }
+
+        let query_result = await collection.findOne(query);
+
+        let return_result = { "colors": query_result.colors }
+
+        res.json(return_result);
+
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ "status": "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller x : get the data to render the backbone of the home page 
+async function createOrderRecord(req, res) {
+
+    function order_id_generator() {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let prefix = "";
+
+        for (let i = 0; i < 3; i++) {
+            let random_char = letters.charAt(Math.random() * letters.length);
+            prefix += random_char;
+            letters.replace(random_char, "");
+        }
+
+        let numbers = Date.now().toFixed().slice(7);
+
+        return prefix + "-" + numbers;
+    }
+
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let data = req.body;
+
+        let orderDoc = {
+            "_id": order_id_generator(),
+            "name": data.name,
+            "email": data.email,
+            "address": data.address,
+            "contact": data.contact,
+            "order_items": JSON.parse(data.items),
+            "order_status": "CREATED",
+            "order_created_time": (new Date(Date.now())),
+            "order_confirmed_time": "N/A",
+            "order_cancelled_time": "N/A",
+            "order_completed_time": "N/A",
+            "order_message": data.memo
+        }
+
+        let result = await collection.insertOne(orderDoc);
+
+        res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=create_order_record&submit_status=success")
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=create_order_record&submit_status=fail")
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller x : get the data to render the backbone of the home page 
+async function editOrderRecord(req, res) {
+
+    function order_id_generator() {
+        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let prefix = "";
+
+        for (let i = 0; i < 3; i++) {
+            let random_char = letters.charAt(Math.random() * letters.length);
+            prefix += random_char;
+            letters.replace(random_char, "");
+        }
+
+        let numbers = Date.now().toFixed().slice(7);
+
+        return prefix + "-" + numbers;
+    }
+
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let data = req.body;
+        let order_id = req.params.orderID;
+
+        let query = { _id: order_id };
+        let orderDoc = {
+            "name": data.name,
+            "email": data.email,
+            "address": data.address,
+            "contact": data.contact,
+            "order_items": JSON.parse(data.items),
+            "order_message": data.memo
+        }
+
+        let result = await collection.findOneAndUpdate(query, { $set: orderDoc });
+
+        res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=edit_order_record&order_id=" + order_id + "&update_status=success")
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=edit_order_record&order_id=" + order_id + "&update_status=fail")
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
 // Controller x : admin get a list of orders 
 async function getOrderList(req, res) {
     try {
@@ -107,14 +345,17 @@ async function getOrderList(req, res) {
         const collection = dbClient.db("OrderingManagement").collection("Orders");
 
         let aggregate_pipelines = [
-            { $project: { "_id": 0, "order_id": "$_id", "email": 1, "contact": 1, "order_status": 1, "order_created_time": 1, "total_items": { $size: "$order_items" } } },
+            { $unwind: "$order_items" },
+            { $group: { _id: { order_id: "$_id", email: "$email", contact: "$contact", order_created_time: "$order_created_time" }, total_items: { $sum: "$order_items.quantity" } } },
+            { $sort: { order_created_time: -1 } }
         ]
 
         let cursor = collection.aggregate(aggregate_pipelines);
 
         let result_arr = [];
 
-        for await (const document of cursor) {
+        for await (let document of cursor) {
+            document = { ...document._id, total_items: document.total_items }
             result_arr.push(document);
         }
 
@@ -300,6 +541,12 @@ async function completeOrderRecord(req, res) {
 module.exports = {
     visitorSubmitOrder: visitorSubmitOrder,
     getOrderOverview: getOrderOverview,
+    getCatalogueCategories: getCatalogueCategories,
+    getShopCategories: getShopCategories,
+    getProductCodes: getProductCodes,
+    getProductColors: getProductColors,
+    createOrderRecord: createOrderRecord,
+    editOrderRecord: editOrderRecord,
     getOrderList: getOrderList,
     getStatusFilteredOrderList: getStatusFilteredOrderList,
     getOrderRecord: getOrderRecord,

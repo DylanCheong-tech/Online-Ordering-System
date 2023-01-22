@@ -6,6 +6,7 @@ div#order_title_banner {
     column-gap: 2vw;
     margin-top: 3vh;
     margin-bottom: 3vh;
+    align-items: center;
 }
 
 div#order_title_banner h1 {
@@ -57,7 +58,15 @@ div#order_details_pane .span4 {
 div#order_details_pane div.span4 {
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
+    column-gap: 1vw;
     margin-left: 5vw;
-    width: 70%;
+    text-align: center;
+}
+
+div#order_details_pane div.span4>span:not(:first-child) {
+    width: 15vw;
+}
+
+div#order_details_pane div.span4>span:first-child {
+    width: 5vw;
 }

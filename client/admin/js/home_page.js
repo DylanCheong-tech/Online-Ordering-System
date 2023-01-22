@@ -5,7 +5,7 @@ function displayMessageBox(message, close_fn) {
     document.getElementById("popup_message").innerHTML = message;
     document.getElementById("popup_message_box").style.display = "flex";
 
-    document.getElementById("popup_message_box_close_btn").addEventListener("click", function () { closeMesssageBox(event, close_fn) }, event, close_fn)
+    document.getElementById("popup_message_box_close_btn").addEventListener("click", function (event) { closeMesssageBox(event, close_fn) }, event, close_fn)
 }
 
 // close the pop up message box 

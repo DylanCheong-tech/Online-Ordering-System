@@ -8,6 +8,10 @@ function add_to_order_cart(catalogue_category, shop_category, item_code, quantit
     if (!order_data) order_data = { items: [] }
     else order_data = JSON.parse(order_data);
 
+    if (catalogue_category == "plastic" || catalogue_category == "iron") {
+        catalogue_category = catalogue_category == "plastic" ? "Plastic Pots" : "Iron Stands";
+    }
+
     // check if the item is added 
     let existing_item = order_data.items.filter((item) => item.item_code == item_code)
 

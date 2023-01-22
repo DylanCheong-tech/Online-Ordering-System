@@ -78,7 +78,7 @@ function OrderRecordDetail(props) {
 
             <div id="order_action_btn_bar">
                 <button type="button" onClick={() => confirmOrder(data.order_id)} disabled={data.order_status != "CREATED" ? true : false} >Confirm</button>
-                <button type="button" onClick={() => cancelOrder(data.order_id)} disabled={data.order_status != "CONFIRMED" ? true : false}>Cancel</button>
+                <button type="button" onClick={() => cancelOrder(data.order_id)} disabled={["CANCELLED", "COMPLETED"].includes(data.order_status) ? true : false}>Cancel</button>
                 <button type="button" onClick={() => completeOrder(data.order_id)} disabled={data.order_status != "CONFIRMED" ? true : false}>Completed</button>
                 <button type="button" onClick={() => accessResource("view=order_management&sub_content_pane=edit_order_record&order_id=" + data.order_id)}>Edit</button>
                 <button type="button" onClick={() => deleteOrder(data.order_id)}>Delete</button>
@@ -125,7 +125,7 @@ function OrderRecordDetail(props) {
                         return (
                             <div key={"item-" + index} className="span4">
                                 <span>{index + 1} .</span>
-                                <span>{item.catalogue_category.charAt(0).toUpperCase() + item.catalogue_category.slice(1)}</span>
+                                <span>{item.catalogue_category}</span>
                                 <span>{item.item_code}</span>
                                 <span>{item.color}</span>
                                 <span>{item.quantity}</span>

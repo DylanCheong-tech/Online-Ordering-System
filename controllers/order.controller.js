@@ -346,7 +346,7 @@ async function getOrderList(req, res) {
 
         let aggregate_pipelines = [
             { $unwind: "$order_items" },
-            { $group: { _id: { order_id: "$_id", email: "$email", contact: "$contact", order_created_time: "$order_created_time" }, total_items: { $sum: "$order_items.quantity" } } },
+            { $group: { _id: { order_id: "$_id", email: "$email", contact: "$contact", order_status: "$order_status", order_created_time: "$order_created_time" }, total_items: { $sum: "$order_items.quantity" } } },
             { $sort: { order_created_time: -1 } }
         ]
 
@@ -383,14 +383,17 @@ async function getStatusFilteredOrderList(req, res) {
 
         let aggregate_pipelines = [
             { $match: { "order_status": status } },
-            { $project: { "_id": 0, "order_id": "$_id", "email": 1, "contact": 1, "order_status": 1, "order_created_time": 1, "total_items": { $size: "$order_items" } } },
+            { $unwind: "$order_items" },
+            { $group: { _id: { order_id: "$_id", email: "$email", contact: "$contact", order_status: "$order_status", order_created_time: "$order_created_time" }, total_items: { $sum: "$order_items.quantity" } } },
+            { $sort: { order_created_time: -1 } }
         ]
 
         let cursor = collection.aggregate(aggregate_pipelines);
 
         let result_arr = [];
 
-        for await (const document of cursor) {
+        for await (let document of cursor) {
+            document = { ...document._id, total_items: document.total_items }
             result_arr.push(document);
         }
 

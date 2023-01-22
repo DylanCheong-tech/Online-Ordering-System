@@ -41,6 +41,17 @@ function OrderForm(props) {
         })
     }
 
+    function remove_order_item_value(index) {
+        function state_list_rm_fn(prev) {
+            prev = prev.filter((item, item_index) => item_index != index);
+            return [...prev];
+        }
+        set_order_item_list(state_list_rm_fn);
+        set_shop_category_2D_list(state_list_rm_fn);
+        set_product_codes_2D_list(state_list_rm_fn);
+        set_product_color_2D_list(state_list_rm_fn);
+    }
+
     function submitForm(event) {
         document.getElementById("hidden_items_input").value = JSON.stringify(order_item_list);
     }
@@ -111,12 +122,13 @@ function OrderForm(props) {
                     <span>Product Code</span>
                     <span>Color</span>
                     <span>Quantity</span>
+                    <span></span>
                 </div>
                 {
                     order_item_list.map((item, index) => {
                         return (
                             <div key={"order_item-" + index} className="span4">
-                                <span>{index + 1}</span>
+                                <span>{index + 1} .</span>
                                 <span>
                                     <select value={item.catalogue_category} onChange={(event) => { update_order_item_value(index, "catalogue_category", event.target.value); getShopCategory(index, event.target.value) }}>
                                         <option selected disabled value="">-- Catalogue Category --</option>
@@ -168,6 +180,9 @@ function OrderForm(props) {
                                 <span>
                                     <input type="number" value={item.quantity} placeholder="Quantity" min="1" onChange={(event) => update_order_item_value(index, "quantity", event.target.value)} />
                                 </span>
+                                <span>
+                                    <button type="button" onClick={() => remove_order_item_value(index)}>Remove</button>
+                                </span>
                             </div>
                         )
                     })
@@ -186,7 +201,7 @@ function OrderForm(props) {
 
                 <div className="span4 button_row">
                     <button type="button" onClick={() => accessResource(order_data ? "view=order_management&sub_content_pane=view_order_record&order_id=" + order_data.order_id : "view=order_management&sub_content_pane=order_details")}>Cancel</button>
-                    <button type="submit">{order_data ? "Update Order" :"Create Order"}</button>
+                    <button type="submit">{order_data ? "Update Order" : "Create Order"}</button>
                 </div>
 
             </form>

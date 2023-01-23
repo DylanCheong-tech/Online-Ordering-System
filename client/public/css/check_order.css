@@ -1,0 +1,130 @@
+/* check_order.css */
+
+h1#title_banner {
+    text-align: center;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    padding: 4vh 0 4vh 0;
+}
+
+div#check_order_pane {
+    display: flex;
+    flex-flow: column;
+    row-gap: 2vh;
+}
+
+div#check_order_pane>div {
+    border: 1px solid #000000;
+    margin: 0 2vw 0 2vw;
+    padding: 2vw;
+}
+
+div#check_order_pane>div#check_order_form_pane {
+    display: flex;
+    flex-flow: column;
+}
+
+div#check_order_pane>div#check_order_form_pane form {
+    display: grid;
+    grid-template-columns: repeat(2, 20vw);
+    row-gap: 4vh;
+    column-gap: 30vw;
+    justify-content: center;
+}
+
+div#check_order_pane>div#check_order_form_pane form label {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    row-gap: 1vh;
+}
+
+div#check_order_pane>div#check_order_form_pane form label input {
+    padding: .5vw 1vh .5vw 1vh;
+    width: 100%;
+}
+
+div#check_order_pane>div#check_order_form_pane form button {
+    grid-column: span 2;
+    justify-self: center;
+}
+
+div#check_order_pane>div#check_order_result_pane {
+    display: none;
+    grid-template-columns: repeat(2, 20vw 25vw);
+    row-gap: 3vh;
+    margin-bottom: 2vh;
+}
+
+div#check_order_pane>div#check_order_result_pane .span3 {
+    grid-column: span 3;
+}
+
+div#check_order_pane>div#check_order_result_pane .span4 {
+    grid-column: span 4;
+}
+
+div#check_order_pane>div#check_order_result_pane .label_name {
+    text-decoration: underline;
+}
+
+div#check_order_pane>div#check_order_result_pane :is(.label_name, .item_header) {
+    font-weight: bold;
+}
+
+div#check_order_pane>div#check_order_result_pane span.order_items_label {
+    margin-top: 4vh;
+}
+
+div#check_order_pane>div#check_order_result_pane div.span4 {
+    margin-left: 5vw;
+    display: flex;
+    flex-flow: row;
+    text-align: center;
+}
+
+div#check_order_pane>div#check_order_result_pane div.span4 span:not(:first-child, :last-child) {
+    width: 20vw;
+}
+
+div#check_order_pane>div#check_order_result_pane div.span4 span:first-child {
+    width: 5vw;
+}
+
+div#check_order_pane>div#check_order_result_pane div.span4 span:last-child {
+    width: 15vw;
+}
+
+@media only screen and (max-width : 480px) {
+    div#check_order_pane>div#check_order_form_pane {
+        font-size: 3vw;
+    }
+
+    div#check_order_pane>div#check_order_form_pane form {
+        row-gap: 1vh;
+        column-gap: 0vw;
+        justify-content: space-between;
+        grid-template-columns: repeat(2, 40vw);
+    }
+
+    div#check_order_pane>div#check_order_form_pane form label {
+        font-size: 3vw;
+    }
+
+    div#check_order_pane>div#check_order_form_pane form label input {
+        width: 80%;
+    }
+
+    div#check_order_pane>div#check_order_result_pane {
+        font-size: 3vw;
+        grid-template-columns: repeat(2, 44vw);
+    }
+
+    div#check_order_pane>div#check_order_result_pane :is(.span3, .span4) {
+        grid-column: 2;
+    }
+
+    div#check_order_pane>div#check_order_result_pane :is(h2, div.span4, span.order_items_label) {
+        grid-column: 1 / span 2;
+    }
+}

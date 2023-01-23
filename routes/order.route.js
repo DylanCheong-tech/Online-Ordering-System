@@ -35,6 +35,9 @@ router.use(passport.session());
 // POST Request : visitor submit the order 
 router.post("/visitor/submit", controllers.visitorSubmitOrder);
 
+// Post Request : visitor check the order details
+router.get("/visitor/check/:orderID/:email", controllers.visitorSearchOrder);
+
 // GET Request : admin get the dashboard information 
 router.get("/admin/order/overview", check_authorised_access, controllers.getOrderOverview);
 

@@ -1,0 +1,57 @@
+<!-- check_order.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Order</title>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Header and Footer components -->
+    <script type="text/babel" src="./js/components/header.jsx"></script>
+    <script type="text/babel" src="./js/components/footer.jsx"></script>
+
+    <script type="text/babel" src="./js/components/ack_message_box.jsx"></script>
+    <script type="text/babel" src="./js/check_order.js"></script>
+
+    <!-- Header and Footer styliings -->
+    <link rel="stylesheet" href="./css/components/header_footer.css" />
+    <link rel="stylesheet" href="./css/check_order.css" />
+    <link rel="stylesheet" href="./css/components/ack_message_box.css" />
+</head>
+
+<body>
+    <div id="header"></div>
+
+    <h1 id="title_banner">Check My Order Details</h1>
+
+    <div id="check_order_pane">
+        <div id="check_order_form_pane">
+            <h3>Enter your Order ID and the email address you have been used for the order.</h3>
+            <form action="/order/visitor/check" method="GET" onsubmit="searchOrder(event)">
+                <label>
+                    Order ID
+                    <input type="text" name="orderID" placeholder="Order ID" required />
+                </label>
+                <label>
+                    Email
+                    <input type="email" name="email" placeholder="Email" />
+                </label>
+                <button type="submit">Search My Order</button>
+            </form>
+        </div>
+
+        <div id="check_order_result_pane"></div>
+    </div>
+
+    <footer id="footer" class="header_footer_template"></footer>
+
+</body>
+
+</html>

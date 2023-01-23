@@ -60,6 +60,40 @@ async function visitorSubmitOrder(req, res) {
     }
 }
 
+// Controller x : visitor search for an order record
+async function visitorSearchOrder(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let orderID = req.params.orderID;
+        let email = req.params.email;
+        let query = { _id: orderID, email: email }
+
+        let result = await collection.findOne(query);
+
+        if (!result) {
+            res.json({ search_status: "fail" });
+            return;
+        }
+        
+        result.order_id = result._id;
+        delete result._id;
+
+        res.json(result);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ search_status: "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
 // Controller x : admin get order overview 
 async function getOrderOverview(req, res) {
     try {
@@ -543,6 +577,7 @@ async function completeOrderRecord(req, res) {
 
 module.exports = {
     visitorSubmitOrder: visitorSubmitOrder,
+    visitorSearchOrder: visitorSearchOrder,
     getOrderOverview: getOrderOverview,
     getCatalogueCategories: getCatalogueCategories,
     getShopCategories: getShopCategories,

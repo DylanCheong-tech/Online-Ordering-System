@@ -13,7 +13,7 @@ function add_to_order_cart(catalogue_category, shop_category, item_code, quantit
     }
 
     // check if the item is added 
-    let existing_item = order_data.items.filter((item) => item.item_code == item_code)
+    let existing_item = order_data.items.filter((item) => item.item_code == item_code && item.color == color)
 
     if (existing_item.length > 0) {
         order_data.items.forEach((item) => {

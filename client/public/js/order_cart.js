@@ -4,27 +4,42 @@
 
 let submit_status = (new URLSearchParams(window.location.search)).get("submit_status")
 
-if (submit_status == "success"){
+if (submit_status == "success") {
     displayMessageBox("Order submitted, please check your mailbox. Thank You !");
     window.sessionStorage.clear()
 }
-else if (submit_status == "fail"){
+else if (submit_status == "fail") {
     displayMessageBox("Something went wrong ...  Please contact our customer service for any assistance. Thank You !");
 }
 
 // Product Item Entry component 
 function ProductItem(props) {
     let item = props.item;
+    let [image_url, set_image_url] = React.useState("");
 
-    function get_item_image(catalogue_category, item_code, color) {
-        console.log(catalogue_category)
-        return "./img/sample3.png"
+    async function get_item_image(catalogue_category, item_code, color) {
+        switch (catalogue_category) {
+            case "Plastic Pots":
+                catalogue_category = "plastic";
+                break;
+            case "Iron Stands":
+                catalogue_category = "iron";
+                break;
+            default:
+                return
+        }
+
+        let response = await fetch("/public/product/" + catalogue_category + "/" + item_code + "/" + color + "/preview_image");
+        let json = await response.json();
+        set_image_url(json.image_url);
     }
+
+    get_item_image(item.catalogue_category, item.item_code, item.color);
 
     return (
         <div className="item">
             <span>
-                <img src={get_item_image(item.catalogue_category, item.item_code, item.color)} />
+                <img src={image_url} />
             </span>
             <span>
                 <span>{item.shop_category} - {item.item_code}</span>

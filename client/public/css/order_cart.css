@@ -40,8 +40,10 @@ div#order_cart_content div#product_items div.item {
     padding: 2vh 0 2vh 0;
 }
 
-div#order_cart_content div#product_items div.item img {
+div#order_cart_content div#product_items div.item>span>img {
     width: 12vw;
+    border-radius: 15px;
+    box-shadow: .5vw 1vh #CCCCCC;
 }
 
 div#order_cart_content div#product_items div.item span:nth-child(2) {
@@ -131,7 +133,7 @@ div#order_cart_content div#user_information form input#items_input {
         row-gap: 2vh;
     }
 
-    div#order_cart_content div#product_items div.item img {
+    div#order_cart_content div#product_items div.item>span>img {
         width: 30vw;
     }
 

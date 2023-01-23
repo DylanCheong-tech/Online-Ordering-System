@@ -6,7 +6,7 @@ const { MongoClient } = require('mongodb');
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const database_uri = process.env.MONGODB_CONN_STRING;
-const getImageFiles = require('../google-cloud-storage/getImageFiles');
+const getPreviewImageFiles = require('../google-cloud-storage/getPreviewImageFiles');
 
 const buckets = require("../google-cloud-storage/bucketInfo").allBuckets;
 
@@ -24,13 +24,9 @@ async function getProductCatalogue(category, projection) {
 
         let product_items_result = await collection.find().project(projection).toArray();
 
-        // get image files from the Cloud Storage
-        let images_result = await getImageFiles(buckets[category]);
-
         // only add the primary image into the json for display 
-        product_items_result.forEach((product) => {
-            product.image_url = images_result[Object.keys(images_result).filter(name => name.match(new RegExp(product.product_code + "/" + default_image_color + "/", "gi")))[0]];
-        })
+        for (let i = 0; i < product_items_result.length; i++)
+            product_items_result[i].image_url = await getPreviewImageFiles(buckets[category], product_items_result[i].product_code, default_image_color);
 
         // retreive the metadata
         collection = database.collection("Metadata");

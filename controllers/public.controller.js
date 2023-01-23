@@ -9,9 +9,11 @@ const getProductCatalogue = require('../helpers/mongodb/getProductCatalogue');
 const getProduct = require("../helpers/mongodb/getProduct");
 // MongoDB database query porjection settings
 let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1, "withhold": 1 };
+const buckets = require("../helpers/google-cloud-storage/bucketInfo").allBuckets;
+let getPreviewImageFiles = require("../helpers/google-cloud-storage/getPreviewImageFiles")
 
 // controller 1 : get product catalogue based on the category 
-// this respnse return all the information needed to render the whole page in one JSON
+// this response return all the information needed to render the whole page in one JSON
 function getProductCatalogueJSON(req, res) {
     let category = req.params.category.toLowerCase();
     if (category == "plastic" || category == "iron") {
@@ -148,6 +150,23 @@ async function processVisitorEnquiryMessage(req, res) {
     }
 }
 
+// controller 7 : get product preview image for the order cart page 
+async function getProductPreviewImage(req, res) {
+    let category = req.params.category.toLowerCase();
+    let product_code = req.params.product_code;
+    let color = req.params.color;
+
+    if (category == "plastic" || category == "iron") {
+        let image_url = await getPreviewImageFiles(buckets[category], product_code, color);
+
+        res.json({ "image_url": image_url })
+    }
+    else {
+        // return error code in the JSON
+        res.json({ "error": "Category Not Found !" });
+    }
+}
+
 // exports
 module.exports = {
     "getProductCatalogueJSON": getProductCatalogueJSON,
@@ -155,5 +174,6 @@ module.exports = {
     "getProductJSON": getProductJSON,
     "getAboutUsJSON": getAboutUsJSON,
     "getNewsRoomJSON": getNewsRoomJSON,
-    "processVisitorEnquiryMessage": processVisitorEnquiryMessage
+    "processVisitorEnquiryMessage": processVisitorEnquiryMessage,
+    "getProductPreviewImage": getProductPreviewImage
 }

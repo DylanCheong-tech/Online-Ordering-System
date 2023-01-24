@@ -1,9 +1,17 @@
 // check_order.js
 
-let search_status = (new URLSearchParams(window.location.search)).get("search_status")
+let edit_status = (new URLSearchParams(window.location.search)).get("edit_status");
 
-if (search_status == "fail") {
-    displayMessageBox("No Order Records found, please check against your order ID and email address.");
+if (edit_status) {
+    let message = "";
+    if (edit_status == "success")
+        message = "You order has been updated !";
+    else if (edit_status == "prohibited")
+        message = "Your order is confirmed and cannot be updated. Please contact our customer service. ";
+    else if (edit_status == "fail")
+        message = "Sorry something went wrong, please try again later... ";
+
+    displayMessageBox(message);
 }
 
 // Search Order Result Component 
@@ -59,20 +67,72 @@ function OrderResult(props) {
                     );
                 })
             }
+            {
+                data.order_status == "CREATED" ? <button className="span4" type="button" onClick={() => render_edit_order(data)}>Edit Order</button> : ""
+            }
         </React.Fragment>
     )
 }
 
+// Edit Order Componenet 
+function EditOrder(props) {
+    let data = props.data;
+
+    return (
+        <React.Fragment>
+            <h2>Edit Your Order</h2>
+            <p>You can only edit your persinal particulars. If you need to amend the order items, kindly contact the customer service.</p>
+            <form action="/order/visitor/edit" method="POST">
+
+                <label>
+                    Contact :
+                    <input type="text" name="contact" placeholder="Contact" defaultValue={data.contact} />
+                </label>
+                <label>
+                    Email :
+                    <input type="email" name="email" placeholder="Email" defaultValue={data.email} />
+                </label>
+                <label>
+                    Delivery Address :
+                    <input type="text" name="address" placeholder="Delivery Address" defaultValue={data.address} />
+                </label>
+
+                <label>
+                    Order Message :
+                    <textarea name="memo" placeholder="Order Message" defaultValue={data.order_message}></textarea>
+                </label>
+
+                <input className="hidden" type="text" name="orderID" value={data.order_id} readonly />
+                <input className="hidden" type="email" name="origin_email" value={data.email} readonly />
+
+                <button className="span2" type="submit">Confirm Edit</button>
+            </form>
+        </React.Fragment>
+    );
+}
+
 function render_search_order_result(data) {
+    // hide the edit pane and show the result pane
+    document.getElementById("edit_order_pane").style.display = "none";
+    document.getElementById("check_order_result_pane").style.display = "grid";
     const root = document.getElementById("check_order_result_pane");
     const container = ReactDOM.createRoot(root);
     container.render(<OrderResult data={data} />);
 
 }
 
+function render_edit_order(data) {
+    // hide the result pane and show the edit pane
+    document.getElementById("check_order_result_pane").style.display = "none";
+    document.getElementById("edit_order_pane").style.display = "flex";
+
+    const root = document.getElementById("edit_order_pane");
+    const container = ReactDOM.createRoot(root);
+    container.render(<EditOrder data={data} />);
+}
+
 async function searchOrder(event) {
     event.preventDefault();
-    document.getElementById("check_order_result_pane").style.display = "grid";
 
     let orderID = document.querySelector("form input[name=orderID]").value.trim();
     let email = document.querySelector("form input[name=email]").value.trim();

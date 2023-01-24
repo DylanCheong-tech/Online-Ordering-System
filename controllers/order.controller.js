@@ -78,7 +78,7 @@ async function visitorSearchOrder(req, res) {
             res.json({ search_status: "fail" });
             return;
         }
-        
+
         result.order_id = result._id;
         delete result._id;
 
@@ -88,6 +88,35 @@ async function visitorSearchOrder(req, res) {
         console.log("Something went wrong ... ");
         console.log(e);
         res.json({ search_status: "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
+// Controller x : visitor edit an order record
+async function visitorEditOrder(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let data = req.body;
+        let query = { _id: data.orderID, email: data.origin_email, order_status: "CREATED" }
+        let update_doc = { $set: { contact: data.contact, email: data.email, address: data.address, order_message: data.memo, customer_last_modified: (new Date(Date.now())) } }
+
+        let result = await collection.findOneAndUpdate(query, update_doc);
+
+        if (result.lastErrorObject.updatedExisting)
+            res.redirect("/check_order.html?edit_status=success");
+        else
+            res.redirect("/check_order.html?edit_status=prohibited");
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.redirect("/check_order.html?edit_status=fail");
     }
     finally {
         await dbClient.close()
@@ -578,6 +607,7 @@ async function completeOrderRecord(req, res) {
 module.exports = {
     visitorSubmitOrder: visitorSubmitOrder,
     visitorSearchOrder: visitorSearchOrder,
+    visitorEditOrder: visitorEditOrder,
     getOrderOverview: getOrderOverview,
     getCatalogueCategories: getCatalogueCategories,
     getShopCategories: getShopCategories,

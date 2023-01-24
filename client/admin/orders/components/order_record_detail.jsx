@@ -98,6 +98,8 @@ function OrderRecordDetail(props) {
                 <span className="value">{data.order_cancelled_time != "N/A" ? (new Date(data.order_cancelled_time)).toLocaleString() : "N/A"}</span>
                 <span className="label_name">Completed Time : </span>
                 <span className="value">{data.order_completed_time != "N/A" ? (new Date(data.order_completed_time)).toLocaleString() : "N/A"}</span>
+                <span className="label_name">Customer Last Modified : </span>
+                <span className="value span3">{data.customer_last_modified ? (new Date(data.customer_last_modified)).toLocaleString() : "N/A"}</span>
 
                 <span className="label_name">Name : </span>
                 <span className="value">{data.name}</span>

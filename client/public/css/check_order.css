@@ -95,7 +95,60 @@ div#check_order_pane>div#check_order_result_pane div.span4 span:last-child {
     width: 15vw;
 }
 
+div#check_order_pane>div#check_order_result_pane button {
+    justify-self: center;
+}
+
+div#check_order_pane>div#edit_order_pane {
+    display: none;
+    flex-flow: column;
+    margin-bottom: 2vh;
+}
+
+div#check_order_pane>div#edit_order_pane p {
+    color: #241571;
+    margin-bottom: 5vh;
+}
+
+div#check_order_pane>div#edit_order_pane form {
+    display: grid;
+    grid-template-columns: repeat(2, 40vw);
+    column-gap: 3vw;
+    row-gap: 2vh;
+    align-items: start;
+    justify-content: center;
+}
+
+div#check_order_pane>div#edit_order_pane form label {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+div#check_order_pane>div#edit_order_pane form label :is(input, textarea) {
+    min-width: 50%;
+    max-width: 50%;
+    padding: .5vw 1vh .5vw 1vh;
+}
+
+div#check_order_pane>div#edit_order_pane form label textarea {
+    max-height: 20vh;
+}
+
+div#check_order_pane>div#edit_order_pane form button.span2 {
+    grid-column: span 2;
+    justify-self: center;
+}
+
+div#check_order_pane>div#edit_order_pane form .hidden {
+    display: none;
+}
+
 @media only screen and (max-width : 480px) {
+    button {
+        font-size: 2.5vw;
+    }
+
     div#check_order_pane>div#check_order_form_pane {
         font-size: 3vw;
     }
@@ -126,5 +179,25 @@ div#check_order_pane>div#check_order_result_pane div.span4 span:last-child {
 
     div#check_order_pane>div#check_order_result_pane :is(h2, div.span4, span.order_items_label) {
         grid-column: 1 / span 2;
+    }
+
+    div#check_order_pane>div#check_order_result_pane button.span4 {
+        grid-column: span 2;
+    }
+
+    div#check_order_pane>div#edit_order_pane form {
+        display: flex;
+        flex-flow: column;
+    }
+
+    div#check_order_pane>div#edit_order_pane form label {
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+    }
+
+    div#check_order_pane>div#edit_order_pane form button.span2 {
+        align-self: center;
     }
 }

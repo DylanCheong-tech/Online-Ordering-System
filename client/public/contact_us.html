@@ -40,6 +40,7 @@
 
             <p>
                 <span class="label">Phone :</span><span class="value">018 - 383 6381</span>
+                <span class="label">Email :</span><span class="value">mr.buymarketing@gmail.com</span>
                 <span class="label">Facebook :</span><span class="value">Mr. Buy Marketing</span>
                 <span class="label">WhatsApp :</span><span class="value">018 - 383 6381</span>
                 <span class="label">WeChat :</span><span class="value">abc123warren</span>
@@ -49,13 +50,14 @@
         <div id="message_form">
             <h2>Leave a message to us</h2>
             <hr />
-            <form id="message_post_form" action="" method="">
+            <form id="message_post_form" action="" method="" oninvalid="hh()">
                 <input type="text" name="name" placeholder="Name" required />
                 <input type="text" name="contact" placeholder="Contact No." required />
                 <input type="email" name="email" placeholder="Email" required />
                 <input type="text" name="subject" placeholder="Message Subject" required />
                 <textarea name="message" required placeholder="Your message to us ... "></textarea>
-                <button id="form_submit_button" type="button">Send</button>
+                <label><input type="checkbox" name="consent" required />I agree to allow my personal information to be shared with Mr. Buy Marketing for communication and marketing purposes. I understand I can unsubscribe at any time I wish. </label>
+                <button id="form_submit_button" type="submit">Send</button>
             </form>
         </div>
     </div>

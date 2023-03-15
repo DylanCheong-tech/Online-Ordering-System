@@ -62,7 +62,7 @@ div#content_pane div#contact_info p span {
 }
 
 div#content_pane div#contact_info p span.label {
-    width: 40%;
+    width: 30%;
     text-align: right;
 }
 
@@ -87,7 +87,7 @@ div#content_pane div#message_form form {
     padding: 2vw;
 }
 
-div#content_pane div#message_form form input, div#content_pane div#message_form form textarea {
+div#content_pane div#message_form form :is(input, textarea, label) {
     margin: 0 0 1.5vw 0;
     font-size: 1.2vw;
 }
@@ -96,6 +96,14 @@ div#content_pane div#message_form form textarea {
     min-height: 10vh;
     max-width: 98%;
     max-height: 20vh;
+}
+
+div#content_pane div#message_form form label {
+    font-size: .8em;
+    display: flex;
+    flex-flow: row;
+    column-gap: 2vw;
+    text-align: justify;
 }
 
 @media only screen and (max-width : 480px) {
@@ -129,7 +137,7 @@ div#content_pane div#message_form form textarea {
         width: 45%;
     }
 
-    div#content_pane div#message_form form input, div#content_pane div#message_form form textarea {
+    div#content_pane div#message_form form :is(input, textarea, label) {
         font-size: 2vw;
     }
 }

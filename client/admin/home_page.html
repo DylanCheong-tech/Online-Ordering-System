@@ -24,6 +24,7 @@
     <script type="text/babel" src="./js/components/product_catalogue_category_metadata_shop_category.jsx"></script>
     <script type="text/babel" src="./js/components/view_product.jsx"></script>
     <script type="text/babel" src="./js/components/enquiries.jsx"></script>
+    <script type="text/babel" src="./js/components/enquiry_details.jsx"></script>
 
     <script type="text/babel" src="./js/home_page.js"></script>
 
@@ -37,6 +38,8 @@
     <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogueCategory.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductItemForm.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductItemDetails.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/Enquiries.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/EnquiryDetails.css" />
 </head>
 
 <body>
@@ -85,9 +88,9 @@
                 </span>
 
                 <span id="enquiries_dropdown" class="dropdown">
-                    <span class="dropdown_item">Unresolved</span>
-                    <span class="dropdown_item">Resolved</span>
-                    <span class="dropdown_item">All</span>
+                    <span class="dropdown_item" onclick="accessResource('view=enquiries&sub_content_pane=unresolve')">Unresolve</span>
+                    <span class="dropdown_item" onclick="accessResource('view=enquiries&sub_content_pane=resolved')">Resolved</span>
+                    <span class="dropdown_item" onclick="accessResource('view=enquiries&sub_content_pane=all')" >All</span>
                 </span>
             </span>
         </div>

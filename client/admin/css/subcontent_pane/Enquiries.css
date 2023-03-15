@@ -1,0 +1,9 @@
+/* Enquiries.css */
+
+div#no_queries_box {
+    border-bottom: 1px solid #000000;
+    background-color: #FAFAFA;
+    min-height: 25vh;
+    align-items: center;
+    justify-content: center;
+}

@@ -89,16 +89,18 @@ async function deleteEnquiryMessage(req, res) {
         if (!result.acknowledged)
             throw Error;
         else {
-            let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Your enquiry ID " + doc.message_id + " has been removed by the customer service. Please make a new enquiry or contact to us again for futher clarifications.");
-            whatsapp_sender.sendMessage(message_object)
-                .then((response) => {
-                    res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all");
-                })
-                .catch((error) => {
-                    console.log("WhatsApp sender is having error(s)");
-                    console.log(error);
-                    throw Error;
-                });
+            res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all");
+
+            // let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Your enquiry ID " + doc.message_id + " has been removed by the customer service. Please make a new enquiry or contact to us again for futher clarifications.");
+            // whatsapp_sender.sendMessage(message_object)
+            //     .then((response) => {
+            //         res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all");
+            //     })
+            //     .catch((error) => {
+            //         console.log("WhatsApp sender is having error(s)");
+            //         console.log(error);
+            //         throw Error;
+            //     });
         }
 
     }
@@ -135,16 +137,18 @@ async function resolveEnquiryMessage(req, res) {
         if (!result.acknowledged)
             throw Error;
         else{
-            let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Thank you for your patient on your enquiries. Your enquiry ID " + doc.message_id + " has been reached to our customer service and resolved. Below are the messages from our customer service : \n\n\n" + doc.resolve_message);
-            whatsapp_sender.sendMessage(message_object)
-                .then((response) => {
-                    res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all&enquiry=" + message_id);
-                })
-                .catch((error) => {
-                    console.log("WhatsApp sender is having error(s)");
-                    console.log(error);
-                    throw Error;
-                });
+            res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all&enquiry=" + message_id);
+
+            // let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Thank you for your patient on your enquiries. Your enquiry ID " + doc.message_id + " has been reached to our customer service and resolved. Below are the messages from our customer service : \n\n" + doc.resolve_message);
+            // whatsapp_sender.sendMessage(message_object)
+            //     .then((response) => {
+            //         res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all&enquiry=" + message_id);
+            //     })
+            //     .catch((error) => {
+            //         console.log("WhatsApp sender is having error(s)");
+            //         console.log(error);
+            //         throw Error;
+            //     });
         }
 
     }

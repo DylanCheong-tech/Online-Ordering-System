@@ -23,12 +23,22 @@ function sendMessage(data) {
 function getTextMessageInput(recipient, text) {
     return JSON.stringify({
         "messaging_product": "whatsapp",
-        "preview_url": false,
         "recipient_type": "individual",
         "to": recipient,
-        "type": "text",
-        "text": {
-            "body": text
+        "type": "template",
+        // "text": {
+        //     "preview_url": false,
+        //     "body": text
+        // }
+        "template" : {
+            "name" : "hello_world",
+            "language": { "code": "en_US" },
+            "components" : [
+                {
+                    "type" : "text",
+                    "text" : "Inspect"
+                }
+            ]
         }
     });
 }

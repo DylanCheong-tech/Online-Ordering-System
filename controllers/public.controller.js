@@ -139,16 +139,18 @@ async function processVisitorEnquiryMessage(req, res) {
         let result = await collection.insertOne(req.body);
 
         if (result.acknowledged) {
-            let message_object = whatsapp_sender.getTextMessageInput(message.contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");
-            whatsapp_sender.sendMessage(message_object)
-                .then((response) => {
-                    res.send({ status: "success" });
-                })
-                .catch((error) => {
-                    console.log("WhatsApp sender is having error(s)");
-                    console.log(error);
-                    res.send({ status: "fail" });
-                });
+            res.send({ status: "success" });
+
+            // let message_object = whatsapp_sender.getTextMessageInput(message.contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");
+            // whatsapp_sender.sendMessage(message_object)
+            //     .then((response) => {
+            //         res.send({ status: "success" });
+            //     })
+            //     .catch((error) => {
+            //         console.log("WhatsApp sender is having error(s)");
+            //         console.log(error);
+            //         res.send({ status: "fail" });
+            //     });
         }
         else {
             res.send({ status: "fail" });

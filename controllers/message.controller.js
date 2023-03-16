@@ -7,6 +7,7 @@ require("dotenv").config({ path: __dirname + "/.env" });
 
 const database_uri = process.env.MONGODB_CONN_STRING;
 let whatsapp_sender = require("../helpers/message-sender/whatsapp-sender");
+let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
 
 // controller : get all the message objects 
 async function getEnquiryMessageList(req, res) {
@@ -81,27 +82,15 @@ async function deleteEnquiryMessage(req, res) {
 
         let message_id = req.params.enquiry_id;
 
-        let query = { message_id: message_id };
+        let query = { message_id: message_id, status: "Resolved" };
 
-        let doc = await collection.findOne(query);
         let result = await collection.deleteOne(query);
 
-        if (!result.acknowledged)
-            throw Error;
-        else {
+        if (result.acknowledged && result.deletedCount == 1) {
             res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all");
-
-            // let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Your enquiry ID " + doc.message_id + " has been removed by the customer service. Please make a new enquiry or contact to us again for futher clarifications.");
-            // whatsapp_sender.sendMessage(message_object)
-            //     .then((response) => {
-            //         res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all");
-            //     })
-            //     .catch((error) => {
-            //         console.log("WhatsApp sender is having error(s)");
-            //         console.log(error);
-            //         throw Error;
-            //     });
         }
+        else
+            throw Error;
 
     }
     catch (e) {
@@ -134,9 +123,22 @@ async function resolveEnquiryMessage(req, res) {
         let result = await collection.updateOne(query, updateDoc);
         let doc = await collection.findOne(query);
 
-        if (!result.acknowledged)
-            throw Error;
-        else{
+        if (result.acknowledged && result.modifiedCount == 1) {
+
+            let email_data = {
+                enquiry_id: doc.message_id,
+                recipient_name: doc.name,
+                message_subject: doc.subject,
+                message_contents: doc.message,
+                resolve_message: doc.resolve_message
+            };
+
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, doc.email, email_data, process.env.ENQUIRY_RESPONSE_TEMP_ID)
+                .catch((error) => {
+                    console.log("SendGrid API is having error(s)");
+                    console.log(error);
+                });
+
             res.redirect("/admin/home_page.html?view=enquiries&sub_content_pane=all&enquiry=" + message_id);
 
             // let message_object = whatsapp_sender.getTextMessageInput(doc.contact, "Thank you for your patient on your enquiries. Your enquiry ID " + doc.message_id + " has been reached to our customer service and resolved. Below are the messages from our customer service : \n\n" + doc.resolve_message);
@@ -150,6 +152,8 @@ async function resolveEnquiryMessage(req, res) {
             //         throw Error;
             //     });
         }
+        else
+            throw Error;
 
     }
     catch (e) {

@@ -87,7 +87,7 @@ div#content_pane div#message_form form {
     padding: 2vw;
 }
 
-div#content_pane div#message_form form :is(input, textarea, label) {
+div#content_pane div#message_form form :is(input, textarea, label.consent_label) {
     margin: 0 0 1.5vw 0;
     font-size: 1.2vw;
 }
@@ -99,10 +99,19 @@ div#content_pane div#message_form form textarea {
 }
 
 div#content_pane div#message_form form label {
+    margin-bottom: 1vh;
+    text-align: left;
+}
+
+div#content_pane div#message_form form label>span {
+    color: #800000;
+}
+
+div#content_pane div#message_form form label.consent_label {
     font-size: .8em;
     display: flex;
     flex-flow: row;
-    column-gap: 2vw;
+    column-gap: .5vw;
     text-align: justify;
 }
 
@@ -137,7 +146,11 @@ div#content_pane div#message_form form label {
         width: 45%;
     }
 
-    div#content_pane div#message_form form :is(input, textarea, label) {
+    div#content_pane div#message_form form label {
+        font-size: .8em;
+    }
+
+    div#content_pane div#message_form form :is(input, textarea, label.consent_label) {
         font-size: 2vw;
     }
 }

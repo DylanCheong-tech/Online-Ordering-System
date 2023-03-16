@@ -48,7 +48,7 @@ function Enquiries(props) {
                                     <span>{enquiry.subject}</span>
                                     <span>{(new Date(enquiry.create_time)).toLocaleString()}</span>
                                     <span>{enquiry.status}</span>
-                                    <span><button onClick={(event) => deleteMessage(event, enquiry.message_id)}>Delete</button></span>
+                                    <span><button disabled={enquiry.status == "Unresolve" ? true : false} onClick={(event) => deleteMessage(event, enquiry.message_id)}>Delete</button></span>
                                 </div>
                             );
                         })

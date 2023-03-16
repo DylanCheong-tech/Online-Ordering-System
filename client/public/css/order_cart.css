@@ -122,7 +122,7 @@ div#order_cart_content div#user_information form input#items_input {
 div#order_cart_content div#user_information form label#consent_label {
     display: flex;
     flex-flow: row;
-    column-gap: 2vw;
+    column-gap: .5vw;
     text-align: justify;
     font-size: .8em;
 }

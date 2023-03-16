@@ -10,6 +10,7 @@ const getProduct = require("../helpers/mongodb/getProduct");
 // MongoDB database query porjection settings
 let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1, "withhold": 1 };
 let whatsapp_sender = require("../helpers/message-sender/whatsapp-sender");
+let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
 const buckets = require("../helpers/google-cloud-storage/bucketInfo").allBuckets;
 let getPreviewImageFiles = require("../helpers/google-cloud-storage/getPreviewImageFiles")
 
@@ -142,6 +143,20 @@ async function processVisitorEnquiryMessage(req, res) {
         let result = await collection.insertOne(req.body);
 
         if (result.acknowledged) {
+
+            let email_data = {
+                enquiry_id: message.message_id,
+                recipient_name: message.name,
+                message_subject : message.subject,
+                message_contents : message.message
+            };
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, message.email, email_data, process.env.ENQUIRY_AUTO_REPLY_TEMP_ID)
+                .catch((error) => {
+                    console.log("SendGrid API is having error(s)");
+                    console.log(error);
+                    res.send({ status: "fail" });
+                });
+
             res.send({ status: "success" });
 
             // let message_object = whatsapp_sender.getTextMessageInput(message.contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");

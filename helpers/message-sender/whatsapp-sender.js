@@ -1,5 +1,5 @@
 // helper : whatsapp-sender.js 
-// helper function to sedn text message through WhatsApp
+// helper function to send text message through WhatsApp
 
 let axios = require("axios");
 

@@ -50,13 +50,18 @@
         <div id="message_form">
             <h2>Leave a message to us</h2>
             <hr />
-            <form id="message_post_form" action="" method="" oninvalid="hh()">
+            <form id="message_post_form" action="" method="">
+                <label>Name <span>*</span></label>
                 <input type="text" name="name" placeholder="Name" required />
+                <label>Contact Number <span>*</span></label>
                 <input type="text" name="contact" placeholder="Contact No." required />
+                <label>Email Address <span>*</span></label>
                 <input type="email" name="email" placeholder="Email" required />
+                <label>Message Subject <span>*</span></label>
                 <input type="text" name="subject" placeholder="Message Subject" required />
+                <label>Messages <span>*</span></label>
                 <textarea name="message" required placeholder="Your message to us ... "></textarea>
-                <label><input type="checkbox" name="consent" required />I agree to allow my personal information to be shared with Mr. Buy Marketing for communication and marketing purposes. I understand I can unsubscribe at any time I wish. </label>
+                <label class="consent_label"><input type="checkbox" name="consent" required /><span>*</span>I agree to allow my personal information to be shared with Mr. Buy Marketing for communication and marketing purposes. I understand I can unsubscribe at any time I wish. </label>
                 <button id="form_submit_button" type="submit">Send</button>
             </form>
         </div>

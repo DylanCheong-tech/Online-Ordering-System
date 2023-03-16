@@ -4,6 +4,7 @@
 const { MongoClient } = require('mongodb');
 require("dotenv").config({ path: __dirname + "/.env" });
 const database_uri = process.env.MONGODB_CONN_STRING;
+let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
 
 // Controller 1 : get the data to render the backbone of the home page 
 async function visitorSubmitOrder(req, res) {
@@ -48,12 +49,32 @@ async function visitorSubmitOrder(req, res) {
 
         let result = await collection.insertOne(orderDoc);
 
-        res.redirect("/order_cart.html?submit_status=success")
+        if (result.acknowledged) {
+            let email_data = {
+                order_id: orderDoc._id,
+                recipient_name: orderDoc.name,
+                order_created_time: orderDoc.order_created_time.toLocaleString(),
+            };
+
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, orderDoc.email, email_data, process.env.ORDER_CONFIRMATION_TEMP_ID)
+                .catch((error) => {
+                    console.log("SendGrid API is having error(s)");
+                    console.log(error);
+                    res.redirect("/order_cart.html?submit_status=fail");
+                });
+
+            res.redirect("/order_cart.html?submit_status=success");
+        }
+        else {
+            throw Error;
+        }
+
+
     }
     catch (e) {
         console.log("Something went wrong ... ");
         console.log(e);
-        res.redirect("/order_cart.html?submit_status=fail")
+        res.redirect("/order_cart.html?submit_status=fail");
     }
     finally {
         await dbClient.close()

@@ -6,6 +6,7 @@ let view = params.get("view");
 let sub_content_pane = params.get("sub_content_pane");
 let operation = params.get("operation");
 let product_code = params.get("product");
+let enquiry_id = params.get("enquiry");
 
 if (view == "product_catalogue") {
     display_dropdown('product_catalogue_dropdown');
@@ -24,6 +25,16 @@ if (view == "product_catalogue") {
             displayProductItemInfo(sub_content_pane, product_code);
         else
             displayProductCatalogueCategoryInfo(sub_content_pane);
+    }
+}
+else if (view == "enquiries") {
+    display_dropdown('enquiries_dropdown');
+
+    if (enquiry_id) {
+        displayEnquiryDetails(enquiry_id);
+    }
+    else {
+        displayEnquiries(sub_content_pane);
     }
 }
 // else {

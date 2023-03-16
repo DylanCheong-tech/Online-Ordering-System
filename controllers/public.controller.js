@@ -9,6 +9,7 @@ const getProductCatalogue = require('../helpers/mongodb/getProductCatalogue');
 const getProduct = require("../helpers/mongodb/getProduct");
 // MongoDB database query porjection settings
 let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions": 1, "featured": 1, "shop_category": 1, "withhold": 1 };
+let whatsapp_sender = require("../helpers/message-sender/whatsapp-sender");
 
 // controller 1 : get product catalogue based on the category 
 // this respnse return all the information needed to render the whole page in one JSON
@@ -127,11 +128,29 @@ async function processVisitorEnquiryMessage(req, res) {
         await dbClient.connect();
 
         const collection = dbClient.db("WebAdmin").collection("VisitorMessages");
+        let message = req.body;
+
+        message.message_id = "M" + Date.now().toFixed().slice(7);
+        message.status = "Unresolve";
+        message.create_time = (new Date(Date.now()));
+        message.resolve_time = "N/A";
+        message.resolve_message = "N/A";
+
         let result = await collection.insertOne(req.body);
 
         if (result.acknowledged) {
             res.send({ status: "success" });
 
+            // let message_object = whatsapp_sender.getTextMessageInput(message.contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");
+            // whatsapp_sender.sendMessage(message_object)
+            //     .then((response) => {
+            //         res.send({ status: "success" });
+            //     })
+            //     .catch((error) => {
+            //         console.log("WhatsApp sender is having error(s)");
+            //         console.log(error);
+            //         res.send({ status: "fail" });
+            //     });
         }
         else {
             res.send({ status: "fail" });

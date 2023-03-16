@@ -26,6 +26,12 @@
     <script type="text/babel" src="./js/components/enquiries.jsx"></script>
     <script type="text/babel" src="./js/components/enquiry_details.jsx"></script>
 
+    <!-- Customer Orders components -->
+    <script type="text/babel" src="./orders/components/overview.jsx"></script>
+    <script type="text/babel" src="./orders/components/order_details.jsx"></script>
+    <script type="text/babel" src="./orders/components/order_record_detail.jsx"></script>
+    <script type="text/babel" src="./orders/components/order_form.jsx"></script>
+
     <script type="text/babel" src="./js/home_page.js"></script>
 
     <!-- router -->
@@ -37,9 +43,14 @@
     <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogue.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductCatalogueCategory.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/ProductItemForm.css" />
-    <link rel="stylesheet" href="./css/subcontent_pane/ProductItemDetails.css" />
+    <link rel="stylesheet" href="./css/subcontent_pane/ProductItemDetails.css" /
+    <link rel="stylesheet" href="../admin/orders/css/Overview.css" />
+    <link rel="stylesheet" href="../admin/orders/css/OrderDetails.css" />
+    <link rel="stylesheet" href="../admin/orders/css/OrderRecordDetail.css" />
+    <link rel="stylesheet" href="../admin/orders/css/OrderForm.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/Enquiries.css" />
     <link rel="stylesheet" href="./css/subcontent_pane/EnquiryDetails.css" />
+
 </head>
 
 <body>
@@ -81,6 +92,27 @@
                 </span>
             </span>
             <span class="side_menu_item">
+                <span class="menu_item_name" onclick="accessResource('view=order_management')">
+                    <img src="./img/icon_orders.png" />
+                    <h3>Order Management</h3>
+                    <img src="./img/icon_dropdown.png" />
+                </span>
+
+                <span id="order_management_dropdown" class="dropdown">
+                    <span class="dropdown_item"
+                        onclick="accessResource('view=order_management&sub_content_pane=customer_list')">
+                        Customer List
+                    </span>
+                    <span class="dropdown_item"
+                        onclick="accessResource('view=order_management&sub_content_pane=order_details')">
+                        Order Details
+                    </span>
+                    <span class="dropdown_item">
+                        Supplier Details
+                    </span>
+                </span>
+            </span>
+            <span class="side_menu_item">
                 <span class="menu_item_name" onclick="display_dropdown('enquiries_dropdown')">
                     <img src="./img/icon_enquiries.png" />
                     <h3>Enquiries</h3>
@@ -99,6 +131,11 @@
             <h2>Dashboard</h2>
         </div>
     </div>
+
+    <span id="popup_message_box">
+        <p id="popup_message"></p>
+        <button id="popup_message_box_close_btn" type="button">OK</button>
+    </span>
 </body>
 
 </html>

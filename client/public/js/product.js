@@ -23,7 +23,7 @@ function ImagePane(props) {
         }
     }
 
-    function update_thumbnail_border (index) {
+    function update_thumbnail_border(index) {
         document.getElementsByClassName("on_display")[0].classList.remove("on_display");
         document.getElementById("thumbnail_" + index).classList.add("on_display");
     }
@@ -65,9 +65,8 @@ function ContentPane(props) {
     }
     return (
         <div id="description_pane">
-            <h2>{info.product_name}</h2>
+            <h2>{info.product_code}</h2>
             <p>
-                Code : {info.product_code} <br />
                 Stock Status : {info.stock_status} <br />
                 Material : {info.material} <br />
                 Color : {info.colors.join(", ")} <br />
@@ -86,6 +85,51 @@ function ContentPane(props) {
     );
 }
 
+// React Component : Add to cart pane
+function OrderPane(props) {
+    function add_item(event, shop_category, item_code) {
+        event.preventDefault();
+        let color = ""
+        let quantity = document.getElementsByName("quantity")[0].value
+        document.getElementsByName("color").forEach((item) => {
+            if (item.checked) color = item.value;
+        })
+
+        if (!color) {
+            displayMessageBox("Please select a color varaition !");
+            return;
+        }
+
+
+        add_to_order_cart(category, shop_category, item_code, quantity, color);
+        displayMessageBox("Item(s) has been added into order cart !");
+    }
+
+    return (
+        <div id="product_order_pane">
+            <div id="product_order_info">
+                <h2>Add to your order !</h2>
+            </div>
+            <form action="" onSubmit={(event) => add_item(event, props.shop_category, props.product_code)}>
+                <fieldset>
+                    <legend>Color Variations</legend>
+                    {
+                        props.colors.map((color) => {
+                            return <label><input type="radio" name="color" value={color} />{color}</label>
+                        })
+                    }
+                </fieldset>
+
+                <label>Quantity : <input type="number" name="quantity" min="1" defaultValue="1" /></label>
+
+                <span>Availability : <span className="green_color_text">{props.stock_status}</span></span>
+
+                <button type="submit">Add to cart</button>
+            </form>
+        </div>
+    );
+}
+
 function render(data) {
     console.log("The data is fetched and ready");
     console.log(data);
@@ -96,8 +140,12 @@ function render(data) {
         <React.Fragment>
             <ImagePane images={data.images} />
             <ContentPane info={data} />
+            <OrderPane shop_category={data.shop_category} product_code={data.product_code} colors={data.colors} stock_status={data.stock_status} />
         </React.Fragment>
     );
+
+    // update the title banner 
+    document.getElementById("order_cart_banner_title").innerHTML = data.product_name;
 }
 
 fetch("/public/product/" + category + "/" + product_code)

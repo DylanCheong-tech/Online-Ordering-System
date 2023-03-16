@@ -1,0 +1,84 @@
+/* OrderDetails.css */
+
+div#order_details_title_banner {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 5vw;
+}
+
+div#order_tab_bar {
+    display: flex;
+    flex-flow: row;
+    padding-left: 3vw;
+    padding-right: 5vw;
+    border-bottom: 1px solid #000000;
+}
+
+div#order_tab_bar span {
+    padding: 2vh 2vw 1vh 2vw;
+    margin-bottom: 1vh;
+    cursor: pointer;
+}
+
+div#order_tab_bar span.selected {
+    border-bottom: 2px solid #104A8E;
+    color: #104A8E;
+    font-weight: bold;
+}
+
+div#order_tab_bar span:hover {
+    color: #104A8E;
+    font-weight: bold;
+}
+
+div#order_search_filter_bar {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin: 2vh 5vw 2vh 3vw;
+    min-height: 5vh;
+}
+
+div#order_search_filter_bar input[type=text] {
+    width: 45vw;
+}
+
+div#order_search_filter_bar select {
+    width: 15vw;
+}
+
+div#order_content_pane {
+    display: flex;
+    flex-flow: column;
+    margin: 3vh 5vw 1vh 3vw;
+}
+
+div#order_content_pane>div {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    min-height: 5vh;
+    align-items: center;
+}
+
+div#order_content_pane>div>* {
+    width: 10vw;
+    text-align: center;
+}
+
+div#order_content_pane>div>*:nth-child(2), div#order_content_pane>div>*:nth-child(3), div#order_content_pane>div>*:nth-child(6) {
+    width: 20vw;
+}
+
+div#order_content_pane>div#header_bar {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+
+}
+
+/* no order list message */
+div#order_content_pane h2 {
+    text-align: center;
+}

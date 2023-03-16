@@ -21,4 +21,7 @@ router.get("/info/news", controllers.getNewsRoomJSON);
 // POST request service : Visitor leave message 
 router.post("/messages/visitor/send", controllers.processVisitorEnquiryMessage);
 
+// GET request service: Get the preview image in the shopping cart 
+router.get("/product/:category/:product_code/:color/preview_image", controllers.getProductPreviewImage);
+
 module.exports = router;

@@ -1,0 +1,61 @@
+/* Overview.css */
+
+div#dashboard_content_pane {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+
+div#dashboard_content_pane div#summary_tab {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    grid-column: span 2;
+    border: 1px solid #000000;
+    border-radius: 15px;
+    padding: 2vh 2vw 2vh 2vw;
+    margin-bottom: 5vh;
+}
+
+div#dashboard_content_pane>div:not(:nth-child(1)) {
+    display: flex;
+    flex-flow: column;
+    border: 1px solid #000000;
+    min-height: 40vh;
+    width: 95%;
+    justify-self: center;
+}
+
+div#dashboard_content_pane div#top_product_card div {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+div#dashboard_content_pane div#top_product_card h3 {
+    margin-bottom: 0;
+}
+
+div#dashboard_content_pane div#top_product_card div#header_bar {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+}
+
+div#dashboard_content_pane div#top_product_card>div {
+    min-height: 5vh;
+}
+
+div#dashboard_content_pane div#top_product_card div span:nth-child(1), div#dashboard_content_pane div#top_product_card div span:nth-child(4) {
+    width: 5vw;
+}
+
+div#dashboard_content_pane div#top_product_card div span:nth-child(2), div#dashboard_content_pane div#top_product_card div span:nth-child(3) {
+    width: 10vw;
+}
+
+div#dashboard_content_pane>div h3, div#dashboard_content_pane>div p {
+    margin-left: 2vw;
+}

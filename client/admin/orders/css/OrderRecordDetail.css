@@ -1,0 +1,72 @@
+/* OrderRecordDetail.css */
+
+div#order_title_banner {
+    display: flex;
+    flex-flow: row;
+    column-gap: 2vw;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+    align-items: center;
+}
+
+div#order_title_banner h1 {
+    margin: 0;
+}
+
+div#order_title_banner img {
+    width: 4vw;
+    cursor: pointer;
+}
+
+div#order_action_btn_bar {
+    display: flex;
+    flex-flow: row;
+    column-gap: 3vw;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    padding: 2vh 2vw 2vh 2vw;
+}
+
+div#order_action_btn_bar button:nth-child(3) {
+    margin-right: auto;
+}
+
+div#order_details_pane {
+    display: grid;
+    grid-template-columns: repeat(2, 20% 30%);
+    row-gap: 2vh;
+    margin: 5vh 4vw 0 4vw;
+    padding: 2vw;
+    border: 1px solid #000000;
+    border-radius: 12px;
+}
+
+div#order_details_pane span.label_name, div#order_details_pane div.item_header * {
+    font-weight: bold;
+}
+
+div#order_details_pane .span3 {
+    grid-column: span 3;
+}
+
+div#order_details_pane .span4 {
+    grid-column: span 4;
+}
+
+div#order_details_pane div.span4 {
+    display: flex;
+    flex-flow: row;
+    column-gap: 1vw;
+    margin-left: 5vw;
+    text-align: center;
+}
+
+div#order_details_pane div.span4>span:not(:first-child) {
+    width: 15vw;
+}
+
+div#order_details_pane div.span4>span:first-child {
+    width: 5vw;
+}

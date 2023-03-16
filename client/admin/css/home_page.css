@@ -5,6 +5,23 @@ body {
     flex-direction: column;
 }
 
+/* popup message box */
+span#popup_message_box {
+    display: none;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4vh 1vw 4vh 1vw;
+    background-color: #EFF5F5;
+    position: fixed;
+    top: 40vh;
+    left : 40vw;
+    width: 40vw;
+    border: 5px double #000000;
+    border-radius: 15px;
+    box-shadow: .5vw .8vh #CCCCCC;
+}
+
 div#header_banner {
     display: flex;
     flex-direction: row;

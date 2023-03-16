@@ -1,5 +1,19 @@
 // home_page.js
 
+// show up the pop up message box 
+function displayMessageBox(message, close_fn) {
+    document.getElementById("popup_message").innerHTML = message;
+    document.getElementById("popup_message_box").style.display = "flex";
+
+    document.getElementById("popup_message_box_close_btn").addEventListener("click", function (event) { closeMesssageBox(event, close_fn) }, event, close_fn)
+}
+
+// close the pop up message box 
+function closeMesssageBox(event, close_fn) {
+    event.target.parentElement.style.display = "none";
+    close_fn()
+}
+
 // append the URL parameters to redirect to other resources 
 function accessResource(params) {
     window.location.href = "/admin/home_page.html?" + params;
@@ -133,4 +147,84 @@ async function displayEnquiryDetails(enquiry_id) {
     let json = await response.json();
 
     renderSubcontent(<EnquiryDetails data={json} />);
+
+}
+
+// helper function to diaplay the customer orders dashboard 
+async function displayOrderManagementDashboard() {
+    let response = await fetch("/order/admin/order/overview");
+    check_redirect_request(response);
+    let json = await response.json();
+
+    let component = <OrderManagementDashboard data={json} />;
+    renderSubcontent(component);
+}
+
+async function displayOrderDetails() {
+    let response = await fetch("/order/admin/order_list");
+    check_redirect_request(response);
+    let json = await response.json();
+    let component = <OrderDetails order_list={json} />
+    renderSubcontent(component)
+}
+
+async function displayOrderDetailsWithStatus(status) {
+    let response = await fetch("/order/admin/order_list/" + status);
+    check_redirect_request(response);
+    let json = await response.json();
+    let component = <OrderContentTable order_list={json} />
+
+    // dependency : OrderDetail page is rendered 
+    const root = document.getElementById("order_content_pane");
+    const container = ReactDOM.createRoot(root);
+    container.render(
+        component
+    );
+}
+
+async function displayCreateOrder() {
+    let response = await fetch("/order/admin/order/info/catalogue_category");
+    check_redirect_request(response);
+    let json = await response.json();
+
+    let submit_status = (new URLSearchParams(window.location.search)).get("submit_status")
+    if (submit_status) {
+        let message = submit_status == "success" ? "Order has been created successfully !" : "Something went wrong. Please Try again later ... ";
+        displayMessageBox(message, () => { accessResource("view=order_management&sub_content_pane=order_details") })
+    }
+
+    let component = <OrderForm catalogue_categories={json.catalogue_category} />
+    renderSubcontent(component)
+}
+
+async function displayEditOrder(order_id) {
+    let response = await fetch("/order/admin/order/info/catalogue_category");
+    check_redirect_request(response);
+    let json = await response.json();
+
+    let order_response = await fetch("/order/admin/order/" + order_id);
+    check_redirect_request(order_response);
+    let order_json = await order_response.json();
+
+    let update_status = (new URLSearchParams(window.location.search)).get("update_status")
+    if (update_status) {
+        let message = update_status == "success" ? "Order has been updated successfully !" : "Something went wrong. Please Try again later ... ";
+        displayMessageBox(message, () => { accessResource("view=order_management&sub_content_pane=view_order_record&order_id=" + order_id) })
+    }
+
+    let component = <OrderForm catalogue_categories={json.catalogue_category} order={order_json} />
+    renderSubcontent(component)
+}
+
+async function displayOrderRecordDetails(order_id) {
+    let response = await fetch("/order/admin/order/" + order_id);
+    check_redirect_request(response);
+    let json = await response.json();
+
+    // if there is no order record, redirect the user back to the order list page
+    if (json.status == "fail") window.location.href = "/admin/home_page.html?view=order_management&sub_content_pane=order_details";
+
+    let component = <OrderRecordDetail order={json} />
+    renderSubcontent(component)
+
 }

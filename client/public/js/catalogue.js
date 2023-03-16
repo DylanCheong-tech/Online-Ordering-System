@@ -19,11 +19,19 @@ function LeftPane(props) {
 
 // React component : product item
 function ProductItemCard(props) {
+    function redirectViewProduct(category, product_code) {
+        window.location.href = "/product.html?category=" + category + "&product_code=" + product_code;
+    }
+
     return (
-        <span onClick={() => { window.location.href = "/product.html?category=" + category + "&product_code=" + props.product_code }}>
-            <img src={props.img_url} />
-            <h3>{props.product_code}</h3>
-            <p>{props.product_name} <br /> {props.desc}</p>
+        <span>
+            <img src={props.img_url} onClick={() => redirectViewProduct(category, props.product_code)} />
+            <h3 onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_code}</h3>
+            <p onClick={() => redirectViewProduct(category, props.product_code)}>{props.product_name} <br /> {props.desc}</p>
+            {category == "iron" ? <button className="add_to_cart_btn" type="button" onClick={() => {
+                add_to_order_cart(category, props.shop_category, props.product_code, 1, props.colors[0]);
+                displayMessageBox("Item(s) has been added into order cart !");
+                }}>Add To Cart</button> : ""}
         </span>
     );
 }
@@ -34,7 +42,7 @@ function generateProductItemCards(array) {
     let i = 1;
     console.log(array)
     let return_arr = array.map(element => {
-        return <ProductItemCard key={i++} img_url={element.image_url} product_code={element.product_code} product_name={element.product_name} desc={element.descriptions[0]} />
+        return <ProductItemCard key={i++} img_url={element.image_url} shop_category={element.shop_category} product_code={element.product_code} product_name={element.product_name} desc={element.descriptions[0]} colors={element.colors} />
     });
 
     return return_arr;
@@ -69,7 +77,7 @@ function RightPane(props) {
         let product_items_arr = [];
         if (display_category == "Search Results")
             product_items_arr = props.product_items;
-        else 
+        else
             product_items_arr = props.product_items.filter((product) => product.shop_category == display_category);
         return (
             <div id="right_pane">

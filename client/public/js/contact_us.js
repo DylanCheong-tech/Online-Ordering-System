@@ -24,7 +24,7 @@ function render_ack(status_json) {
     }
 }
 
-function sumbit_message() {
+function sumbit_message(event) {
     let form = document.getElementById("message_post_form");
     let form_data = new FormData(form);
     let body_data = {}
@@ -42,9 +42,12 @@ function sumbit_message() {
         body: JSON.stringify(body_data)
     }
 
+    // override the default from submit behaviour
+    event.preventDefault();
+
     fetch("/public/messages/visitor/send", settings)
         .then(response => response.json())
         .then(render_ack)
 }
 
-document.getElementById("form_submit_button").onclick = sumbit_message;
+document.getElementById("message_post_form").onsubmit = sumbit_message;

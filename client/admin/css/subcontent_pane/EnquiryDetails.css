@@ -1,0 +1,42 @@
+/* EnquiryDetails.css */
+
+h2#enquiry_details_title {
+    margin-left: 3vw;
+}
+
+div#enquiry_details {
+    border: 1px solid #000000;
+    margin: 0 4vw 0 4vw;
+    padding: 0 2vw 0 2vw;
+    display: grid;
+    grid-template-columns: repeat(2, 35vw);
+}
+
+div#enquiry_details>:is(span, form) {
+    display: flex;
+    flex-flow: row;
+}
+
+div#enquiry_details>.span2 {
+    grid-column: span 2;
+}
+
+div#enquiry_details>span.margin_top_gap {
+    margin-top: 10vh;
+}
+
+div#enquiry_details button {
+    justify-self: center;
+    margin: 3vh 0 3vh 0;
+}
+
+div#enquiry_details p.legend{
+    width: 12vw;
+    font-weight: bold;
+}
+
+div#enquiry_details textarea {
+    min-width: 50vw;
+    max-width: 50vw;
+    max-height: 30vh;
+}

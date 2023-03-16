@@ -131,6 +131,25 @@ async function displayProductItemInfo(category, product_code) {
     renderSubcontent(<ViewProduct json_data={json} category={category} />);
 }
 
+// hepler function to display the enquiries page
+async function displayEnquiries(mode) {
+    let response = await fetch("/admin/portal/enquiries/" + mode);
+    check_redirect_request(response);
+    let json = await response.json();
+
+    renderSubcontent(<Enquiries data={json} />);
+}
+
+// hepler function to display the enquiries details page
+async function displayEnquiryDetails(enquiry_id) {
+    let response = await fetch("/admin/portal/enquiry/" + enquiry_id);
+    check_redirect_request(response);
+    let json = await response.json();
+
+    renderSubcontent(<EnquiryDetails data={json} />);
+
+}
+
 // helper function to diaplay the customer orders dashboard 
 async function displayOrderManagementDashboard() {
     let response = await fetch("/order/admin/order/overview");
@@ -207,4 +226,5 @@ async function displayOrderRecordDetails(order_id) {
 
     let component = <OrderRecordDetail order={json} />
     renderSubcontent(component)
+
 }

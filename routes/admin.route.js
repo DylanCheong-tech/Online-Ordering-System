@@ -99,5 +99,21 @@ router.delete("/portal/productItem/:category/delete/:product_code", check_author
 // GET Request : Get the Ptoduct Item JSON
 router.get("/portal/productItem/:category/get/:product_code", check_authorised_access, controllers.getProductItemInfo);
 
+
+// Visitor message processing and operations 
+enquiries_controllers = require("../controllers/message.controller");
+
+// GET Reqeust : Get all the message objects 
+router.get("/portal/enquiries/:mode", check_authorised_access, enquiries_controllers.getEnquiryMessageList);
+
+// GET Request : Get the message object
+router.get("/portal/enquiry/:enquiry_id", check_authorised_access, enquiries_controllers.getEnquiryMessage);
+
+// DELETE Request : Delete the message object 
+router.delete("/portal/enquiry/:enquiry_id/delete", check_authorised_access, enquiries_controllers.deleteEnquiryMessage);
+
+// POST Request : Resolve the message object 
+router.post("/portal/enquiry/resolve", check_authorised_access, enquiries_controllers.resolveEnquiryMessage);
+
 // exports
 module.exports = router;

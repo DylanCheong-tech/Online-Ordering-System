@@ -1,0 +1,27 @@
+/* terms_provacy_policy.css */
+
+div#banner {
+    text-align: center;
+    border: 1px solid #000000;
+}
+
+div.privacy_policy h2 {
+    text-align: center;
+}
+
+div.privacy_policy :is(h2, h3) {
+    text-decoration: underline;
+}
+
+div.privacy_policy {
+    padding: 0 5vw 0 5vw;
+}
+
+div.privacy_policy p {
+    line-height: 2em;
+    text-align: justify;
+}
+
+div.privacy_policy ul {
+    list-style-type: circle;
+}

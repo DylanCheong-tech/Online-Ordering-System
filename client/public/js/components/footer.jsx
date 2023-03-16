@@ -8,7 +8,7 @@ function Footer(props) {
             <a href="/about_us.html">About Us</a>
             <a href="/news_room.html">News Room</a>
             <a href="/contact_us.html">Contact Us</a>
-            <a href="" last="true">Terms & Privacy Policy</a>
+            <a href="/terms_provacy_policy.html" last="true">Terms & Privacy Policy</a>
 
             <p>&copy;Mr. Buy Marketing Copyrights</p>
         </React.Fragment>

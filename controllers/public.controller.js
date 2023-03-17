@@ -12,7 +12,9 @@ let catalogue_projection = { "product_code": 1, "product_name": 1, "descriptions
 let whatsapp_sender = require("../helpers/message-sender/whatsapp-sender");
 let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
 const buckets = require("../helpers/google-cloud-storage/bucketInfo").allBuckets;
-let getPreviewImageFiles = require("../helpers/google-cloud-storage/getPreviewImageFiles")
+let getPreviewImageFiles = require("../helpers/google-cloud-storage/getPreviewImageFiles");
+let encryption_module = require("../helpers/security/encryption");
+let key_retriever = require("../helpers/security/key_retriever");
 
 // controller 1 : get product catalogue based on the category 
 // this response return all the information needed to render the whole page in one JSON
@@ -134,6 +136,22 @@ async function processVisitorEnquiryMessage(req, res) {
         const collection = dbClient.db("WebAdmin").collection("VisitorMessages");
         let message = req.body;
 
+        // get the public key 
+        let publicKey = await key_retriever.getEnquiryPublicKey();
+
+        let name = message.name;
+        let subject = message.subject;
+        let enquiry_message = message.message;
+        let email = message.email;
+        let contact = message.contact;
+
+        // encryption on personal information 
+        message.name = encryption_module.encrypt(name, publicKey);
+        message.subject = encryption_module.encrypt(subject, publicKey);
+        message.message = encryption_module.encrypt(enquiry_message, publicKey);
+        message.email = encryption_module.encrypt(email, publicKey);
+        message.contact = encryption_module.encrypt(contact, publicKey);
+
         message.message_id = "M" + Date.now().toFixed().slice(7);
         message.status = "Unresolve";
         message.create_time = (new Date(Date.now()));
@@ -146,11 +164,11 @@ async function processVisitorEnquiryMessage(req, res) {
 
             let email_data = {
                 enquiry_id: message.message_id,
-                recipient_name: message.name,
-                message_subject : message.subject,
-                message_contents : message.message
+                recipient_name: name,
+                message_subject : subject,
+                message_contents : enquiry_message
             };
-            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, message.email, email_data, process.env.ENQUIRY_AUTO_REPLY_TEMP_ID)
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, email, email_data, process.env.ENQUIRY_AUTO_REPLY_TEMP_ID)
                 .catch((error) => {
                     console.log("SendGrid API is having error(s)");
                     console.log(error);
@@ -159,7 +177,7 @@ async function processVisitorEnquiryMessage(req, res) {
 
             res.send({ status: "success" });
 
-            // let message_object = whatsapp_sender.getTextMessageInput(message.contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");
+            // let message_object = whatsapp_sender.getTextMessageInput(contact, "Thank you for contacting with us. Your enquiry ID " + message.message_id + " for your reference. We will be reaching back to you within 3 working days.");
             // whatsapp_sender.sendMessage(message_object)
             //     .then((response) => {
             //         res.send({ status: "success" });

@@ -8,6 +8,8 @@ require("dotenv").config({ path: __dirname + "/.env" });
 const database_uri = process.env.MONGODB_CONN_STRING;
 let whatsapp_sender = require("../helpers/message-sender/whatsapp-sender");
 let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
+let encryption_module = require("../helpers/security/encryption");
+let key_retriever = require("../helpers/security/key_retriever");
 
 // controller : get all the message objects 
 async function getEnquiryMessageList(req, res) {
@@ -31,6 +33,14 @@ async function getEnquiryMessageList(req, res) {
         }
 
         let result = await collection.find(query).project(projection).toArray();
+
+        // get the private key
+        let privateKey = await key_retriever.getEnquiryPrivateKey();
+
+        result.forEach((enquiry) => {
+            enquiry.subject = encryption_module.decrypt(enquiry.subject, privateKey);
+            return enquiry;
+        })
 
         res.json(result);
 
@@ -59,6 +69,17 @@ async function getEnquiryMessage(req, res) {
         let result = await collection.findOne(query);
 
         delete result._id;
+
+        // get the private key
+        let privateKey = await key_retriever.getEnquiryPrivateKey();
+
+        result.name = encryption_module.decrypt(result.name, privateKey);
+        result.subject = encryption_module.decrypt(result.subject, privateKey);
+        result.message = encryption_module.decrypt(result.message, privateKey);
+        result.email = encryption_module.decrypt(result.email, privateKey);
+        result.contact = encryption_module.decrypt(result.contact, privateKey);
+        if (result.resolve_message != "N/A")
+            result.resolve_message = encryption_module.decrypt(result.resolve_message, privateKey);
 
         res.json(result);
 
@@ -112,28 +133,34 @@ async function resolveEnquiryMessage(req, res) {
 
         let message_id = req.body.message_id;
 
+        // get the public key 
+        let publicKey = await key_retriever.getEnquiryPublicKey();
+
         let query = { message_id: message_id };
         let updateDoc = {
             $set: {
                 status: "Resolved",
-                resolve_message: req.body.resolve_message
+                resolve_message: encryption_module.encrypt(req.body.resolve_message, publicKey)
             }
         }
 
         let result = await collection.updateOne(query, updateDoc);
         let doc = await collection.findOne(query);
 
+        // get the private key 
+        let privateKey = await key_retriever.getEnquiryPrivateKey();
+
         if (result.acknowledged && result.modifiedCount == 1) {
 
             let email_data = {
                 enquiry_id: doc.message_id,
-                recipient_name: doc.name,
-                message_subject: doc.subject,
-                message_contents: doc.message,
-                resolve_message: doc.resolve_message
+                recipient_name: encryption_module.decrypt(doc.name, privateKey),
+                message_subject: encryption_module.decrypt(doc.subject, privateKey),
+                message_contents: encryption_module.decrypt(doc.message, privateKey),
+                resolve_message: encryption_module.decrypt(doc.resolve_message, privateKey)
             };
 
-            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, doc.email, email_data, process.env.ENQUIRY_RESPONSE_TEMP_ID)
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, encryption_module.decrypt(doc.email, privateKey), email_data, process.env.ENQUIRY_RESPONSE_TEMP_ID)
                 .catch((error) => {
                     console.log("SendGrid API is having error(s)");
                     console.log(error);

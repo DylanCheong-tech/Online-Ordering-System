@@ -5,6 +5,8 @@ const { MongoClient } = require('mongodb');
 require("dotenv").config({ path: __dirname + "/.env" });
 const database_uri = process.env.MONGODB_CONN_STRING;
 let sendgrid_sender = require("../helpers/message-sender/sendgrid-sender");
+let encryption_module = require("../helpers/security/encryption");
+let key_retriever = require("../helpers/security/key_retriever");
 
 // Controller 1 : get the data to render the backbone of the home page 
 async function visitorSubmitOrder(req, res) {
@@ -32,19 +34,25 @@ async function visitorSubmitOrder(req, res) {
 
         let data = req.body;
 
+        let name = data.name;
+        let email = data.email;
+
+        // get the public key
+        let publicKey = await key_retriever.getOrdersPublicKey();
+
         let orderDoc = {
             "_id": order_id_generator(),
-            "name": data.name,
-            "email": data.email,
-            "address": data.address,
-            "contact": data.contact,
+            "name": encryption_module.encrypt(data.name, publicKey),
+            "email": encryption_module.encrypt(data.email, publicKey),
+            "address": encryption_module.encrypt(data.address, publicKey),
+            "contact": encryption_module.encrypt(data.contact, publicKey),
             "order_items": JSON.parse(data.items),
             "order_status": "CREATED",
             "order_created_time": (new Date(Date.now())),
             "order_confirmed_time": "N/A",
             "order_cancelled_time": "N/A",
             "order_completed_time": "N/A",
-            "order_message": data.memo
+            "order_message": encryption_module.encrypt(data.memo, publicKey)
         }
 
         let result = await collection.insertOne(orderDoc);
@@ -52,11 +60,11 @@ async function visitorSubmitOrder(req, res) {
         if (result.acknowledged) {
             let email_data = {
                 order_id: orderDoc._id,
-                recipient_name: orderDoc.name,
+                recipient_name: name,
                 order_created_time: orderDoc.order_created_time.toLocaleString(),
             };
 
-            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, orderDoc.email, email_data, process.env.ORDER_CONFIRMATION_TEMP_ID)
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, email, email_data, process.env.ORDER_CONFIRMATION_TEMP_ID)
                 .catch((error) => {
                     console.log("SendGrid API is having error(s)");
                     console.log(error);
@@ -200,7 +208,7 @@ async function getOrderOverview(req, res) {
 
 // Controller x : get a list of the catalogue categories 
 async function getCatalogueCategories(req, res) {
-    // currently have teo catalogue category only
+    // currently have two catalogue category only
     res.json({ "catalogue_category": ["Plastic Pots", "Iron Stands"] });
 }
 
@@ -340,24 +348,49 @@ async function createOrderRecord(req, res) {
 
         let data = req.body;
 
+        let name = data.name;
+        let email = data.email;
+
+        // get the public key
+        let publicKey = await key_retriever.getOrdersPublicKey();
+
         let orderDoc = {
             "_id": order_id_generator(),
-            "name": data.name,
-            "email": data.email,
-            "address": data.address,
-            "contact": data.contact,
+            "name": encryption_module.encrypt(data.name, publicKey),
+            "email": encryption_module.encrypt(data.email, publicKey),
+            "address": encryption_module.encrypt(data.address, publicKey),
+            "contact": encryption_module.encrypt(data.contact, publicKey),
             "order_items": JSON.parse(data.items),
             "order_status": "CREATED",
             "order_created_time": (new Date(Date.now())),
             "order_confirmed_time": "N/A",
             "order_cancelled_time": "N/A",
             "order_completed_time": "N/A",
-            "order_message": data.memo
+            "order_message": encryption_module.encrypt(data.memo, publicKey)
         }
 
         let result = await collection.insertOne(orderDoc);
 
-        res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=create_order_record&submit_status=success")
+        if (result.acknowledged) {
+            let email_data = {
+                order_id: orderDoc._id,
+                recipient_name: name,
+                order_created_time: orderDoc.order_created_time.toLocaleString(),
+            };
+
+            sendgrid_sender.sendEmailMessage(process.env.SENDER_EMAIL, email, email_data, process.env.ORDER_CONFIRMATION_TEMP_ID)
+                .catch((error) => {
+                    console.log("SendGrid API is having error(s)");
+                    console.log(error);
+                    res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=create_order_record&submit_status=fail");
+                });
+
+            res.redirect("/admin/home_page.html?view=order_management&sub_content_pane=create_order_record&submit_status=success");
+        }
+        else {
+            throw Error;
+        }
+
     }
     catch (e) {
         console.log("Something went wrong ... ");
@@ -371,22 +404,6 @@ async function createOrderRecord(req, res) {
 
 // Controller x : get the data to render the backbone of the home page 
 async function editOrderRecord(req, res) {
-
-    function order_id_generator() {
-        let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        let prefix = "";
-
-        for (let i = 0; i < 3; i++) {
-            let random_char = letters.charAt(Math.random() * letters.length);
-            prefix += random_char;
-            letters.replace(random_char, "");
-        }
-
-        let numbers = Date.now().toFixed().slice(7);
-
-        return prefix + "-" + numbers;
-    }
-
     try {
         var dbClient = new MongoClient(database_uri);
         await dbClient.connect();
@@ -397,13 +414,17 @@ async function editOrderRecord(req, res) {
         let order_id = req.params.orderID;
 
         let query = { _id: order_id };
+
+        // get the public key
+        let publicKey = await key_retriever.getOrdersPublicKey();
+
         let orderDoc = {
-            "name": data.name,
-            "email": data.email,
-            "address": data.address,
-            "contact": data.contact,
+            "name": encryption_module.encrypt(data.name, publicKey),
+            "email": encryption_module.encrypt(data.email, publicKey),
+            "address": encryption_module.encrypt(data.address, publicKey),
+            "contact": encryption_module.encrypt(data.contact, publicKey),
             "order_items": JSON.parse(data.items),
-            "order_message": data.memo
+            "order_message": encryption_module.encrypt(data.memo, publicKey)
         }
 
         let result = await collection.findOneAndUpdate(query, { $set: orderDoc });
@@ -443,6 +464,15 @@ async function getOrderList(req, res) {
             result_arr.push(document);
         }
 
+        // get the private key 
+        let privateKey = await key_retriever.getOrdersPrivateKey();
+
+        result_arr.forEach((order) => {
+            order.email = encryption_module.decrypt(order.email, privateKey);
+            order.contact = encryption_module.decrypt(order.contact, privateKey);
+            return order;
+        });
+
         res.json(result_arr);
     }
     catch (e) {
@@ -481,6 +511,15 @@ async function getStatusFilteredOrderList(req, res) {
             result_arr.push(document);
         }
 
+        // get the private key 
+        let privateKey = await key_retriever.getOrdersPrivateKey();
+
+        result_arr.forEach((order) => {
+            order.email = encryption_module.decrypt(order.email, privateKey);
+            order.contact = encryption_module.decrypt(order.contact, privateKey);
+            return order;
+        });
+
         res.json(result_arr);
     }
     catch (e) {
@@ -508,6 +547,15 @@ async function getOrderRecord(req, res) {
 
         result.order_id = result._id;
         delete result._id;
+
+        // get the private key 
+        let privateKey = await key_retriever.getOrdersPrivateKey();
+
+        result.name = encryption_module.decrypt(result.name, privateKey);
+        result.email = encryption_module.decrypt(result.email, privateKey);
+        result.contact = encryption_module.decrypt(result.contact, privateKey);
+        result.address = encryption_module.decrypt(result.address, privateKey);
+        result.order_message = encryption_module.decrypt(result.order_message, privateKey);
 
         res.json(result);
     }

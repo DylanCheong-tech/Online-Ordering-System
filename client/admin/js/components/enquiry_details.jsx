@@ -66,7 +66,7 @@ function EnquiryDetails(props) {
                 </form>
 
                 <button type="button" disabled={enquiry.status == "Unresolve" ? false : true} onClick={(event) => submitResolveMessage(event)}>Resolve Enquiry</button>
-                <button type="button" onClick={(event) => deleteMessage(event, enquiry.message_id)}>Delete Enquiry</button>
+                <button type="button" disabled={enquiry.status == "Unresolve" ? true : false} onClick={(event) => deleteMessage(event, enquiry.message_id)}>Delete Enquiry</button>
             </div>
         </React.Fragment>
     );

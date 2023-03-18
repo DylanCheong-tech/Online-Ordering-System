@@ -77,5 +77,8 @@ router.post("/admin/order/:orderID/cancel", check_authorised_access, controllers
 // POST Request : admin complete an order 
 router.post("/admin/order/:orderID/complete", check_authorised_access, controllers.completeOrderRecord);
 
+// GET Request : admin get the list of customers 
+router.get("/admin/customer_list", check_authorised_access, controllers.getCustomerList);
+
 // exports
 module.exports = router;

@@ -42,6 +42,8 @@ else if (view == "order_management") {
     display_dropdown("order_management_dropdown");
     if (!sub_content_pane)
         displayOrderManagementDashboard()
+    else if (sub_content_pane == "customer_list")
+        displayCustomerList();
     else if (sub_content_pane == "order_details")
         displayOrderDetails()
     else if (sub_content_pane == "create_order_record")

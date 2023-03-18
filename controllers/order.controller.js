@@ -672,6 +672,50 @@ async function completeOrderRecord(req, res) {
     }
 }
 
+// Controller x : Get the list of customers 
+async function getCustomerList(req, res) {
+    try {
+        var dbClient = new MongoClient(database_uri);
+        await dbClient.connect();
+
+        const collection = dbClient.db("OrderingManagement").collection("Orders");
+
+        let aggregate_pipelines = [
+            { $group: { _id: { name : "$name", email: "$email", contact: "$contact", address : "$address" } } }
+        ]
+
+        let cursor = collection.aggregate(aggregate_pipelines);
+
+        let result_arr = [];
+
+        for await (let document of cursor) {
+            document = { ...document._id, total_items: document.total_items }
+            result_arr.push(document);
+        }
+
+        // get the private key 
+        let privateKey = await key_retriever.getOrdersPrivateKey();
+
+        result_arr.forEach((order) => {
+            order.name = encryption_module.decrypt(order.name, privateKey);
+            order.email = encryption_module.decrypt(order.email, privateKey);
+            order.contact = encryption_module.decrypt(order.contact, privateKey);
+            order.address = encryption_module.decrypt(order.address, privateKey);
+            return order;
+        });
+
+        res.json(result_arr);
+    }
+    catch (e) {
+        console.log("Something went wrong ... ");
+        console.log(e);
+        res.json({ "status": "fail" });
+    }
+    finally {
+        await dbClient.close()
+    }
+}
+
 
 module.exports = {
     visitorSubmitOrder: visitorSubmitOrder,
@@ -691,5 +735,6 @@ module.exports = {
     confirmOrderRecord: confirmOrderRecord,
     cancelOrderRecord: cancelOrderRecord,
     completeOrderRecord: completeOrderRecord,
+    getCustomerList: getCustomerList,
 
 }

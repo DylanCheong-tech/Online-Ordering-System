@@ -228,3 +228,14 @@ async function displayOrderRecordDetails(order_id) {
     renderSubcontent(component)
 
 }
+
+async function displayCustomerList(){
+    let response = await fetch("/order/admin/customer_list");
+    check_redirect_request(response);
+    let json = await response.json();
+
+    console.log(json)
+
+    let component = <CustomerList data={json} />
+    renderSubcontent(component);
+}

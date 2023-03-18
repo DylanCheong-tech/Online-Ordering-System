@@ -1,0 +1,46 @@
+/* CustomerList.css */
+
+div#customer_list_table {
+    display: flex;
+    flex-flow: column;
+    margin: 3vh 5vw 1vh 3vw;
+}
+
+div#customer_list_table>div {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    min-height: 5vh;
+    align-items: center;
+}
+
+div#customer_list_table>div>* {
+    width: 20vw;
+    text-align: center;
+}
+
+div#customer_list_table>div>*:first-child {
+    width: 5vw;
+}
+
+div#customer_list_table>div.content_table_row>*:nth-child(5) {
+    text-align: justify;
+}
+
+div#customer_list_table>div.even_table_row{
+    background-color: #DFDFDF;
+}
+
+div#customer_list_table>div#header_bar {
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    background-color: #D3D3D3;
+}
+
+div#customer_list_table>div#no_existing_customer {
+    border-bottom: 1px solid #000000;
+    background-color: #FAFAFA;
+    min-height: 25vh;
+    align-items: center;
+    justify-content: center;
+}

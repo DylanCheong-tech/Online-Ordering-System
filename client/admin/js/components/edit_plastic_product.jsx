@@ -57,6 +57,7 @@ function EditPlasticProduct(props) {
 
     const [curr_img_color, set_curr_img_color] = React.useState(props.product_data.colors[0]);
     let original_product_code = props.product_data.product_code;
+    props.product_data.original_product_code = original_product_code;
     const [product_data, set_product_data] = React.useState(props.product_data);
 
     function updateData(property, value, parent_property) {
@@ -342,6 +343,7 @@ function EditPlasticProduct(props) {
                         Object.keys(color_img_json).map((color) => {
                             return <form class="image_form" action="/admin/portal/productItem/plastic/update/image_upload" method="POST" encType="multipart/form-data" onSubmit={imageSubmit}>
                                 <input type="text" class="hide img_form_product_code" name="product_code" readonly />
+                                <input type="text" class="hide" name="original_product_code" value={original_product_code} readonly />
                                 <div id={color + "_img"} class={(color_img_json[color].length > 0 ? "uploaded" : "await_upload") + " img_content_pane " + (color != curr_img_color ? "hide_upload_box" : "")} onDragOver={(event) => handleDragOver(event)} onDrop={(event) => handleDrop(event)}>
                                     <p class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""}>Drag and Drop your Images here ... <br /> or ...  </p>
                                     <input class={color_img_json[color].length > 0 ? "content_after_img_upload" : ""} type="file" name={color.replace(" ", "_") + "_img"} accept="image/*" onChange={(event) => uploadImages(event.target, color)} multiple />

@@ -218,7 +218,7 @@ async function uploadImage(req, res) {
 
     // remove all the existing file when UPDATE operation 
     if (req.params.operation.toLowerCase() == "update")
-        await deleteBucket(bucket_category, req.body.product_code + "/" + color.toUpperCase())
+        await deleteBucket(bucket_category, req.body.original_product_code + "/" + color.toUpperCase())
 
     let result = await uploadProductImages(bucket_category, req.body.product_code, file_json, color);
 
@@ -265,7 +265,9 @@ async function updateProductItem(req, res) {
         // featured property in boolean data type 
         updateData.featured = updateData.featured == "true" ? true : false;
 
-        let query = { product_code: updateData.product_code }
+        let query = { product_code: updateData.original_product_code };
+
+        delete updateData.original_product_code;
 
         let result = await collection.replaceOne(query, updateData);
 

@@ -188,6 +188,9 @@ async function createIronProductItem(req, res) {
         data.dimensions.width = data.width;
         delete data.width
 
+        // featured property in boolean data type 
+        data.featured = data.featured == "true" ? true : false;
+
         // descriptions
         data.descriptions = data.descriptions.split(" ");
 
@@ -258,6 +261,9 @@ async function updateProductItem(req, res) {
         let updateData = req.body;
         // remove the images info
         delete updateData.images;
+
+        // featured property in boolean data type 
+        updateData.featured = updateData.featured == "true" ? true : false;
 
         let query = { product_code: updateData.product_code }
 

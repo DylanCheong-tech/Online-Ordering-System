@@ -12,6 +12,7 @@ function EditIronProduct(props) {
     const [color_img_json, set_color_img_json] = React.useState(color_json);
     const [color_img_files, set_color_img_files] = React.useState({});
     const [read_all_img, set_read_all_img] = React.useState(false)
+    let image_upload_status = true;
 
     if (!read_all_img) {
         props.product_data.colors.forEach((color) => {
@@ -180,6 +181,8 @@ function EditIronProduct(props) {
     }
 
     function submitForm() {
+        submitContent();
+
         Array.from(document.getElementsByClassName("img_form_product_code")).forEach((input) => input.value = product_data.product_code);
         let time = 0;
         Array.from(document.getElementsByClassName("image_upload_submit_btn")).forEach((form) => {
@@ -188,6 +191,18 @@ function EditIronProduct(props) {
             }, time);
             time = time + 5000;            
         });
+
+        setTimeout(() => {
+            // pop up message
+            if (image_upload_status)
+                displayMessageBox("Product Updated Successfully !", () => {
+                    window.location.href = "/admin/home_page.html?view=product_catalogue&sub_content_pane=iron&product=" + product_data.product_code;
+                })
+            else
+                displayMessageBox("Operation Failed ! Please try again later ... ", () => {
+                    console.log("Upload Failed");
+                })
+        }, time + 5000);
     }
 
     function submitContent() {
@@ -208,16 +223,20 @@ function EditIronProduct(props) {
             })
     }
 
-    function imageSubmit(event) {
+    async function imageSubmit(event) {
         event.preventDefault();
 
         const form = event.target;
 
-        fetch(form.action, {
+        let result = await fetch(form.action, {
             method: form.method,
             body: new FormData(form),
         })
-            .then(console.log);
+
+        if (result.status == "200")
+            image_upload_status = image_upload_status && true;
+        else
+            image_status = false;
     }
 
     return (

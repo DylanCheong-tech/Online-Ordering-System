@@ -4,6 +4,7 @@
 function CreatePlasticProduct(props) {
     const [color_img_json, set_color_img_json] = React.useState({});
     const [curr_img_color, set_curr_img_color] = React.useState();
+    let image_upload_status = true;
 
     function updateColor(color, checked) {
         set_color_img_json(previous => {
@@ -100,6 +101,18 @@ function CreatePlasticProduct(props) {
             }, time);
             time = time + 5000;
         });
+
+        setTimeout(() => {
+            // pop up message
+            if (image_upload_status)
+            displayMessageBox("Product Created Successfully !", () => {
+                window.location.href = "/admin/home_page.html?view=product_catalogue&sub_content_pane=plastic&product=" + product_code;
+            })
+            else 
+            displayMessageBox("Operation Failed ! Please try again later ... ", () => {
+                console.log("Upload Failed");
+            })
+        }, time + 2000);
     }
 
     function submitContent() {
@@ -141,20 +154,25 @@ function CreatePlasticProduct(props) {
             .then(json => {
                 console.log(json);
             })
+            .catch(console.log);
 
         return body_data.product_code;
     }
 
-    function imageSubmit(event) {
+    async function imageSubmit(event) {
         event.preventDefault();
 
         const form = event.target;
 
-        fetch(form.action, {
+        let result = await fetch(form.action, {
             method: form.method,
             body: new FormData(form),
         })
-            .then(console.log);
+
+        if (result.status == "200")
+            image_upload_status = image_upload_status && true;
+        else
+            image_status = false;
     }
 
     return (
